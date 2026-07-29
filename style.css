@@ -1,18 +1,4 @@
-/* VARIÁVEIS DO TEMA PURPLE (ROXO) */
-<link rel="stylesheet" href="style.css">
-:root {
-  --bg-color: #0d0b14;
-  --bg-secondary: #14101f;
-  --card-bg: #1a1528;
-  --purple-main: #a855f7;
-  --purple-hover: #9333ea;
-  --purple-light: #c084fc;
-  --text-color: #e2e8f0;
-  --text-muted: #94a3b8;
-  --border-color: #2e2342;
-}
-
-/* RESET E NAVEGAÇÃO SUAVE */
+/* RESET GERAL */
 * {
   margin: 0;
   padding: 0;
@@ -24,14 +10,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* COR DE FUNDO FIXADA E TEXTO CLARO */
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: #0d0b14 !important;
+  color: #e2e8f0 !important;
   line-height: 1.6;
 }
 
 span {
-  color: var(--purple-main);
+  color: #a855f7 !important;
 }
 
 /* NAVBAR */
@@ -40,12 +27,11 @@ span {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  background-color: rgba(13, 11, 20, 0.9);
+  background-color: #14101f;
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 1px solid var(--border-color);
-  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #2e2342;
 }
 
 .logo {
@@ -62,7 +48,7 @@ span {
 .logo span {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #fff;
+  color: #ffffff !important;
 }
 
 .nav-links {
@@ -72,49 +58,52 @@ span {
 }
 
 .nav-links a {
-  color: var(--text-muted);
+  color: #94a3b8;
   text-decoration: none;
   font-size: 0.95rem;
   transition: color 0.3s;
 }
 
 .nav-links a:hover {
-  color: #fff;
+  color: #ffffff;
 }
 
 .btn-primary {
-  background-color: var(--purple-main);
-  color: #fff !important;
+  background-color: #a855f7 !important;
+  color: #ffffff !important;
   padding: 8px 18px;
   border-radius: 6px;
   font-weight: 600;
-  transition: background 0.3s !important;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
-  background-color: var(--purple-hover);
+  background-color: #9333ea !important;
 }
 
 .btn-secondary {
-  color: var(--purple-main) !important;
+  color: #a855f7 !important;
+  text-decoration: none;
 }
 
 /* HERO SECTION */
 .hero {
   text-align: center;
   padding: 6rem 1rem 4rem 1rem;
-  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+  background-color: #0d0b14;
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.15) 0%, #0d0b14 70%);
 }
 
 .hero-content h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
   font-weight: 800;
+  color: #ffffff !important;
 }
 
 .hero-content p {
   font-size: 1.1rem;
-  color: var(--text-muted);
+  color: #94a3b8 !important;
   max-width: 650px;
   margin: 0 auto 2rem auto;
 }
@@ -126,48 +115,50 @@ span {
 }
 
 .btn-hero-primary {
-  background-color: var(--purple-main);
-  color: #fff;
+  background-color: #a855f7 !important;
+  color: #ffffff !important;
   text-decoration: none;
   padding: 12px 30px;
   border-radius: 6px;
   font-weight: bold;
-  transition: 0.3s;
+  display: inline-block;
 }
 
 .btn-hero-primary:hover {
-  background-color: var(--purple-hover);
+  background-color: #9333ea !important;
   box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
 }
 
 .btn-hero-secondary {
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
+  border: 1px solid #2e2342;
+  color: #ffffff !important;
   text-decoration: none;
   padding: 12px 30px;
   border-radius: 6px;
   font-weight: bold;
-  transition: 0.3s;
+  background-color: #1a1528;
+  display: inline-block;
 }
 
 .btn-hero-secondary:hover {
-  background-color: var(--card-bg);
-  border-color: var(--purple-main);
+  border-color: #a855f7;
 }
 
-/* RECURSOS / CARDS */
-.features, .minecraft-section {
+/* SEÇÕES E CARDS */
+.features, .minecraft-section, .about-section {
   padding: 4rem 10%;
+  background-color: #0d0b14;
 }
 
 h2 {
   font-size: 2rem;
   text-align: center;
+  color: #ffffff !important;
 }
 
 .subtitle {
   text-align: center;
-  color: var(--text-muted);
+  color: #94a3b8 !important;
   margin-bottom: 3rem;
 }
 
@@ -178,21 +169,21 @@ h2 {
 }
 
 .card {
-  background-color: var(--card-bg);
+  background-color: #1a1528 !important;
   padding: 2rem;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #2e2342;
   transition: transform 0.3s, border-color 0.3s;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  border-color: var(--purple-main);
+  border-color: #a855f7;
 }
 
 .card-icon {
   font-size: 1.8rem;
-  color: var(--purple-main);
+  color: #a855f7;
   background-color: rgba(168, 85, 247, 0.1);
   width: 50px;
   height: 50px;
@@ -205,10 +196,11 @@ h2 {
 
 .card h3 {
   margin-bottom: 0.5rem;
+  color: #ffffff !important;
 }
 
 .card p {
-  color: var(--text-muted);
+  color: #94a3b8 !important;
   font-size: 0.9rem;
 }
 
@@ -216,13 +208,12 @@ h2 {
 .divider {
   border: none;
   height: 1px;
-  background: var(--border-color);
+  background: #2e2342;
   margin: 2rem 10%;
 }
 
-/* SEÇÃO SOBRE (IMAGENS 5 E 6) */
+/* SEÇÃO SOBRE */
 .about-section {
-  padding: 4rem 10%;
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -239,22 +230,23 @@ h2 {
 .about-block h3 {
   font-size: 1.6rem;
   margin-bottom: 1rem;
+  color: #ffffff !important;
 }
 
 .about-block p {
-  color: var(--text-muted);
+  color: #94a3b8 !important;
   margin-bottom: 1rem;
 }
 
 .purple-link {
-  color: var(--purple-main);
+  color: #a855f7 !important;
   text-decoration: underline;
 }
 
 /* FOOTER */
 footer {
-  background-color: var(--bg-secondary);
-  border-top: 1px solid var(--border-color);
+  background-color: #14101f !important;
+  border-top: 1px solid #2e2342;
   padding: 3rem 10%;
 }
 
@@ -268,10 +260,11 @@ footer {
 
 .footer-info h3 {
   margin-bottom: 0.5rem;
+  color: #ffffff !important;
 }
 
 .footer-info p {
-  color: var(--text-muted);
+  color: #94a3b8 !important;
   font-size: 0.85rem;
   margin-bottom: 0.5rem;
 }
@@ -282,13 +275,13 @@ footer {
 }
 
 .footer-links a {
-  color: var(--text-muted);
+  color: #94a3b8;
   font-size: 0.85rem;
   text-decoration: none;
 }
 
 .footer-links a:hover {
-  color: var(--purple-main);
+  color: #a855f7;
 }
 
 .social-icons {
@@ -297,12 +290,11 @@ footer {
 }
 
 .social-icons a {
-  color: var(--text-muted);
+  color: #94a3b8;
   font-size: 1.5rem;
   transition: color 0.3s;
 }
 
 .social-icons a:hover {
-  color: var(--purple-main);
+  color: #a855f7;
 }
-
