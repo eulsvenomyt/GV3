@@ -1,547 +1,334 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>GV3 Optimizer</title>
 
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
-}
-
-body{
-
-background:#09040f;
-color:white;
-overflow-x:hidden;
-
-}
-
-body::before{
-
-content:"";
-position:fixed;
-width:700px;
-height:700px;
-background:radial-gradient(circle,#8b3dff55,transparent 70%);
-left:-150px;
-top:-150px;
-filter:blur(70px);
-
-}
-
-body::after{
-
-content:"";
-position:fixed;
-width:700px;
-height:700px;
-background:radial-gradient(circle,#7026ff33,transparent 70%);
-right:-150px;
-bottom:-150px;
-filter:blur(80px);
-
-}
-
-nav{
-
-width:100%;
-padding:25px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-position:fixed;
-top:0;
-z-index:999;
-backdrop-filter:blur(15px);
-background:rgba(8,8,15,.55);
-border-bottom:1px solid rgba(255,255,255,.08);
-
-}
-
-.logo{
-
-font-size:28px;
-font-weight:700;
-color:#9f59ff;
-
-}
-
-nav ul{
-
-display:flex;
-gap:35px;
-list-style:none;
-
-}
-
-nav a{
-
-text-decoration:none;
-color:white;
-transition:.3s;
-
-}
-
-nav a:hover{
-
-color:#ae72ff;
-
-}
-
-.download{
-
-padding:12px 26px;
-background:linear-gradient(135deg,#8b3dff,#5b00ff);
-border-radius:12px;
-text-decoration:none;
-font-weight:600;
-color:white;
-box-shadow:0 0 35px #7b2fff80;
-transition:.3s;
-
-}
-
-.download:hover{
-
-transform:translateY(-3px);
-
-}
-
-.hero{
-
-padding:180px 8% 120px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:60px;
-
-}
-
-.left{
-
-max-width:650px;
-
-}
-
-.tag{
-
-display:inline-block;
-padding:10px 18px;
-background:#ffffff10;
-border:1px solid #ffffff15;
-border-radius:40px;
-margin-bottom:25px;
-color:#cba7ff;
-
-}
-
-h1{
-
-font-size:65px;
-line-height:1.05;
-margin-bottom:25px;
-
-}
-
-.purple{
-
-color:#9f59ff;
-
-}
-
-.hero p{
-
-font-size:18px;
-opacity:.8;
-line-height:1.8;
-margin-bottom:40px;
-
-}
-
-.buttons{
-
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-
-}
-
-.btn{
-
-padding:18px 35px;
-border-radius:14px;
-text-decoration:none;
-font-weight:600;
-transition:.3s;
-
-}
-
-.primary{
-
-background:linear-gradient(135deg,#9b4dff,#6400ff);
-color:white;
-box-shadow:0 0 40px #8c45ff66;
-
-}
-
-.secondary{
-
-border:1px solid #8c45ff;
-color:white;
-
-}
-
-.btn:hover{
-
-transform:translateY(-5px);
-
-}
-
-.right{
-
-flex:1;
-display:flex;
-justify-content:center;
-
-}
-
-.pc{
-
-width:420px;
-height:420px;
-border-radius:30px;
-background:linear-gradient(180deg,#8b3dff,#3a0b74);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:170px;
-box-shadow:
-0 0 80px #8b3dff70,
-inset 0 0 80px rgba(255,255,255,.05);
-
-animation:float 4s ease-in-out infinite;
-
-}
-
-@keyframes float{
-
-50%{
-
-transform:translateY(-20px);
-
-}
-
-}
-
-section{
-
-padding:100px 8%;
-
-}
-
-.title{
-
-text-align:center;
-font-size:42px;
-margin-bottom:70px;
-
-}
-
-.grid{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
-
-}
-
-.card{
-
-background:#151020;
-padding:35px;
-border-radius:22px;
-border:1px solid rgba(255,255,255,.08);
-transition:.35s;
-
-}
-
-.card:hover{
-
-transform:translateY(-10px);
-border-color:#9f59ff;
-
-}
-
-.icon{
-
-font-size:48px;
-margin-bottom:20px;
-
-}
-
-.card h3{
-
-margin-bottom:15px;
-
-}
-
-.card p{
-
-opacity:.75;
-line-height:1.8;
-
-}
-
-.stats{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px;
-
-}
-
-.box{
-
-background:#14111d;
-padding:40px;
-border-radius:20px;
-text-align:center;
-border:1px solid rgba(255,255,255,.06);
-
-}
-
-.box h2{
-
-font-size:52px;
-color:#a564ff;
-
-}
-
-.box span{
-
-opacity:.7;
-
-}
-
-footer{
-
-padding:50px;
-text-align:center;
-opacity:.6;
-
-}
-
-@media(max-width:900px){
-
-h1{
-
-font-size:48px;
-
-}
-
-.hero{
-
-padding-top:140px;
-
-}
-
-.pc{
-
-width:320px;
-height:320px;
-font-size:120px;
-
-}
-
-nav ul{
-
-display:none;
-
-}
-
-}
-
-</style>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
 <body>
 
-<nav>
+<div class="background"></div>
 
-<div class="logo">GV3 Optimizer</div>
+<header>
+
+<nav class="navbar">
+
+<a href="index.html" class="logo">
+
+<img src="assets/logo.png">
+
+<h2>GV3</h2>
+
+</a>
 
 <ul>
 
-<li><a href="#">Início</a></li>
-<li><a href="#">Recursos</a></li>
-<li><a href="#">Performance</a></li>
-<li><a href="#">Contato</a></li>
+<li><a href="#">Inicio</a></li>
+
+<li><a href="about.html">Sobre</a></li>
+
+<li><a href="#features">Recursos</a></li>
+
+<li><a href="#faq">FAQ</a></li>
+
+<li><a href="https://discord.gg/">Discord</a></li>
 
 </ul>
 
-<a class="download" href="#">Download</a>
+<div class="buttons">
+
+<a href="#" class="download">
+
+Baixar
+
+</a>
+
+</div>
 
 </nav>
 
+</header>
+
 <section class="hero">
 
-<div class="left">
+<div class="hero-text">
 
-<div class="tag">
-⚡ Otimização profissional para Windows
-</div>
+<span class="badge">
+
+NOVA VERSÃO 3.0
+
+</span>
 
 <h1>
 
-Aumente o desempenho do seu <span class="purple">PC</span>
+Otimize seu <span>Windows</span>
+
+como nunca.
 
 </h1>
 
 <p>
 
-O GV3 Optimizer melhora FPS, reduz input delay, limpa processos desnecessários, otimiza memória RAM e ajusta configurações avançadas do Windows para máxima performance.
+Aumente FPS, reduza Input Delay, otimize sua Internet, RAM, SSD, CPU e deixe seu computador pronto para qualquer jogo.
 
 </p>
 
-<div class="buttons">
+<div class="hero-buttons">
 
-<a href="#" class="btn primary">Baixar Agora</a>
+<a href="#" class="btn-purple">
 
-<a href="#" class="btn secondary">Saiba Mais</a>
+Download
 
-</div>
+</a>
 
-</div>
+<a href="about.html" class="btn-outline">
 
-<div class="right">
+O que é?
 
-<div class="pc">
-💻
-</div>
+</a>
 
 </div>
-
-</section>
-
-<section>
-
-<h2 class="title">
-Recursos
-</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<div class="icon">🚀</div>
-
-<h3>Mais FPS</h3>
-
-<p>
-
-Aumente a estabilidade dos jogos e obtenha maior desempenho utilizando otimizações inteligentes.
-
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">⚡</div>
-
-<h3>Menor Latência</h3>
-
-<p>
-
-Reduza input lag e melhore a resposta do sistema para jogos competitivos.
-
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🧹</div>
-
-<h3>Limpeza Automática</h3>
-
-<p>
-
-Remova arquivos temporários, cache e processos desnecessários com apenas um clique.
-
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="icon">🛡️</div>
-
-<h3>Seguro</h3>
-
-<p>
-
-Todas as otimizações podem ser restauradas rapidamente caso necessário.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<section>
-
-<h2 class="title">
-Resultados
-</h2>
 
 <div class="stats">
 
-<div class="box">
+<div>
 
-<h2>+35%</h2>
+<h2>+60%</h2>
 
-<span>Mais Performance</span>
-
-</div>
-
-<div class="box">
-
-<h2>-50%</h2>
-
-<span>Uso de RAM</span>
+<p>Performance</p>
 
 </div>
 
-<div class="box">
+<div>
 
-<h2>-40%</h2>
+<h2>-45%</h2>
 
-<span>Input Delay</span>
+<p>Input Delay</p>
 
 </div>
 
-<div class="box">
+<div>
 
 <h2>1 Clique</h2>
 
-<span>Para Otimizar</span>
+<p>Otimização</p>
 
 </div>
+
+</div>
+
+</div>
+
+<div class="hero-image">
+
+<img src="assets/hero.png">
+
+</div>
+
+</section>
+
+<section id="features" class="features">
+
+<h1>
+
+Tudo pensado para você <span>Gamer</span>
+
+</h1>
+
+<p>
+
+As melhores otimizações disponíveis para Windows.
+
+</p>
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-gauge-high"></i>
+
+<h3>FPS Boost</h3>
+
+<p>
+
+Aumente seu FPS utilizando otimizações avançadas.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-memory"></i>
+
+<h3>RAM Optimizer</h3>
+
+<p>
+
+Liberação inteligente da memória RAM.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-network-wired"></i>
+
+<h3>Internet</h3>
+
+<p>
+
+Reduza Ping e Input Delay.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-microchip"></i>
+
+<h3>CPU Boost</h3>
+
+<p>
+
+Melhor gerenciamento do processador.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-hard-drive"></i>
+
+<h3>SSD</h3>
+
+<p>
+
+Melhore leitura e gravação.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-brands fa-windows"></i>
+
+<h3>Windows Tweaks</h3>
+
+<p>
+
+Centenas de otimizações para Windows.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="games">
+
+<h1>
+
+Compatível com todos os jogos
+
+</h1>
+
+<div class="game-grid">
+
+<div>Minecraft</div>
+
+<div>Valorant</div>
+
+<div>CS2</div>
+
+<div>Fortnite</div>
+
+<div>League of Legends</div>
+
+<div>Roblox</div>
+
+<div>GTA V</div>
+
+<div>PUBG</div>
+
+</div>
+
+</section>
+
+<section id="faq" class="faq">
+
+<h1>
+
+Perguntas Frequentes
+
+</h1>
+
+<div class="faq-box">
+
+<h3>
+
+O GV3 é seguro?
+
+</h3>
+
+<p>
+
+Sim. Todas as otimizações podem ser restauradas.
+
+</p>
+
+</div>
+
+<div class="faq-box">
+
+<h3>
+
+Precisa instalar?
+
+</h3>
+
+<p>
+
+Basta baixar e executar como administrador.
+
+</p>
+
+</div>
+
+<div class="faq-box">
+
+<h3>
+
+Funciona no Windows 11?
+
+</h3>
+
+<p>
+
+Sim, Windows 10 e Windows 11.
+
+</p>
 
 </div>
 
@@ -549,9 +336,36 @@ Resultados
 
 <footer>
 
-© 2026 GV3 Optimizer • Todos os direitos reservados. Feito por Igor Domingos
+<div class="footer-left">
+
+<h1>
+
+GV3 Optimizer
+
+</h1>
+
+<p>
+
+© 2026 GV3 • Todos os direitos reservados.
+
+</p>
+
+</div>
+
+<div class="footer-right">
+
+<a href="#"><i class="fab fa-discord"></i></a>
+
+<a href="#"><i class="fab fa-github"></i></a>
+
+<a href="#"><i class="fab fa-youtube"></i></a>
+
+</div>
 
 </footer>
 
+<script src="js/app.js"></script>
+
 </body>
+
 </html>
