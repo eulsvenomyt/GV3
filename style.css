@@ -1,4 +1,5 @@
 /* VARIÁVEIS DO TEMA PURPLE (ROXO) */
+<link rel="stylesheet" href="style.css">
 :root {
   --bg-color: #0d0b14;
   --bg-secondary: #14101f;
@@ -304,3 +305,4 @@ footer {
 .social-icons a:hover {
   color: var(--purple-main);
 }
+
