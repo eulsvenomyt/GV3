@@ -502,4 +502,414 @@ transform:translateY(0px);
 
 }
 
+ /*==============================
+ FEATURES
+==============================*/
+
+.features{
+    width:90%;
+    margin:120px auto;
+    text-align:center;
+}
+
+.features h1{
+    font-size:52px;
+    margin-bottom:15px;
+}
+
+.features h1 span{
+    color:var(--purple3);
+}
+
+.features>p{
+    color:#b8b8b8;
+    font-size:18px;
+    margin-bottom:70px;
+}
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    gap:30px;
+
+}
+
+.card{
+
+    background:rgba(18,16,24,.75);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    padding:40px;
+
+    transition:.35s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-12px);
+
+    border-color:var(--purple);
+
+    box-shadow:0 0 35px rgba(138,46,255,.25);
+
+}
+
+.card i{
+
+    font-size:55px;
+
+    color:var(--purple3);
+
+    margin-bottom:25px;
+
+}
+
+.card h3{
+
+    font-size:25px;
+
+    margin-bottom:15px;
+
+}
+
+.card p{
+
+    color:#bdbdbd;
+
+    line-height:30px;
+
+}
+
+
+/*==============================
+ GAMES
+==============================*/
+
+.games{
+
+    width:90%;
+
+    margin:120px auto;
+
+    text-align:center;
+
+}
+
+.games h1{
+
+    font-size:48px;
+
+    margin-bottom:60px;
+
+}
+
+.game-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+gap:25px;
+
+}
+
+.game-grid div{
+
+padding:30px;
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:18px;
+
+font-weight:600;
+
+transition:.35s;
+
+cursor:pointer;
+
+}
+
+.game-grid div:hover{
+
+background:linear-gradient(135deg,#8a2eff,#6118ff);
+
+transform:translateY(-10px);
+
+}
+
+
+/*==============================
+ FAQ
+==============================*/
+
+.faq{
+
+width:90%;
+
+margin:120px auto;
+
+}
+
+.faq h1{
+
+text-align:center;
+
+font-size:50px;
+
+margin-bottom:60px;
+
+}
+
+.faq-box{
+
+background:var(--card);
+
+padding:30px;
+
+border-radius:18px;
+
+border:1px solid var(--border);
+
+margin-bottom:25px;
+
+transition:.3s;
+
+}
+
+.faq-box:hover{
+
+border-color:var(--purple);
+
+box-shadow:0 0 25px rgba(138,46,255,.2);
+
+}
+
+.faq-box h3{
+
+font-size:22px;
+
+margin-bottom:15px;
+
+}
+
+.faq-box p{
+
+color:#bdbdbd;
+
+line-height:30px;
+
+}
+
+
+/*==============================
+ FOOTER
+==============================*/
+
+footer{
+
+margin-top:120px;
+
+padding:50px 8%;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+.footer-left h1{
+
+font-size:34px;
+
+margin-bottom:10px;
+
+}
+
+.footer-left p{
+
+color:#999;
+
+}
+
+.footer-right{
+
+display:flex;
+
+gap:20px;
+
+}
+
+.footer-right a{
+
+width:55px;
+
+height:55px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:var(--card);
+
+border-radius:15px;
+
+font-size:22px;
+
+text-decoration:none;
+
+color:white;
+
+transition:.3s;
+
+}
+
+.footer-right a:hover{
+
+background:linear-gradient(135deg,#8a2eff,#6118ff);
+
+transform:translateY(-5px);
+
+}
+
+
+/*==============================
+ SCROLL BAR
+==============================*/
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#0b0910;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#8a2eff;
+
+border-radius:30px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+background:#a04fff;
+
+}
+
+
+/*==============================
+ RESPONSIVO
+==============================*/
+
+@media(max-width:1100px){
+
+.hero{
+
+flex-direction:column;
+
+text-align:center;
+
+padding-top:180px;
+
+}
+
+.hero p{
+
+margin:auto;
+
+margin-bottom:45px;
+
+}
+
+.hero-buttons{
+
+justify-content:center;
+
+}
+
+.stats{
+
+justify-content:center;
+
+}
+
+.hero-image{
+
+margin-top:60px;
+
+}
+
+}
+
+@media(max-width:850px){
+
+.navbar{
+
+padding:0 20px;
+
+}
+
+.navbar ul{
+
+display:none;
+
+}
+
+.hero h1{
+
+font-size:48px;
+
+line-height:60px;
+
+}
+
+.features h1,
+.games h1,
+.faq h1{
+
+font-size:38px;
+
+}
+
+footer{
+
+flex-direction:column;
+
+gap:30px;
+
+text-align:center;
+
+}
+
+.hero-image img{
+
+width:350px;
+
+}
+
+}
+
 }
