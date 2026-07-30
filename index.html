@@ -288,33 +288,38 @@
   const canvas = document.getElementById('snowCanvas');
   const ctx = canvas.getContext('2d');
 
-  let width = (canvas.width = window.innerWidth);
-  let height = (canvas.height = window.innerHeight);
+  function resizeCanvas() {
+    canvas.width = document.documentElement.clientWidth || window.innerWidth;
+    // Pega a altura total do documento (todo o scroll do site)
+    canvas.height = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    );
+  }
 
-  // Ajusta o tamanho da neve caso a janela seja redimensionada
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
 
-  // Configuração dos flocos de neve
-  const numFlakes = 100;
+  // Configuração dos flocos
+  const numFlakes = 120;
   const flakes = [];
 
   for (let i = 0; i < numFlakes; i++) {
     flakes.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radius: Math.random() * 3 + 1, // Tamanho dos flocos
-      density: Math.random() * 1 + 0.5, // Velocidade de queda
-      opacity: Math.random() * 0.7 + 0.3, // Opacidade suave
-      swing: Math.random() * 0.02, // Oscilação lateral
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 3 + 1,
+      speed: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.7 + 0.3,
       step: Math.random() * Math.PI
     });
   }
 
   function renderSnow() {
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < numFlakes; i++) {
       const f = flakes[i];
@@ -324,18 +329,16 @@
       ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
       ctx.fill();
 
-      // Atualiza a posição (queda e balanço suave)
-      f.step += f.swing;
-      f.y += Math.cos(f.step) + f.density;
-      f.x += Math.sin(f.step) * 0.8;
+      // Movimento de queda contínua
+      f.step += 0.01;
+      f.y += f.speed;
+      f.x += Math.sin(f.step) * 0.5;
 
-      // Reposiciona o floco no topo quando chega ao final da tela
-      if (f.y > height) {
+      // Quando o floco chega no fim do site todo, ele volta para o topo
+      if (f.y > canvas.height) {
         f.y = -10;
-        f.x = Math.random() * width;
+        f.x = Math.random() * canvas.width;
       }
-      if (f.x > width) f.x = 0;
-      if (f.x < 0) f.x = width;
     }
 
     requestAnimationFrame(renderSnow);
