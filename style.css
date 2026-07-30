@@ -210,7 +210,7 @@ span {
   color: var(--text-muted);
 }
 
-/* ESTRUTURA DAS CAMADAS COM BLUR */
+/* ESTRUTURA DAS CAMADAS COM INTERAÇÃO AO PASSAR O MOUSE */
 .hero-right {
   display: flex;
   justify-content: center;
@@ -231,9 +231,12 @@ span {
   border: 1px solid var(--bg-card-border);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
   transition: all 0.4s ease;
+  cursor: pointer;
 }
 
-/* CAMADA 1 (FRENTE - DESTAQUE TOTAL) */
+/* --- ESTADOS PADRÃO (SEM HOVER NAS CAMADAS ESPECÍFICAS) --- */
+
+/* Camada 1: Em primeiro plano (Sem blur, foco total) */
 .layer-1 {
   width: 85%;
   top: 0;
@@ -244,40 +247,56 @@ span {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--purple-glow);
 }
 
-/* CAMADA 2 (MEIO - BLUR LEVE) */
+/* Camada 2: No meio (Com blur leve) */
 .layer-2 {
   width: 80%;
   top: 35px;
   left: 40px;
   z-index: 2;
   opacity: 0.75;
-  filter: blur(2px) brightness(0.8);
+  filter: blur(3px) brightness(0.75);
 }
 
-/* CAMADA 3 (FUNDO - BLUR FORTE) */
+/* Camada 3: Ao fundo (Com blur mais forte) */
 .layer-3 {
   width: 75%;
   top: 70px;
   left: 80px;
   z-index: 1;
   opacity: 0.5;
-  filter: blur(4px) brightness(0.6);
+  filter: blur(5px) brightness(0.6);
 }
 
-.layers-container:hover .layer-1 {
-  transform: translateY(-8px);
+/* --- INTERAÇÕES AO PASSAR O MOUSE (:hover em cada imagem) --- */
+
+/* Quando a Camada 2 recebe hover: ela vai para a frente (sem blur) e a Camada 1 vai para trás */
+.layer-2:hover {
+  z-index: 10;
+  filter: blur(0px) brightness(1);
+  opacity: 1;
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--purple-glow);
 }
 
-.layers-container:hover .layer-2 {
-  transform: translate(15px, -5px);
-  filter: blur(1px) brightness(0.9);
-  opacity: 0.85;
+.layers-container:has(.layer-2:hover) .layer-1 {
+  z-index: 2;
+  filter: blur(3px) brightness(0.75);
+  opacity: 0.75;
 }
 
-.layers-container:hover .layer-3 {
-  transform: translate(30px, 0px);
-  filter: blur(2px) brightness(0.7);
-  opacity: 0.65;
+/* Quando a Camada 3 recebe hover: ela vai para a frente (sem blur) e a Camada 1 vai para trás */
+.layer-3:hover {
+  z-index: 10;
+  filter: blur(0px) brightness(1);
+  opacity: 1;
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--purple-glow);
+}
+
+.layers-container:has(.layer-3:hover) .layer-1 {
+  z-index: 1;
+  filter: blur(5px) brightness(0.6);
+  opacity: 0.5;
 }
 
 /* RESULTADOS E CARDS */
