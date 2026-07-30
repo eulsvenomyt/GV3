@@ -291,28 +291,29 @@
   let width = (canvas.width = window.innerWidth);
   let height = (canvas.height = window.innerHeight);
 
+  // Ajusta o tamanho da neve caso a janela seja redimensionada
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
   });
 
-  // Criar os flocos de neve com variação de tamanho, velocidade e opacidade
-  const numFlakes = 80;
+  // Configuração dos flocos de neve
+  const numFlakes = 100;
   const flakes = [];
 
   for (let i = 0; i < numFlakes; i++) {
     flakes.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      radius: Math.random() * 2.5 + 0.5, // Flocos maiores e menores
-      density: Math.random() * 1 + 0.5,
-      opacity: Math.random() * 0.7 + 0.3,
-      swing: Math.random() * 0.02, // Efeito de balanço suave
+      radius: Math.random() * 3 + 1, // Tamanho dos flocos
+      density: Math.random() * 1 + 0.5, // Velocidade de queda
+      opacity: Math.random() * 0.7 + 0.3, // Opacidade suave
+      swing: Math.random() * 0.02, // Oscilação lateral
       step: Math.random() * Math.PI
     });
   }
 
-  function drawSnow() {
+  function renderSnow() {
     ctx.clearRect(0, 0, width, height);
 
     for (let i = 0; i < numFlakes; i++) {
@@ -323,12 +324,12 @@
       ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
       ctx.fill();
 
-      // Movimento de queda e balanço lateral
+      // Atualiza a posição (queda e balanço suave)
       f.step += f.swing;
       f.y += Math.cos(f.step) + f.density;
       f.x += Math.sin(f.step) * 0.8;
 
-      // Reiniciar floco no topo quando sair da tela
+      // Reposiciona o floco no topo quando chega ao final da tela
       if (f.y > height) {
         f.y = -10;
         f.x = Math.random() * width;
@@ -337,10 +338,10 @@
       if (f.x < 0) f.x = width;
     }
 
-    requestAnimationFrame(drawSnow);
+    requestAnimationFrame(renderSnow);
   }
 
-  drawSnow();
+  renderSnow();
 </script>
 </body>
 </html>
