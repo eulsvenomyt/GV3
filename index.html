@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <canvas id="snowCanvas"></canvas>
 
   <header class="navbar">
     <div class="logo">
@@ -283,6 +284,63 @@
       <p>© 2026 GV3 Optimizer. Todos os direitos reservados.</p>
     </div>
   </footer>
+<script>
+  const canvas = document.getElementById('snowCanvas');
+  const ctx = canvas.getContext('2d');
 
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  // Criar os flocos de neve com variação de tamanho, velocidade e opacidade
+  const numFlakes = 80;
+  const flakes = [];
+
+  for (let i = 0; i < numFlakes; i++) {
+    flakes.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 2.5 + 0.5, // Flocos maiores e menores
+      density: Math.random() * 1 + 0.5,
+      opacity: Math.random() * 0.7 + 0.3,
+      swing: Math.random() * 0.02, // Efeito de balanço suave
+      step: Math.random() * Math.PI
+    });
+  }
+
+  function drawSnow() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < numFlakes; i++) {
+      const f = flakes[i];
+
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
+      ctx.fill();
+
+      // Movimento de queda e balanço lateral
+      f.step += f.swing;
+      f.y += Math.cos(f.step) + f.density;
+      f.x += Math.sin(f.step) * 0.8;
+
+      // Reiniciar floco no topo quando sair da tela
+      if (f.y > height) {
+        f.y = -10;
+        f.x = Math.random() * width;
+      }
+      if (f.x > width) f.x = 0;
+      if (f.x < 0) f.x = width;
+    }
+
+    requestAnimationFrame(drawSnow);
+  }
+
+  drawSnow();
+</script>
 </body>
 </html>
