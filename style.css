@@ -499,4 +499,69 @@ footer {
   .about-content, .footer-grid {
     grid-template-columns: 1fr;
   }
+  /* ESTRUTURA DAS CAMADAS */
+.hero-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.layers-container {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  height: 360px; /* Altura para acomodar as sobreposições */
+}
+
+/* ESTILO BASE DAS IMAGENS */
+.layer {
+  position: absolute;
+  border-radius: 12px;
+  border: 1px solid #231b34;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+  transition: transform 0.4s ease, z-index 0.4s ease;
+}
+
+/* CAMADA 1 (PRINCIPAL - NA FRENTE) */
+.layer-1 {
+  width: 85%;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(139, 92, 246, 0.3);
+}
+
+/* CAMADA 2 (MEIO - ATRÁS E DESLOCADA) */
+.layer-2 {
+  width: 80%;
+  top: 35px;
+  left: 40px;
+  z-index: 2;
+  opacity: 0.85;
+  filter: brightness(0.8);
+}
+
+/* CAMADA 3 (FUNDO - MAIS ATRÁS) */
+.layer-3 {
+  width: 75%;
+  top: 70px;
+  left: 80px;
+  z-index: 1;
+  opacity: 0.6;
+  filter: brightness(0.6);
+}
+
+/* EFEITO AO PASSAR O MOUSE (HOVER) */
+.layers-container:hover .layer-1 {
+  transform: translateY(-8px);
+}
+
+.layers-container:hover .layer-2 {
+  transform: translate(15px, -5px);
+}
+
+.layers-container:hover .layer-3 {
+  transform: translate(30px, 0px);
+}
 }
