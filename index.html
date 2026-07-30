@@ -10,7 +10,19 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <canvas id="snowCanvas"></canvas>
+  <body>
+  <div class="snow-container" aria-hidden="true">
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❄</div>
+  </div>
 
   <header class="navbar">
     <div class="logo">
@@ -284,61 +296,6 @@
       <p>© 2026 GV3 Optimizer. Todos os direitos reservados.</p>
     </div>
   </footer>
-<script>
-  const canvas = document.getElementById('snowCanvas');
-  const ctx = canvas.getContext('2d');
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  resize();
-  window.addEventListener('resize', resize);
-
-  // Criar os flocos
-  const numFlakes = 80;
-  const flakes = [];
-
-  for (let i = 0; i < numFlakes; i++) {
-    flakes.push({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      radius: Math.random() * 2.5 + 1,
-      speed: Math.random() * 1.2 + 0.5,
-      opacity: Math.random() * 0.7 + 0.3,
-      swing: Math.random() * 0.02,
-      step: Math.random() * Math.PI
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = 0; i < numFlakes; i++) {
-      const f = flakes[i];
-
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
-      ctx.fill();
-
-      // Movimento de queda e leve balanço
-      f.step += f.swing;
-      f.y += f.speed;
-      f.x += Math.sin(f.step) * 0.5;
-
-      // Quando passa do final da tela visível, renasce no topo
-      if (f.y > canvas.height) {
-        f.y = -10;
-        f.x = Math.random() * canvas.width;
-      }
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  draw();
-</script>
+    
 </body>
 </html>
