@@ -655,14 +655,14 @@ footer {
     height: 280px;
     margin: 0 auto;
   }
-  /* EFETO DE NEVE EM SEGUNDO PLANO */
+/* CANVAS DA NEVE FIXO NA TELA */
 #snowCanvas {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none; /* Permite clicar em botões atrás da neve */
-  z-index: 9999; /* Fica por cima do fundo, mas sem atrapalhar a interface */
+  pointer-events: none; /* Permite interagir com botões e links normalmente */
+  z-index: 9999; /* Fica visível por cima do fundo do site */
 }
 }
