@@ -210,14 +210,17 @@ span {
   color: var(--text-muted);
 }
 
-/* ESTRUTURA DAS CAMADAS COM BLUR */
 .hero-right {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
+/* ==========================================================================
+   3. ESTRUTURA DAS CAMADAS INTERATIVAS
+   ========================================================================== */
 .layers-container {
   position: relative;
   width: 100%;
@@ -230,10 +233,21 @@ span {
   border-radius: 12px;
   border: 1px solid var(--bg-card-border);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  object-fit: cover;
 }
 
-/* CAMADA 1 (FRENTE - DESTAQUE TOTAL) */
+/* Remove completamente qualquer pseudo-elemento de texto que possa surgir */
+.layer::before, 
+.layer::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* --- ESTADO PADRÃO DAS CAMADAS --- */
+
+/* Camada 1: Em primeiro plano (Foco total, sem blur) */
 .layer-1 {
   width: 85%;
   top: 0;
@@ -244,40 +258,78 @@ span {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--purple-glow);
 }
 
-/* CAMADA 2 (MEIO - BLUR LEVE) */
+/* Camada 2: No meio (Com blur leve) */
 .layer-2 {
   width: 80%;
   top: 35px;
   left: 40px;
   z-index: 2;
   opacity: 0.75;
-  filter: blur(2px) brightness(0.8);
+  filter: blur(4px) brightness(0.75);
 }
 
-/* CAMADA 3 (FUNDO - BLUR FORTE) */
+/* Camada 3: Ao fundo (Com blur mais forte) */
 .layer-3 {
   width: 75%;
   top: 70px;
   left: 80px;
   z-index: 1;
   opacity: 0.5;
-  filter: blur(4px) brightness(0.6);
+  filter: blur(7px) brightness(0.6);
 }
 
-.layers-container:hover .layer-1 {
-  transform: translateY(-8px);
+/* --- INTERAÇÃO AO PASSAR O MOUSE (:hover) --- */
+
+/* Quando a Camada 2 recebe hover: vai para a frente e perde o blur */
+.layer-2:hover {
+  z-index: 10 !important;
+  filter: blur(0px) brightness(1) !important;
+  opacity: 1 !important;
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--purple-glow);
 }
 
-.layers-container:hover .layer-2 {
-  transform: translate(15px, -5px);
-  filter: blur(1px) brightness(0.9);
-  opacity: 0.85;
+/* Se a Camada 2 estiver focada, a Camada 1 ganha blur e recua */
+.layers-container:has(.layer-2:hover) .layer-1 {
+  z-index: 2 !important;
+  filter: blur(4px) brightness(0.75) !important;
+  opacity: 0.75 !important;
 }
 
-.layers-container:hover .layer-3 {
-  transform: translate(30px, 0px);
-  filter: blur(2px) brightness(0.7);
-  opacity: 0.65;
+/* Quando a Camada 3 recebe hover: vai para a frente e perde o blur */
+.layer-3:hover {
+  z-index: 10 !important;
+  filter: blur(0px) brightness(1) !important;
+  opacity: 1 !important;
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--purple-glow);
+}
+
+/* Se a Camada 3 estiver focada, a Camada 1 ganha blur e recua */
+.layers-container:has(.layer-3:hover) .layer-1 {
+  z-index: 1 !important;
+  filter: blur(7px) brightness(0.6) !important;
+  opacity: 0.5 !important;
+}
+
+/* ==========================================================================
+   4. RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+
+  .hero-left {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .layers-container {
+    max-width: 100%;
+    height: 280px;
+  }
 }
 
 /* RESULTADOS E CARDS */
