@@ -655,14 +655,14 @@ footer {
     height: 280px;
     margin: 0 auto;
   }
-/* CANVAS DA NEVE FIXO NA TELA */
+/* CANVAS QUE COBRE O SITE INTEIRO */
 #snowCanvas {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none; /* Permite interagir com botões e links normalmente */
-  z-index: 9999; /* Fica visível por cima do fundo do site */
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Não bloqueia cliques nos botões */
+  z-index: 9999; /* Fica visível sobre os fundos */
 }
 }
