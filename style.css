@@ -655,14 +655,53 @@ footer {
     height: 280px;
     margin: 0 auto;
   }
-/* EFEITO DE NEVE FIXO SOBRE TODO O SITE */
-#snowCanvas {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  pointer-events: none !important; /* Permite clicar em botões e links normalmente */
-  z-index: 999999 !important;      /* Garante que fique por cima de todos os elementos */
+/* ==========================================
+   EFEITO DE NEVE SIMPLES E LEVE
+   ========================================== */
+
+/* Container fixo que cobre toda a tela */
+.snow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Permite clicar no site normalmente */
+  z-index: 9999;        /* Fica por cima de todo o conteúdo */
+  overflow: hidden;
 }
+
+/* Estilo base de cada floco de neve */
+.snowflake {
+  position: absolute;
+  top: -20px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+  user-select: none;
+  animation: fall linear infinite;
+}
+
+/* Animação para fazer os flocos caírem */
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg);
+    opacity: 0.2;
+  }
+}
+
+/* Posições, tamanhos e velocidades diferentes para cada floco */
+.snowflake:nth-child(1)  { left: 5%;  animation-duration: 8s;  animation-delay: 0s;   font-size: 1rem; }
+.snowflake:nth-child(2)  { left: 15%; animation-duration: 12s; animation-delay: 2s;   font-size: 1.5rem; }
+.snowflake:nth-child(3)  { left: 25%; animation-duration: 7s;  animation-delay: 4s;   font-size: 0.8rem; }
+.snowflake:nth-child(4)  { left: 38%; animation-duration: 10s; animation-delay: 1s;   font-size: 1.3rem; }
+.snowflake:nth-child(5)  { left: 50%; animation-duration: 9s;  animation-delay: 5s;   font-size: 1rem; }
+.snowflake:nth-child(6)  { left: 62%; animation-duration: 11s; animation-delay: 3s;   font-size: 1.4rem; }
+.snowflake:nth-child(7)  { left: 75%; animation-duration: 8s;  animation-delay: 1.5s; font-size: 0.9rem; }
+.snowflake:nth-child(8)  { left: 85%; animation-duration: 13s; animation-delay: 0.5s; font-size: 1.2rem; }
+.snowflake:nth-child(9)  { left: 92%; animation-duration: 9s;  animation-delay: 2.5s; font-size: 1.1rem; }
+.snowflake:nth-child(10) { left: 97%; animation-duration: 7s;  animation-delay: 4.5s; font-size: 0.8rem; }
 }
