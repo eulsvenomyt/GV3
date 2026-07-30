@@ -288,37 +288,31 @@
   const canvas = document.getElementById('snowCanvas');
   const ctx = canvas.getContext('2d');
 
-  function resizeCanvas() {
-    canvas.width = document.documentElement.clientWidth || window.innerWidth;
-    // Pega a altura total do documento (todo o scroll do site)
-    canvas.height = Math.max(
-      document.body.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.clientHeight,
-      document.documentElement.scrollHeight,
-      document.documentElement.offsetHeight
-    );
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
 
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  resize();
+  window.addEventListener('resize', resize);
 
-  // Configuração dos flocos
-  const numFlakes = 120;
+  // Criar os flocos
+  const numFlakes = 80;
   const flakes = [];
 
   for (let i = 0; i < numFlakes; i++) {
     flakes.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 3 + 1,
-      speed: Math.random() * 1.5 + 0.5,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      radius: Math.random() * 2.5 + 1,
+      speed: Math.random() * 1.2 + 0.5,
       opacity: Math.random() * 0.7 + 0.3,
+      swing: Math.random() * 0.02,
       step: Math.random() * Math.PI
     });
   }
 
-  function renderSnow() {
+  function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < numFlakes; i++) {
@@ -329,22 +323,22 @@
       ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
       ctx.fill();
 
-      // Movimento de queda contínua
-      f.step += 0.01;
+      // Movimento de queda e leve balanço
+      f.step += f.swing;
       f.y += f.speed;
       f.x += Math.sin(f.step) * 0.5;
 
-      // Quando o floco chega no fim do site todo, ele volta para o topo
+      // Quando passa do final da tela visível, renasce no topo
       if (f.y > canvas.height) {
         f.y = -10;
         f.x = Math.random() * canvas.width;
       }
     }
 
-    requestAnimationFrame(renderSnow);
+    requestAnimationFrame(draw);
   }
 
-  renderSnow();
+  draw();
 </script>
 </body>
 </html>
