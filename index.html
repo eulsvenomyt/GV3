@@ -39,31 +39,37 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
-    /* Efeitos de Iluminação no Fundo */
-    .bg-glow-1, .bg-glow-2 {
+    /* Estilos do Vídeo de Fundo */
+    .bg-video-container {
       position: fixed;
-      border-radius: 50%;
-      filter: blur(140px);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.15;
+    }
+
+    /* Overlay escuro sobre o vídeo de fundo */
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(5,7,10,0.5) 0%, rgba(5,7,10,0.92) 100%);
       z-index: -1;
       pointer-events: none;
-    }
-
-    .bg-glow-1 {
-      top: -100px;
-      left: -100px;
-      width: 500px;
-      height: 500px;
-      background: var(--accent-purple-glow);
-    }
-
-    .bg-glow-2 {
-      bottom: -100px;
-      right: -100px;
-      width: 500px;
-      height: 500px;
-      background: var(--accent-blue-glow);
     }
 
     /* ==========================================
@@ -149,7 +155,7 @@
     }
 
     /* ==========================================
-       3. CONTEÚDO DAS ABAS (SISTEMA DE SWITCH)
+       3. CONTEÚDO DAS ABAS
        ========================================== */
     .main-container {
       flex: 1;
@@ -174,7 +180,7 @@
     }
 
     /* ==========================================
-       4. ABA INÍCIO (HERO & DESTAQUES)
+       4. ABA INÍCIO (HERO & CAMADAS)
        ========================================== */
     .hero {
       display: flex;
@@ -238,6 +244,8 @@
       text-decoration: none;
       box-shadow: 0 4px 20px var(--accent-purple-glow);
       transition: transform 0.2s;
+      cursor: pointer;
+      border: none;
     }
 
     .btn-hero-primary:hover {
@@ -253,6 +261,7 @@
       font-weight: 600;
       text-decoration: none;
       transition: border-color 0.2s;
+      cursor: pointer;
     }
 
     .btn-hero-outline:hover {
@@ -277,9 +286,10 @@
       font-size: 0.85rem;
     }
 
+    /* Container das Camadas (Layer 1 agora é Vídeo) */
     .layers-container {
       position: relative;
-      width: 450px;
+      width: 480px;
       height: 320px;
     }
 
@@ -290,14 +300,22 @@
       border: 1px solid var(--card-border);
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
       transition: transform 0.3s;
+      object-fit: cover;
     }
 
-    .layer-1 { top: 0; left: 0; z-index: 3; }
+    .layer-1 { 
+      top: 0; 
+      left: 0; 
+      z-index: 3; 
+      height: 280px;
+      background: #000;
+    }
+
     .layer-2 { top: 25px; left: 25px; z-index: 2; opacity: 0.75; }
     .layer-3 { top: 50px; left: 50px; z-index: 1; opacity: 0.4; }
 
     /* ==========================================
-       5. ABA RECURSOS
+       5. RECURSOS, PLANOS, EQUIPE E FAQ
        ========================================== */
     .section-title {
       text-align: center;
@@ -308,11 +326,6 @@
       font-size: 2.5rem;
       font-weight: 800;
       margin-bottom: 0.5rem;
-    }
-
-    .section-title p {
-      color: var(--text-muted);
-      font-size: 1rem;
     }
 
     .features-grid {
@@ -327,12 +340,6 @@
       backdrop-filter: blur(12px);
       border-radius: 16px;
       padding: 2rem;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-
-    .feature-card:hover {
-      border-color: rgba(139, 92, 246, 0.4);
-      transform: translateY(-5px);
     }
 
     .f-icon {
@@ -348,20 +355,6 @@
       margin-bottom: 1.2rem;
     }
 
-    .feature-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .feature-card p {
-      color: var(--text-muted);
-      font-size: 0.92rem;
-      line-height: 1.5;
-    }
-
-    /* ==========================================
-       6. ABA PLANOS E PREÇOS
-       ========================================== */
     .card-free {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -372,16 +365,6 @@
       align-items: center;
       margin-bottom: 2.5rem;
       gap: 2rem;
-    }
-
-    .badge-free {
-      background: rgba(16, 185, 129, 0.15);
-      color: #10b981;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      margin-left: 10px;
     }
 
     .pricing-grid {
@@ -397,8 +380,6 @@
       border-radius: 18px;
       padding: 2.2rem 1.8rem;
       position: relative;
-      display: flex;
-      flex-direction: column;
     }
 
     .pricing-card.highlighted {
@@ -406,29 +387,10 @@
       box-shadow: 0 0 30px var(--accent-blue-glow);
     }
 
-    .badge-top {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent-blue);
-      color: #ffffff;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 14px;
-      border-radius: 20px;
-    }
-
     .price {
       font-size: 2.4rem;
       font-weight: 800;
       margin: 1rem 0 1.5rem 0;
-    }
-
-    .price span {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      font-weight: 400;
     }
 
     .btn-plan {
@@ -438,79 +400,11 @@
       border-radius: 10px;
       font-weight: 700;
       text-decoration: none;
-      transition: all 0.2s;
     }
 
-    .btn-plan-primary {
-      background: var(--accent-blue);
-      color: #fff;
-    }
+    .btn-plan-primary { background: var(--accent-blue); color: #fff; }
+    .btn-plan-outline { border: 1px solid var(--card-border); color: #fff; background: rgba(255,255,255,0.02); }
 
-    .btn-plan-outline {
-      border: 1px solid var(--card-border);
-      color: #fff;
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .features-list {
-      margin-top: 2rem;
-      border-top: 1px solid var(--card-border);
-      padding-top: 1.5rem;
-    }
-
-    .features-list ul {
-      list-style: none;
-      margin-top: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .features-list li {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* Coupon Box */
-    .coupon-box {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .coupon-group {
-      display: flex;
-      margin-top: 1rem;
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .coupon-group input {
-      background: transparent;
-      border: none;
-      padding: 12px 16px;
-      color: #fff;
-      flex: 1;
-      outline: none;
-    }
-
-    .coupon-group button {
-      background: var(--accent-blue);
-      color: #fff;
-      border: none;
-      padding: 0 20px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* ==========================================
-       7. ABA EQUIPE & SOBRE
-       ========================================== */
     .team-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -534,25 +428,9 @@
       object-fit: cover;
       border: 3px solid var(--accent-purple);
       margin-bottom: 1.2rem;
-      box-shadow: 0 0 20px var(--accent-purple-glow);
     }
 
-    .team-role {
-      color: #a78bfa;
-      font-size: 0.85rem;
-      font-weight: 700;
-      display: block;
-      margin: 0.4rem 0 1rem 0;
-    }
-
-    /* ==========================================
-       8. ABA FAQ
-       ========================================== */
-    .faq-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
+    .faq-container { max-width: 800px; margin: 0 auto; }
     .faq-item {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -561,60 +439,22 @@
       padding: 1.2rem 1.5rem;
     }
 
-    .faq-item summary {
-      cursor: pointer;
-      font-weight: 700;
-      list-style: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq-answer {
-      margin-top: 1rem;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      border-top: 1px solid var(--card-border);
-      padding-top: 1rem;
-    }
-
-    .spoiler-img {
-      width: 100%;
-      border-radius: 10px;
-      margin-top: 1rem;
-      border: 1px solid var(--card-border);
-    }
-
-    /* ==========================================
-       9. FOOTER
-       ========================================== */
     footer {
       background: rgba(5, 7, 10, 0.95);
       border-top: 1px solid var(--card-border);
       padding: 3rem 8% 1.5rem 8%;
       margin-top: 4rem;
     }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    .footer-bottom {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      border-top: 1px solid var(--card-border);
-      padding-top: 1.5rem;
-    }
   </style>
 </head>
 <body>
 
-  <div class="bg-glow-1"></div>
-  <div class="bg-glow-2"></div>
+  <div class="bg-video-container">
+    <video class="bg-video" autoplay loop muted playsinline>
+      <source src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="bg-overlay"></div>
 
   <header class="navbar">
     <div class="logo">
@@ -645,7 +485,7 @@
             <i class="fa-solid fa-bolt"></i> DESEMPENHO MÁXIMO PARA SEU PC
           </div>
           <h1>Otimize seu PC com <span>1 clique.</span></h1>
-          <p class="hero-desc">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
+          <p class="hero-desc">Aumente seu FPS e reduza o input lag com otimizaciones inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
           
           <div class="hero-cta">
             <button class="btn-hero-primary" onclick="switchTab('precos')">Começar agora</button>
@@ -670,7 +510,9 @@
 
         <div class="hero-right">
           <div class="layers-container">
-            <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg1.png" alt="Layer 1" class="layer layer-1">
+            <video class="layer layer-1" autoplay loop muted playsinline>
+              <source src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.mp4" type="video/mp4">
+            </video>
             <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Layer 2" class="layer layer-2">
             <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg3.png" alt="Layer 3" class="layer layer-3">
           </div>
@@ -681,32 +523,18 @@
     <section id="tab-recursos" class="tab-content">
       <div class="section-title">
         <h2>Recursos do App</h2>
-        <p>Tudo o que você precisa para extrair o máximo do seu hardware em um só lugar.</p>
+        <p>Tudo o que você precisa para extrair o máximo do seu hardware.</p>
       </div>
-
       <div class="features-grid">
         <div class="feature-card">
           <div class="f-icon"><i class="fa-solid fa-bolt"></i></div>
           <h3>Mais FPS em 1 Clique</h3>
-          <p>Ajustes finos em serviços do Windows, planos de energia e prioridade de CPU direcionados para o seu jogo.</p>
+          <p>Ajustes finos em serviços do Windows e prioridade de CPU para seu jogo.</p>
         </div>
-
         <div class="feature-card">
           <div class="f-icon"><i class="fa-solid fa-wave-square"></i></div>
           <h3>Menor Input Lag</h3>
-          <p>Remove processos ocultos em segundo plano para garantir resposta imediata de teclado e mouse.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="f-icon"><i class="fa-solid fa-gauge-high"></i></div>
-          <h3>FPS Estável & Sem Stuttering</h3>
-          <p>Elimina quedas bruscas de quadros e travamentos no meio de trocas de tiro ou momentos decisivos.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="f-icon"><i class="fa-solid fa-shield-halved"></i></div>
-          <h3>100% Seguro & Reversível</h3>
-          <p>Sem códigos perigosos. Todos os tweaks são testados e possuem ponto de restauração instantâneo.</p>
+          <p>Remove processos ocultos para resposta imediata do teclado e mouse.</p>
         </div>
       </div>
     </section>
@@ -714,69 +542,18 @@
     <section id="tab-precos" class="tab-content">
       <div class="section-title">
         <h2>Planos e Preços</h2>
-        <p>Escolha o plano ideal para o seu perfil e destrave todo o potencial do seu setup.</p>
+        <p>Escolha o plano ideal para você.</p>
       </div>
-
-      <div class="card-free">
-        <div>
-          <h3 style="display:inline-flex; align-items:center;">Grátis <span class="badge-free">R$0 PARA SEMPRE</span></h3>
-          <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
-            Acesso ao painel básico, monitoramento de sistema em tempo real e limpeza manual simples. 
-          </p>
-        </div>
-        <a href="#" class="btn-hero-outline" style="padding: 10px 20px;">Criar Conta Grátis</a>
-      </div>
-
       <div class="pricing-grid">
         <div class="pricing-card">
           <h3>Mensal</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
-          <div class="price">R$ 6,99 <span>/mês</span></div>
+          <div class="price">R$ 24,99 <span>/mês</span></div>
           <a href="#" class="btn-plan btn-plan-outline">Assinar Agora</a>
-          <div class="features-list">
-            <ul>
-              <li>✓ Acesso completo ao app</li>
-              <li>✓ Game Mode + PC Boost</li>
-              <li>✓ Suporte no Discord</li>
-            </ul>
-          </div>
         </div>
-
         <div class="pricing-card highlighted">
-          <div class="badge-top">⭐ MELHOR OFERTA</div>
           <h3>Anual</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
-          <div class="price">R$ 17,99 <span>/ano</span></div>
+          <div class="price">R$ 249,99 <span>/ano</span></div>
           <a href="#" class="btn-plan btn-plan-primary">Garantir Desconto</a>
-          <div class="features-list">
-            <ul>
-              <li>✓ Tudo do Plano Mensal</li>
-              <li>✓ 2 meses totalmente grátis</li>
-              <li>✓ Cargo VIP e canais exclusivos no Discord</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="pricing-card">
-          <h3>Vitalício</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
-          <div class="price">R$ 14,99</div>
-          <a href="#" class="btn-plan btn-plan-outline">Acesso Vitalício</a>
-          <div class="features-list">
-            <ul>
-              <li>✓ Acesso permanente sem mensalidades</li>
-              <li>✓ Atualizações pra sempre</li>
-              <li>✓ Suporte prioritário</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="coupon-box">
-        <h3>Possui um Cupom de Desconto?</h3>
-        <div class="coupon-group">
-          <input type="text" placeholder="Digite seu cupom aqui">
-          <button type="button">Aplicar</button>
         </div>
       </div>
     </section>
@@ -784,40 +561,21 @@
     <section id="tab-sobre" class="tab-content">
       <div class="section-title">
         <h2>Sobre a GV3</h2>
-        <p>A história de como buscamos revolucionar a otimização de sistemas.</p>
       </div>
-
-      <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 2.5rem; max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-muted);">
-        <h3 style="color: #fff; margin-bottom: 1rem;">Nossa Missão</h3>
-        <p style="margin-bottom: 1.5rem;">
-          A GV3 nasceu da necessidade de entregar soluções simples e reais para jogadores que sofrem com travamentos e queda de desempenho. Desenvolvemos scripts e softwares refinados para extrair a máxima capacidade do seu computador de forma segura e prática.
-        </p>
-        <h3 style="color: #fff; margin-bottom: 1rem;">Tecnologia de Ponta</h3>
-        <p>
-          Nossos algoritmos realizam ajustes finos nos serviços nativos do Windows, registro do sistema e protocolos de rede sem afetar a estabilidade da máquina.
-        </p>
+      <div style="background: var(--card-bg); padding: 2rem; border-radius: 16px;">
+        <p>A GV3 desenvolve softwares e otimizações de sistema focados em extrair a máxima performance do seu computador de forma segura.</p>
       </div>
     </section>
 
     <section id="tab-equipe" class="tab-content">
       <div class="section-title">
         <h2>Nossa Equipe</h2>
-        <p>Os desenvolvedores e especialistas por trás do GV3 Optimizer.</p>
       </div>
-
       <div class="team-grid">
         <div class="team-card">
           <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" alt="EulsVenom" class="team-avatar">
           <h3>EulsVenom</h3>
-          <span class="team-role"><i class="fa-solid fa-code"></i> Fundador & Dev Principal</span>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Especialista em arquitetura de softwares de otimização e tweaks de registro.</p>
-        </div>
-
-        <div class="team-card">
-          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Membro 02" class="team-avatar">
-          <h3>Membro 02</h3>
-          <span class="team-role"><i class="fa-solid fa-gears"></i> Otimizador & QA Tester</span>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Responsável por testes de latência, estabilidade de FPS e benchmarks.</p>
+          <span style="color: #a78bfa;">Fundador & Dev</span>
         </div>
       </div>
     </section>
@@ -825,29 +583,11 @@
     <section id="tab-faq" class="tab-content">
       <div class="section-title">
         <h2>Perguntas Frequentes</h2>
-        <p>Tire suas dúvidas sobre o funcionamento do app.</p>
       </div>
-
       <div class="faq-container">
         <details class="faq-item">
-          <summary>
-            <span><i class="fa-solid fa-camera-retro"></i> Como é a interface do GV3 por dentro?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </summary>
-          <div class="faq-answer">
-            <p>Confira abaixo o design moderno do nosso painel principal:</p>
-            <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" class="spoiler-img" alt="Interface GV3">
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            <span><i class="fa-solid fa-shield-halved"></i> O software corre o risco de dar ban em jogos?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </summary>
-          <div class="faq-answer">
-            <p>Não. O GV3 Optimizer atua exclusivamente nas configurações do seu sistema operacional Windows. Ele não injeta arquivos nos jogos e é 100% seguro com qualquer Anti-Cheat (Vanguard, EAC, BattleEye, etc.).</p>
-          </div>
+          <summary>O software dá ban em jogos?</summary>
+          <p style="margin-top: 10px; color: var(--text-muted);">Não. Ele altera apenas configurações do Windows e não injeta nada nos jogos.</p>
         </details>
       </div>
     </section>
@@ -855,36 +595,22 @@
   </main>
 
   <footer>
-    <div class="footer-content">
-      <div class="logo">
-        <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" alt="GV3 Logo">
-        <span>GV3 Optimizer</span>
-      </div>
-      <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Comunidade no Discord</a>
-    </div>
-    <div class="footer-bottom">
+    <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
       <p>© 2026 GV3 Optimizer. Todos os direitos reservados.</p>
     </div>
   </footer>
 
   <script>
     function switchTab(tabId) {
-      // Esconde todos os conteúdos das abas
-      const contents = document.querySelectorAll('.tab-content');
-      contents.forEach(content => content.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
-      // Remove estado ativo de todos os botões
-      const buttons = document.querySelectorAll('.tab-btn');
-      buttons.forEach(btn => btn.classList.remove('active'));
-
-      // Ativa o conteúdo da aba selecionada
       const targetContent = document.getElementById('tab-' + tabId);
-      if (targetContent) {
-        targetContent.classList.add('active');
-      }
+      if (targetContent) targetContent.classList.add('active');
 
-      // Ativa o botão correspondente no menu
-      event.currentTarget.classList.add('active');
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
     }
   </script>
 
