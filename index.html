@@ -7,18 +7,643 @@
   
   <link rel="icon" href="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
   
   <style>
-    @font-face { 
-      font-family: 'Androgyne'; 
-      src: url('Androgyne_TB.otf'); 
-    } 
+    /* ==========================================
+       1. ESTILOS GERAIS & RESET
+       ========================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
 
-    @keyframes snow {
-      0% { background-position: 0px 0px, 0px 0px, 0px 0px; }
-      50% { background-position: 500px 500px, 100px 200px, -100px 150px; }
-      100% { background-position: 500px 1000px, 200px 400px, -100px 300px; }
+    body {
+      background-color: #0b0d12;
+      color: #ffffff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ==========================================
+       2. NAVBAR
+       ========================================== */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 8%;
+      background-color: rgba(11, 13, 18, 0.9);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #1a1e29;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .logo img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #9ca3af;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .nav-discord {
+      color: #9ca3af;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-purple {
+      background-color: #8b5cf6;
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .btn-purple:hover {
+      background-color: #7c3aed;
+    }
+
+    /* ==========================================
+       3. HERO SECTION
+       ========================================== */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4rem 8%;
+      gap: 3rem;
+    }
+
+    .hero-left {
+      max-width: 600px;
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(139, 92, 246, 0.1);
+      color: #a78bfa;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span {
+      color: #8b5cf6;
+    }
+
+    .hero-desc {
+      color: #9ca3af;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn-hero-purple {
+      background-color: #8b5cf6;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .btn-hero-outline {
+      border: 1px solid #2a324b;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .download-stats {
+      margin-bottom: 2.5rem;
+      font-size: 0.9rem;
+    }
+
+    .download-stats p {
+      color: #9ca3af;
+    }
+
+    .download-stats a {
+      color: #8b5cf6;
+      text-decoration: underline;
+    }
+
+    .metrics-grid {
+      display: flex;
+      gap: 2rem;
+      border-top: 1px solid #1f2430;
+      padding-top: 1.5rem;
+    }
+
+    .metric h3 {
+      font-size: 1.4rem;
+      color: #8b5cf6;
+    }
+
+    .metric p {
+      color: #9ca3af;
+      font-size: 0.85rem;
+    }
+
+    .layers-container {
+      position: relative;
+      width: 420px;
+      height: 300px;
+    }
+
+    .layer {
+      position: absolute;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .layer-1 { top: 0; left: 0; z-index: 3; }
+    .layer-2 { top: 20px; left: 20px; z-index: 2; opacity: 0.8; }
+    .layer-3 { top: 40px; left: 40px; z-index: 1; opacity: 0.5; }
+
+    /* ==========================================
+       4. SEÇÃO DE EQUIPE
+       ========================================== */
+    .team-section {
+      padding: 5rem 8%;
+      text-align: center;
+    }
+
+    .section-tag {
+      color: #8b5cf6;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 2rem auto 0 auto;
+    }
+
+    .team-card {
+      background-color: #12151c;
+      border: 1px solid #1f2430;
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .team-card:hover {
+      border-color: #8b5cf6;
+      transform: translateY(-5px);
+    }
+
+    .team-avatar-box {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 1rem auto;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    }
+
+    .team-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .team-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .team-role {
+      color: #8b5cf6;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .team-info p {
+      color: #9ca3af;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .team-socials {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .team-socials a {
+      color: #9ca3af;
+      font-size: 1.1rem;
+    }
+
+    .team-socials a:hover {
+      color: #8b5cf6;
+    }
+
+    /* ==========================================
+       5. PLANOS E PREÇOS (CONFORME PRINT)
+       ========================================== */
+    .pricing-section {
+      padding: 5rem 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .pricing-header h2 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      margin-bottom: 0.8rem;
+    }
+
+    .pricing-header p {
+      color: #9ca3af;
+      font-size: 1rem;
+    }
+
+    .card-free {
+      background-color: #12151c;
+      border: 1px solid #1f2430;
+      border-radius: 12px;
+      padding: 1.8rem 2.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 1.5rem;
+    }
+
+    .card-free-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0.5rem;
+    }
+
+    .badge-free {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .card-free p {
+      color: #9ca3af;
+      font-size: 0.92rem;
+      max-width: 750px;
+    }
+
+    .btn-secondary {
+      background-color: #1f2937;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .pricing-card {
+      background-color: #12151c;
+      border: 1px solid #1f2430;
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card.highlighted {
+      border: 1.5px solid #2563eb;
+      box-shadow: 0 0 25px rgba(37, 99, 235, 0.25);
+    }
+
+    .badge-top {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #2563eb;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .badge-top-right {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background-color: rgba(37, 99, 235, 0.2);
+      color: #60a5fa;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .plan-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .plan-subtitle {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      color: #9ca3af;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .price {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
+
+    .price span {
+      font-size: 0.88rem;
+      color: #9ca3af;
+      font-weight: 400;
+    }
+
+    .btn-primary {
+      display: block;
+      text-align: center;
+      background-color: #2563eb;
+      color: #ffffff;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .btn-outline {
+      display: block;
+      text-align: center;
+      background-color: transparent;
+      color: #ffffff;
+      border: 1px solid #2a324b;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .features-list {
+      margin-top: 2rem;
+      border-top: 1px solid #1f2430;
+      padding-top: 1.5rem;
+    }
+
+    .features-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #6b7280;
+      letter-spacing: 0.5px;
+    }
+
+    .features-list ul {
+      list-style: none;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .features-list li {
+      color: #d1d5db;
+      font-size: 0.88rem;
+    }
+
+    .coupon-section {
+      text-align: center;
+    }
+
+    .coupon-section h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .coupon-input-group {
+      display: flex;
+      justify-content: center;
+      max-width: 480px;
+      margin: 0 auto;
+      border: 1px solid #1f2430;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #12151c;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      padding-left: 12px;
+      flex: 1;
+    }
+
+    .coupon-input-group input {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      padding: 12px;
+      width: 100%;
+      outline: none;
+    }
+
+    .btn-apply {
+      background-color: #1e3a8a;
+      color: #60a5fa;
+      border: none;
+      padding: 0 24px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .coupon-note {
+      color: #6b7280;
+      font-size: 0.82rem;
+      margin-top: 0.8rem;
+    }
+
+    /* ==========================================
+       6. OUTRAS SEÇÕES (RECURSOS, FAQ, FOOTER)
+       ========================================== */
+    .results-section, .features-section, .about-section, .faq-section {
+      padding: 5rem 8%;
+    }
+
+    .games-grid, .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .game-card, .feature-card {
+      background-color: #12151c;
+      border: 1px solid #1f2430;
+      border-radius: 12px;
+      padding: 1.8rem;
+    }
+
+    .banner-box-section {
+      padding: 2rem 8%;
+    }
+
+    .banner-box {
+      background: linear-gradient(135deg, #1e1b4b, #12151c);
+      border: 1px solid #312e81;
+      padding: 3rem;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .banner-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .faq-container {
+      margin-top: 2rem;
+    }
+
+    .faq-item {
+      background-color: #12151c;
+      border: 1px solid #1f2430;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .spoiler-img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    footer {
+      background-color: #08090d;
+      border-top: 1px solid #1f2430;
+      padding: 4rem 8% 2rem 8%;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .footer-col h4 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-col a {
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1f2430;
+      padding-top: 1.5rem;
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.85rem;
     }
   </style>
 </head>
@@ -48,7 +673,7 @@
         <i class="fa-solid fa-bolt"></i> ACABE COM O LAG E OS TRAVAMENTOS AGORA
       </div>
       <h1>Otimize seu PC com <span>1 clique.</span></h1>
-      <p class="hero-desc">Aumente seu FPS e reduza o input lag com otimizaciones inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
+      <p class="hero-desc">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
       
       <div class="hero-cta">
         <a href="#precos" class="btn-hero-purple">Começar grátis</a>
@@ -92,44 +717,17 @@
 
     <div class="games-grid">
       <div class="game-card">
-        <div class="game-header">
-          <span class="game-tag">BATTLE ROYALE</span>
-          <i class="fa-solid fa-cube game-icon"></i>
-        </div>
         <h3>Minecraft PvP</h3>
-        <div class="fps-info">
-          <div class="fps-row"><span>Sem GV3</span> <strong>120 FPS médios</strong></div>
-          <div class="fps-row highlight"><span>Com GV3</span> <strong>240 FPS médios</strong></div>
-        </div>
-        <div class="badge-gain">+100% de desempenho</div>
         <p>Hit-detection aprimorada, movimento fluido e sem travadas de Render Distance.</p>
       </div>
 
       <div class="game-card">
-        <div class="game-header">
-          <span class="game-tag">FPS COMPETITIVO</span>
-          <i class="fa-solid fa-crosshairs game-icon"></i>
-        </div>
         <h3>Counter-Strike 2</h3>
-        <div class="fps-info">
-          <div class="fps-row"><span>Sem GV3</span> <strong>180 FPS médios</strong></div>
-          <div class="fps-row highlight"><span>Com GV3</span> <strong>239 FPS médios</strong></div>
-        </div>
-        <div class="badge-gain">+32.8% de desempenho</div>
         <p>Perfeito pra treino de flick e spray em monitores de alta frequência Hz.</p>
       </div>
 
       <div class="game-card">
-        <div class="game-header">
-          <span class="game-tag">FPS TÁTICO</span>
-          <i class="fa-solid fa-shield-halved game-icon"></i>
-        </div>
         <h3>Valorant</h3>
-        <div class="fps-info">
-          <div class="fps-row"><span>Sem GV3</span> <strong>168 FPS médios</strong></div>
-          <div class="fps-row highlight"><span>Com GV3</span> <strong>223 FPS médios</strong></div>
-        </div>
-        <div class="badge-gain">+32.7% de desempenho</div>
         <p>FPS estável em clutchs e trocas rápidas, mantendo a mira firme.</p>
       </div>
     </div>
@@ -138,43 +736,21 @@
   <section id="recursos" class="features-section">
     <p class="section-tag">RECURSOS DO APP</p>
     <h2>Tudo num app só, sem comando e <span>sem risco.</span></h2>
-    <p class="subtitle">Em vez de perder horas vendo tutorial e mexendo no registro do Windows, o GV3 Optimizer concentra anos de otimização num fluxo guiado.</p>
 
     <div class="features-grid">
       <div class="feature-card">
-        <div class="f-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
         <h3>Mais FPS em 1 clique</h3>
-        <p>Ajustes finos em serviços, energia e prioridade de CPU pra extrair o máximo de quadros do seu hardware.</p>
+        <p>Ajustes finos em serviços, energia e prioridade de CPU pra extrair o máximo de quadros.</p>
       </div>
 
       <div class="feature-card">
-        <div class="f-icon"><i class="fa-solid fa-wave-square"></i></div>
         <h3>Menos input lag</h3>
-        <p>Corta processos ocultos e prioriza o jogo pra deixar mouse e teclado respondendo na hora, sem atraso.</p>
+        <p>Corta processos ocultos e prioriza o jogo para resposta imediata.</p>
       </div>
 
       <div class="feature-card">
-        <div class="f-icon"><i class="fa-solid fa-gauge-high"></i></div>
         <h3>FPS mais estável</h3>
-        <p>Foco em eliminar travamentos e quedas bruscas de FPS, mantendo a fluidez nos momentos de mais ação.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="f-icon"><i class="fa-solid fa-shield-check"></i></div>
-        <h3>Otimizações reais e seguras</h3>
-        <p>Mais de 30 ajustes testados em centenas de máquinas. Sem vírus, sem telemetria, 100% reversível.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="f-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
-        <h3>Atualizações constantes</h3>
-        <p>Novos tweaks e recursos para manter seu setup sempre no topo, sem custo extra.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="f-icon"><i class="fa-solid fa-headset"></i></div>
-        <h3>Suporte dedicado</h3>
-        <p>Comunidade no Discord e suporte direto da equipe pra tirar dúvidas e ajustar o app ao seu PC.</p>
+        <p>Elimina travamentos e quedas bruscas de FPS.</p>
       </div>
     </div>
   </section>
@@ -182,8 +758,7 @@
   <section class="banner-box-section">
     <div class="banner-box">
       <h2>Não é só sobre fazer upgrade caro de PC.</h2>
-      <p>Um setup mal configurado desperdiça boa parte do desempenho do seu hardware. O objetivo do GV3 Optimizer é liberar todo esse potencial de forma segura e reversível, sem você gastar horas mexendo no Windows na mão.</p>
-      <p>E no app só entra otimização que faz diferença de verdade. Nada de placebo.</p>
+      <p>Um setup mal configurado desperdiça boa parte do desempenho do seu hardware.</p>
       <div class="banner-buttons">
         <a href="#precos" class="btn-hero-purple">Quero otimizar meu PC</a>
         <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-hero-outline"><i class="fa-solid fa-headset"></i> Tirar dúvidas</a>
@@ -193,21 +768,7 @@
 
   <section id="sobre" class="about-section">
     <h2>Conheça a <span>GV3</span></h2>
-    <p class="subtitle">Um pouco de tudo sobre a nossa história</p>
-
-    <div class="about-content">
-      <div class="about-block">
-        <h3>O início de tudo</h3>
-        <p>A GV3 foi fundada com o objetivo de oferecer soluções reais de desempenho. Depois de testar e experimentar o registro do Windows (regedit) e conseguir pequenas melhorias, nasceu a ideia de otimizar sistemas com segurança e eficiência.</p>
-        <p>Após anos de pesquisa e desenvolvimento, evoluímos o conceito original e conseguimos entregar os melhores códigos e softwares disponíveis. Nossa equipe passou centenas de horas explorando novas configurações para entregar uma experiência incomparável.</p>
-      </div>
-
-      <div class="about-block">
-        <h3>Tempos prósperos</h3>
-        <p>Atualmente a GV3 conta com otimizações avançadas no Windows, comandos netsh, scripts PowerShell, personalizações de registro e planos de energia exclusivos de alta performance.</p>
-        <p>Mas chega de falar sobre nós, este projeto é sobre você. Nosso objetivo desde o primeiro dia tem sido melhorar a experiência de qualquer jogador e aumentar o FPS daqueles que possuem um computador mais simples. Juntos somos mais fortes.</p>
-      </div>
-    </div>
+    <p>A GV3 foi fundada com o objetivo de oferecer soluções reais de desempenho e estabilidade para jogadores.</p>
   </section>
 
   <section id="equipe" class="team-section">
@@ -370,32 +931,15 @@
   <section id="faq" class="faq-section">
     <p class="section-tag">DÚVIDAS FREQUENTES</p>
     <h2>SPOILERS & PERGUNTAS FREQUENTES</h2>
-    <p class="subtitle">Clique em uma pergunta para visualizar os spoilers e comprovações do app.</p>
 
     <div class="faq-container">
       <details class="faq-item">
         <summary class="faq-question">
           <span><i class="fa-solid fa-camera-retro"></i> Como é a interface do GV3 Optimizer por dentro?</span>
-          <i class="fa-solid fa-chevron-down faq-arrow"></i>
         </summary>
         <div class="faq-answer">
-          <p>Confira abaixo o design do nosso painel de otimização em tempo real:</p>
-          <div class="spoiler-image-box">
-            <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" alt="Spoiler do App" class="spoiler-img">
-          </div>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          <span><i class="fa-solid fa-bolt"></i> Quais otimizações de energia e CPU estão incluídas?</span>
-          <i class="fa-solid fa-chevron-down faq-arrow"></i>
-        </summary>
-        <div class="faq-answer">
-          <p>Abaixo estão os módulos de prioridade ativados com 1 clique:</p>
-          <div class="spoiler-image-box">
-            <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Spoiler Otimizações" class="spoiler-img">
-          </div>
+          <p>Confira abaixo o design do nosso painel:</p>
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" alt="Spoiler" class="spoiler-img">
         </div>
       </details>
     </div>
@@ -409,29 +953,25 @@
           <span>GV3 Optimizer</span>
         </div>
         <p class="brand-desc">Seu app de otimização.</p>
-        <p class="brand-sub">Impulsione seu PC e o FPS nos jogos com um clique. Software feito pra acelerar o FPS, sem travamentos, só desempenho máximo.</p>
       </div>
 
       <div class="footer-col">
-        <h4>GV3 Optimizer</h4>
+        <h4>Navegação</h4>
         <a href="#recursos">Recursos</a>
-        <a href="#sobre">Como Usar</a>
+        <a href="#sobre">Sobre</a>
         <a href="#equipe">Equipe</a>
         <a href="#precos">Preços</a>
         <a href="#faq">FAQ</a>
-        <a href="#download">Download</a>
       </div>
 
       <div class="footer-col">
         <h4>Termos</h4>
-        <a href="#">Política de Privacidade</a>
+        <a href="#">Privacidade</a>
         <a href="#">Termos de Uso</a>
       </div>
 
       <div class="footer-col">
         <h4>Redes Sociais</h4>
-        <a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a>
-        <a href="#"><i class="fa-brands fa-tiktok"></i> TikTok</a>
         <a href="https://discord.gg/HPVGYybK5A" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
       </div>
     </div>
