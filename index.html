@@ -463,7 +463,7 @@
     }
 
     /* ==========================================
-       MODAL DE CHECKOUT (SISTEMA DE COMPRAS)
+       7. MODAL DE CHECKOUT (SISTEMA DE COMPRAS)
        ========================================== */
     .modal-overlay {
       position: fixed;
@@ -616,7 +616,7 @@
     }
 
     /* ==========================================
-       7. ABA EQUIPE & SOBRE
+       8. ABA EQUIPE & SOBRE
        ========================================== */
     .team-grid {
       display: grid;
@@ -653,7 +653,7 @@
     }
 
     /* ==========================================
-       8. ABA FAQ
+       9. ABA FAQ
        ========================================== */
     .faq-container { max-width: 800px; margin: 0 auto; }
 
@@ -690,7 +690,7 @@
     }
 
     /* ==========================================
-       9. FOOTER
+       10. FOOTER
        ========================================== */
     footer {
       background: rgba(5, 7, 10, 0.95);
@@ -778,9 +778,7 @@
 
         <div class="hero-right">
           <div class="layers-container">
-          
             <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Layer 2" class="layer layer-2">
-    
           </div>
         </div>
       </div>
@@ -1028,6 +1026,7 @@
   <script>
     let currentDiscount = 0;
     let selectedPrice = 0;
+    let selectedPlan = '';
 
     function switchTab(tabId) {
       const contents = document.querySelectorAll('.tab-content');
@@ -1046,96 +1045,91 @@
       }
     }
 
-    // Sistema de Cupons com Múltiplos Cupons
-function applyCoupon() {
-  const coupon = document.getElementById('couponInput').value.trim().toUpperCase();
-  const msg = document.getElementById('couponMsg');
+    // Sistema de Cupons
+    function applyCoupon() {
+      const coupon = document.getElementById('couponInput').value.trim().toUpperCase();
+      const msg = document.getElementById('couponMsg');
 
-  // Objeto onde você define o nome do cupom e a porcentagem de desconto
-  // Exemplo: 0.10 = 10%, 0.20 = 20%, 0.50 = 50%
-  const coupons = {
-    'GV310': 0.10,    // 10% de desconto
-    'V3nom20': 0.20,    // 20% de desconto
-    'Hwnt3r50': 0.50,  // 50% de desconto
-    'Tesy15': 0.15    // 15% de desconto
-  };
+      // Lista de cupons disponíveis e a porcentagem de desconto
+      const coupons = {
+        'GV310': 0.10,    // 10% de desconto
+        'VIP20': 0.20,    // 20% de desconto
+        'PROMO50': 0.50,  // 50% de desconto
+        'TETEUS': 0.15    // 15% de desconto
+      };
 
-  if (coupons.hasOwnProperty(coupon)) {
-    currentDiscount = coupons[coupon]; // Aplica a porcentagem do cupom
-    const percentage = currentDiscount * 100;
-    
-    msg.style.color = '#10b981'; // Cor verde
-    msg.innerText = `Cupom de ${percentage}% de desconto aplicado com sucesso!`;
-  } else if (coupon !== '') {
-    currentDiscount = 0;
-    msg.style.color = '#ef4444'; // Cor vermelha
-    msg.innerText = 'Cupom inválido ou expirado.';
-  } else {
-    currentDiscount = 0;
-    msg.style.color = '#ef4444';
-    msg.innerText = 'Por favor, digite um cupom.';
-  }
-
-  msg.style.display = 'block';
-}
-
-    
-
-    // Modal de Checkout
-    function openCheckout(planName, price) {
-      selectedPrice = price;
-      const finalPrice = selectedPrice * (1 - currentDiscount);
-
-      document.getElementById('modalPlanName').innerText = planName;
-      document.getElementById('modalPlanPrice').innerText = price === 0 ? 'R$ 0,00' : 'R$ ' + finalPrice.toFixed(2).replace('.', ',');
-      
-      if (currentDiscount > 0 && price > 0) {
-        document.getElementById('modalDiscountTag').innerText = `Desconto de ${(currentDiscount * 100)}% aplicado!`;
-        document.getElementById('modalDiscountTag').style.color = '#10b981';
+      if (coupons.hasOwnProperty(coupon)) {
+        currentDiscount = coupons[coupon];
+        const percentage = currentDiscount * 100;
+        
+        msg.style.color = '#10b981';
+        msg.innerText = `Cupom de ${percentage}% de desconto aplicado com sucesso!`;
+      } else if (coupon !== '') {
+        currentDiscount = 0;
+        msg.style.color = '#ef4444';
+        msg.innerText = 'Cupom inválido ou expirado.';
       } else {
-        document.getElementById('modalDiscountTag').innerText = 'Sem desconto aplicado';
-        document.getElementById('modalDiscountTag').style.color = 'var(--text-muted)';
+        currentDiscount = 0;
+        msg.style.color = '#ef4444';
+        msg.innerText = 'Por favor, digite um cupom.';
       }
 
-      document.getElementById('checkoutModal').classList.add('active');
+      msg.style.display = 'block';
+    }
+
+    // Sistema de Checkout
+    function openCheckout(planName, price) {
+      selectedPlan = planName;
+      selectedPrice = price;
+
+      const modal = document.getElementById('checkoutModal');
+      const planNameEl = document.getElementById('modalPlanName');
+      const planPriceEl = document.getElementById('modalPlanPrice');
+      const discountTagEl = document.getElementById('modalDiscountTag');
+
+      const finalPrice = selectedPrice * (1 - currentDiscount);
+
+      planNameEl.innerText = selectedPlan;
+      planPriceEl.innerText = `R$ ${finalPrice.toFixed(2).replace('.', ',')}`;
+
+      if (currentDiscount > 0) {
+        discountTagEl.innerText = `Desconto de ${(currentDiscount * 100)}% aplicado`;
+        discountTagEl.style.color = '#10b981';
+      } else {
+        discountTagEl.innerText = 'Sem desconto aplicado';
+        discountTagEl.style.color = 'var(--text-muted)';
+      }
+
+      modal.classList.add('active');
     }
 
     function closeCheckout() {
       document.getElementById('checkoutModal').classList.remove('active');
     }
 
-    function selectPayment(method) {
-      const pixBtn = document.getElementById('btnPix');
-      const cardBtn = document.getElementById('btnCard');
-      const pixForm = document.getElementById('pixPayment');
-      const cardForm = document.getElementById('cardPayment');
+    function selectPayment(type) {
+      const btnPix = document.getElementById('btnPix');
+      const btnCard = document.getElementById('btnCard');
+      const pixPayment = document.getElementById('pixPayment');
+      const cardPayment = document.getElementById('cardPayment');
 
-      if (method === 'pix') {
-        pixBtn.classList.add('active');
-        cardBtn.classList.remove('active');
-        pixForm.style.display = 'block';
-        cardForm.style.display = 'none';
+      if (type === 'pix') {
+        btnPix.classList.add('active');
+        btnCard.classList.remove('active');
+        pixPayment.style.display = 'block';
+        cardPayment.style.display = 'none';
       } else {
-        cardBtn.classList.add('active');
-        pixBtn.classList.remove('active');
-        cardForm.style.display = 'flex';
-        pixForm.style.display = 'none';
+        btnCard.classList.add('active');
+        btnPix.classList.remove('active');
+        pixPayment.style.display = 'none';
+        cardPayment.style.display = 'flex';
       }
     }
 
     function processPayment() {
-      const btn = document.getElementById('btnSubmitPay');
-      btn.innerText = 'Processando...';
-      btn.disabled = true;
-
-      setTimeout(() => {
-        alert('🎉 Pedido realizado com sucesso! As instruções de liberação foram enviadas para o seu e-mail e disponibilizadas no Discord.');
-        btn.innerText = 'Confirmar Pagamento';
-        btn.disabled = false;
-        closeCheckout();
-      }, 2000);
+      alert('Obrigado! Seu pedido foi processado com sucesso.');
+      closeCheckout();
     }
   </script>
-
 </body>
 </html>
