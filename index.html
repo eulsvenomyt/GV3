@@ -1046,34 +1046,40 @@
       }
     }
 
-    // Sistema de Cupom
-    function applyCoupon() {
-      const coupon = document.getElementById('couponInput').value.trim().toUpperCase();
-      const msg = document.getElementById('couponMsg');
+    // Sistema de Cupons com Múltiplos Cupons
+function applyCoupon() {
+  const coupon = document.getElementById('couponInput').value.trim().toUpperCase();
+  const msg = document.getElementById('couponMsg');
 
-      if (coupon === 'GV310') {
-        currentDiscount = 0.10; // 10% de desconto
-        msg.style.color = '#10b981';
-        msg.innerText = 'Cupom de 10% de desconto aplicado com sucesso!';
-      } else if (coupon !== '') {
-        currentDiscount = 0;
-        msg.style.color = '#ef4444';
-        msg.innerText = 'Cupom inválido ou expirado.';
-      }
-      msg.style.display = 'block';
-    }
+  // Objeto onde você define o nome do cupom e a porcentagem de desconto
+  // Exemplo: 0.10 = 10%, 0.20 = 20%, 0.50 = 50%
+  const coupons = {
+    'GV310': 0.10,    // 10% de desconto
+    'V3nom20': 0.20,    // 20% de desconto
+    'Hwnt3r50': 0.50,  // 50% de desconto
+    'Tesy15': 0.15    // 15% de desconto
+  };
 
-     if (coupon === 'Hwnt3r10') {
-        currentDiscount = 0.10; // 10% de desconto
-        msg.style.color = '#10b981';
-        msg.innerText = 'Cupom de 10% de desconto aplicado com sucesso!';
-      } else if (coupon !== '') {
-        currentDiscount = 0;
-        msg.style.color = '#ef4444';
-        msg.innerText = 'Cupom inválido ou expirado.';
-      }
-      msg.style.display = 'block';
-    }
+  if (coupons.hasOwnProperty(coupon)) {
+    currentDiscount = coupons[coupon]; // Aplica a porcentagem do cupom
+    const percentage = currentDiscount * 100;
+    
+    msg.style.color = '#10b981'; // Cor verde
+    msg.innerText = `Cupom de ${percentage}% de desconto aplicado com sucesso!`;
+  } else if (coupon !== '') {
+    currentDiscount = 0;
+    msg.style.color = '#ef4444'; // Cor vermelha
+    msg.innerText = 'Cupom inválido ou expirado.';
+  } else {
+    currentDiscount = 0;
+    msg.style.color = '#ef4444';
+    msg.innerText = 'Por favor, digite um cupom.';
+  }
+
+  msg.style.display = 'block';
+}
+
+    
 
     // Modal de Checkout
     function openCheckout(planName, price) {
