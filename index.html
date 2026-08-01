@@ -8,52 +8,8 @@
   <link rel="icon" href="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <style type="text/css">
 </head>
-@font-face { 
-	font-family: Androgyne; 
-	src: url('Androgyne_TB.otf'); 
-} 
-.container{
-  width: 700px;
-  margin: 0 auto;
-}
-.logo{
-  text-align: center;
-}
-.logo a{
-	color:#fff;
-}
-  <body>
-background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), url('img/s2.png'), url('img/s3.png');
-                height: 100%;left: 0;position: absolute;top: 0;width: 100%;
-                -webkit-animation: snow 10s linear infinite;
-                -moz-animation: snow 10s linear infinite;
-               -ms-animation: snow 10s linear infinite;
-                animation: snow 10s linear infinite;
-}
-@keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-}
-@-moz-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
-}
-@-webkit-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-}
-@-ms-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-}
-</style>
-</head>
+<body>
 
   <header class="navbar">
     <div class="logo">
@@ -63,6 +19,7 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
     <nav class="nav-links">
       <a href="#recursos">Recursos</a>
       <a href="#sobre">Sobre</a>
+      <a href="#equipe">Equipe</a>
       <a href="#precos">Preços</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -106,13 +63,13 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
       </div>
     </div>
 
-<div class="hero-right">
-  <div class="layers-container">
-    <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg1.png" alt="" class="layer layer-1">
-    <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="" class="layer layer-2">
-    <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg3.png" alt="" class="layer layer-3">
-  </div>
-</div>
+    <div class="hero-right">
+      <div class="layers-container">
+        <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg1.png" alt="Camada 1" class="layer layer-1">
+        <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Camada 2" class="layer layer-2">
+        <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg3.png" alt="Camada 3" class="layer layer-3">
+      </div>
+    </div>
   </section>
 
   <section class="results-section">
@@ -240,6 +197,44 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
     </div>
   </section>
 
+  <section id="equipe" class="team-section">
+    <p class="section-tag">NOSSA EQUIPE</p>
+    <h2>Conheça os Desenvolvedores</h2>
+    <p class="subtitle">Quem está por trás do desenvolvimento e otimização do GV3 Optimizer.</p>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar-box">
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" alt="Desenvolvedor 1" class="team-avatar">
+        </div>
+        <div class="team-info">
+          <h3>EulsVenom</h3>
+          <span class="team-role"><i class="fa-solid fa-code"></i> Fundador & Dev Principal</span>
+          <p>Responsável pelo desenvolvimento das otimizações do Windows e arquitetura do app.</p>
+          <div class="team-socials">
+            <a href="https://discord.gg/HPVGYybK5A" target="_blank"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar-box">
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Desenvolvedor 2" class="team-avatar">
+        </div>
+        <div class="team-info">
+          <h3>Membro 02</h3>
+          <span class="team-role"><i class="fa-solid fa-gears"></i> Otimizador & Tester</span>
+          <p>Especialista em testes de latência, estabilidade de FPS e melhorias no registro.</p>
+          <div class="team-socials">
+            <a href="https://discord.gg/HPVGYybK5A" target="_blank"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="faq" class="faq-section">
     <p class="section-tag">DÚVIDAS FREQUENTES</p>
     <h2>SPOILERS & PERGUNTAS FREQUENTES</h2>
@@ -271,7 +266,7 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
           </div>
         </div>
       </details>
-
+    </div>
   </section>
 
   <footer>
@@ -289,9 +284,9 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
         <h4>GV3 Optimizer</h4>
         <a href="#recursos">Recursos</a>
         <a href="#sobre">Como Usar</a>
+        <a href="#equipe">Equipe</a>
         <a href="#precos">Preços</a>
         <a href="#faq">FAQ</a>
-        <a href="#download">Download</a>
       </div>
 
       <div class="footer-col">
@@ -312,6 +307,6 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
       <p>© 2026 GV3 Optimizer. Todos os direitos reservados.</p>
     </div>
   </footer>
-    
+
 </body>
 </html>
