@@ -8,52 +8,21 @@
   <link rel="icon" href="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <style type="text/css">
+  
+  <style>
+    @font-face { 
+      font-family: 'Androgyne'; 
+      src: url('Androgyne_TB.otf'); 
+    } 
+
+    @keyframes snow {
+      0% { background-position: 0px 0px, 0px 0px, 0px 0px; }
+      50% { background-position: 500px 500px, 100px 200px, -100px 150px; }
+      100% { background-position: 500px 1000px, 200px 400px, -100px 300px; }
+    }
+  </style>
 </head>
-@font-face { 
-	font-family: Androgyne; 
-	src: url('Androgyne_TB.otf'); 
-} 
-.container{
-  width: 700px;
-  margin: 0 auto;
-}
-.logo{
-  text-align: center;
-}
-.logo a{
-	color:#fff;
-}
-  <body>
-background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), url('img/s2.png'), url('img/s3.png');
-                height: 100%;left: 0;position: absolute;top: 0;width: 100%;
-                -webkit-animation: snow 10s linear infinite;
-                -moz-animation: snow 10s linear infinite;
-               -ms-animation: snow 10s linear infinite;
-                animation: snow 10s linear infinite;
-}
-@keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-}
-@-moz-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
-}
-@-webkit-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-}
-@-ms-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-}
-</style>
-</head>
+<body>
 
   <header class="navbar">
     <div class="logo">
@@ -63,13 +32,13 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
     <nav class="nav-links">
       <a href="#recursos">Recursos</a>
       <a href="#sobre">Sobre</a>
-	  <a href="#equipe">Equipe</a>
+      <a href="#equipe">Equipe</a>
       <a href="#precos">Preços</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-right">
       <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="nav-discord"><i class="fa-brands fa-discord"></i> Discord</a>
-      <a href="#comprar" class="btn-purple">Comprar</a>
+      <a href="#precos" class="btn-purple">Comprar</a>
     </div>
   </header>
 
@@ -79,16 +48,16 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
         <i class="fa-solid fa-bolt"></i> ACABE COM O LAG E OS TRAVAMENTOS AGORA
       </div>
       <h1>Otimize seu PC com <span>1 clique.</span></h1>
-      <p class="hero-desc">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
+      <p class="hero-desc">Aumente seu FPS e reduza o input lag com otimizaciones inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
       
       <div class="hero-cta">
-        <a href="#comprar" class="btn-hero-purple">Começar grátis</a>
+        <a href="#precos" class="btn-hero-purple">Começar grátis</a>
         <a href="#sobre" class="btn-hero-outline">Ver detalhes</a>
       </div>
 
       <div class="download-stats">
         <p><i class="fa-solid fa-download"></i> 0 Downloads!</p>
-        <a href="#resgatar">já tem conta? baixar o app</a>
+        <a href="#resgatar">Já tem conta? Baixar o app</a>
       </div>
 
       <div class="metrics-grid">
@@ -107,13 +76,13 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
       </div>
     </div>
 
-<div class="hero-right">
-  <div class="layers-container">
-    <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg1.png" alt="" class="layer layer-1">
-    <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="" class="layer layer-2">
-    <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg3.png" alt="" class="layer layer-3">
-  </div>
-</div>
+    <div class="hero-right">
+      <div class="layers-container">
+        <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg1.png" alt="Layer 1" class="layer layer-1">
+        <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Layer 2" class="layer layer-2">
+        <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg3.png" alt="Layer 3" class="layer layer-3">
+      </div>
+    </div>
   </section>
 
   <section class="results-section">
@@ -216,7 +185,7 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
       <p>Um setup mal configurado desperdiça boa parte do desempenho do seu hardware. O objetivo do GV3 Optimizer é liberar todo esse potencial de forma segura e reversível, sem você gastar horas mexendo no Windows na mão.</p>
       <p>E no app só entra otimização que faz diferença de verdade. Nada de placebo.</p>
       <div class="banner-buttons">
-        <a href="#comprar" class="btn-hero-purple">Quero otimizar meu PC</a>
+        <a href="#precos" class="btn-hero-purple">Quero otimizar meu PC</a>
         <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-hero-outline"><i class="fa-solid fa-headset"></i> Tirar dúvidas</a>
       </div>
     </div>
@@ -238,6 +207,163 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
         <p>Atualmente a GV3 conta com otimizações avançadas no Windows, comandos netsh, scripts PowerShell, personalizações de registro e planos de energia exclusivos de alta performance.</p>
         <p>Mas chega de falar sobre nós, este projeto é sobre você. Nosso objetivo desde o primeiro dia tem sido melhorar a experiência de qualquer jogador e aumentar o FPS daqueles que possuem um computador mais simples. Juntos somos mais fortes.</p>
       </div>
+    </div>
+  </section>
+
+  <section id="equipe" class="team-section">
+    <p class="section-tag">NOSSA EQUIPE</p>
+    <h2>Conheça os Desenvolvedores</h2>
+    <p class="subtitle">Quem está por trás do desenvolvimento e otimização do GV3 Optimizer.</p>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar-box">
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" alt="Dev EulsVenom" class="team-avatar">
+        </div>
+        <div class="team-info">
+          <h3>EulsVenom</h3>
+          <span class="team-role"><i class="fa-solid fa-code"></i> Fundador & Dev Principal</span>
+          <p>Responsável pelo desenvolvimento das otimizações do Windows e arquitetura do app.</p>
+          <div class="team-socials">
+            <a href="https://discord.gg/HPVGYybK5A" target="_blank"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar-box">
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Dev Membro 02" class="team-avatar">
+        </div>
+        <div class="team-info">
+          <h3>Membro 02</h3>
+          <span class="team-role"><i class="fa-solid fa-gears"></i> Otimizador & Tester</span>
+          <p>Especialista em testes de latência, estabilidade de FPS e melhorias no registro.</p>
+          <div class="team-socials">
+            <a href="https://discord.gg/HPVGYybK5A" target="_blank"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="precos" class="pricing-section">
+    <div class="pricing-container">
+      
+      <div class="pricing-header">
+        <h2>Planos e Preços</h2>
+        <p>Comece grátis: crie sua conta e use o app sem pagar nada. Assine o Premium quando quiser destravar tudo.</p>
+      </div>
+
+      <div class="card-free">
+        <div class="card-free-content">
+          <div class="card-free-header">
+            <h3>Grátis</h3>
+            <span class="badge-free">R$0 PARA SEMPRE</span>
+          </div>
+          <p>
+            Crie sua conta grátis, sem cartão de crédito — mas você entra só no básico: painel de desempenho, 
+            monitoramento em tempo real e limpeza manual. PC Boost, Game Mode, Auto Limpeza e Tweaks ficam 
+            bloqueados no grátis — o que acelera o PC de verdade é exclusivo do Premium.
+          </p>
+        </div>
+        <a href="#" class="btn-secondary">Criar conta grátis</a>
+      </div>
+
+      <div class="pricing-grid">
+        
+        <div class="pricing-card">
+          <div class="card-body">
+            <h3 class="plan-title">Mensal</h3>
+            <div class="plan-subtitle">
+              <span><i class="fa-solid fa-user"></i> Licença pessoal</span>
+              <span><i class="fa-brands fa-windows"></i> Windows 10 e 11</span>
+            </div>
+            <div class="price">
+              R$ 24,99 <span>/mês</span>
+            </div>
+            <a href="#" class="btn-outline">Assinar agora</a>
+            
+            <div class="features-list">
+              <span class="features-title">RECURSOS INCLUSOS</span>
+              <ul>
+                <li>✓ Acesso completo ao app</li>
+                <li>✓ Todas as otimizações e tweaks</li>
+                <li>✓ Game Mode + PC Boost</li>
+                <li>✓ Atualizações incluídas</li>
+                <li>✓ Suporte no site e no Discord</li>
+                <li>✓ Cargo exclusivo + canais VIP no Discord</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="pricing-card highlighted">
+          <div class="badge-top">⏱️ Melhor oferta</div>
+          <div class="card-body">
+            <h3 class="plan-title">Anual</h3>
+            <div class="plan-subtitle">
+              <span><i class="fa-solid fa-user"></i> Licença pessoal</span>
+              <span><i class="fa-brands fa-windows"></i> Windows 10 e 11</span>
+            </div>
+            <div class="price">
+              R$ 249,99 <span>/ano</span>
+            </div>
+            <a href="#" class="btn-primary">Garantir desconto</a>
+            
+            <div class="features-list">
+              <span class="features-title">RECURSOS INCLUSOS</span>
+              <ul>
+                <li>✓ Tudo do Mensal</li>
+                <li>✓ Economia de R$ 49,89 vs mensal (2 meses grátis)</li>
+                <li>✓ Acesso antecipado a novas features</li>
+                <li>✓ Badge exclusivo + canais VIP no Discord</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="pricing-card">
+          <div class="badge-top-right">MELHOR CUSTO-BENEFÍCIO</div>
+          <div class="card-body">
+            <h3 class="plan-title">Vitalício</h3>
+            <div class="plan-subtitle">
+              <span><i class="fa-solid fa-user"></i> Licença pessoal</span>
+              <span><i class="fa-brands fa-windows"></i> Windows 10 e 11</span>
+            </div>
+            <div class="price">
+              R$ 597,99
+            </div>
+            <a href="#" class="btn-outline">Garantir vitalício</a>
+            
+            <div class="features-list">
+              <span class="features-title">RECURSOS INCLUSOS</span>
+              <ul>
+                <li>✓ Tudo do Anual</li>
+                <li>✓ Pagamento único, nunca mais paga</li>
+                <li>✓ Acesso vitalício a todas as atualizações</li>
+                <li>✓ Suporte prioritário</li>
+                <li>✓ Badge VIP + canais VIP permanentes no Discord</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="coupon-section">
+        <h3>Tem cupom de desconto?</h3>
+        <div class="coupon-input-group">
+          <div class="input-wrapper">
+            <span class="tag-icon"><i class="fa-solid fa-tag"></i></span>
+            <input type="text" placeholder="Insira o código de desconto" />
+          </div>
+          <button type="button" class="btn-apply">Aplicar</button>
+        </div>
+        <p class="coupon-note">O desconto é aplicado automaticamente no checkout.</p>
+      </div>
+
     </div>
   </section>
 
@@ -272,7 +398,7 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
           </div>
         </div>
       </details>
-
+    </div>
   </section>
 
   <footer>
@@ -290,8 +416,8 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
         <h4>GV3 Optimizer</h4>
         <a href="#recursos">Recursos</a>
         <a href="#sobre">Como Usar</a>
+        <a href="#equipe">Equipe</a>
         <a href="#precos">Preços</a>
-		  <a href="#equipe">Equipe</a>
         <a href="#faq">FAQ</a>
         <a href="#download">Download</a>
       </div>
@@ -314,6 +440,6 @@ background: #212121;font-family: Androgyne;background-image: url('img/s1.png'), 
       <p>© 2026 GV3 Optimizer. Todos os direitos reservados.</p>
     </div>
   </footer>
-    
+
 </body>
 </html>
