@@ -1063,6 +1063,18 @@
       msg.style.display = 'block';
     }
 
+     if (coupon === 'Hwnt3r10') {
+        currentDiscount = 0.10; // 10% de desconto
+        msg.style.color = '#10b981';
+        msg.innerText = 'Cupom de 10% de desconto aplicado com sucesso!';
+      } else if (coupon !== '') {
+        currentDiscount = 0;
+        msg.style.color = '#ef4444';
+        msg.innerText = 'Cupom inválido ou expirado.';
+      }
+      msg.style.display = 'block';
+    }
+
     // Modal de Checkout
     function openCheckout(planName, price) {
       selectedPrice = price;
