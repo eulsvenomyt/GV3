@@ -588,32 +588,20 @@
     .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
     .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
 
-    /* ESTILOS PARA LISTA E EDIÇÃO DE MEMBROS NO ADMIN */
-    .admin-team-item {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--card-border);
-      padding: 1rem;
-      border-radius: 12px;
-      margin-bottom: 1rem;
+    /* TABELA DE USUÁRIOS DO ADMIN */
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
     }
-
-    .admin-team-row {
-      display: flex;
-      gap: 10px;
+    .user-table th, .user-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
     }
-
-    .admin-list-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--card-border);
-      margin-bottom: 8px;
+    .user-table th {
+      color: var(--text-muted);
+      font-size: 0.85rem;
     }
 
     /* FOOTER */
@@ -822,8 +810,7 @@
         <p>Os desenvolvedores e especialistas por trás do GV3 Optimizer.</p>
       </div>
 
-      <div class="team-grid" id="teamContainer">
-      </div>
+      <div class="team-grid" id="teamContainer"></div>
     </section>
 
     <section id="tab-faq" class="tab-content">
@@ -894,14 +881,20 @@
         </div>
 
         <div class="admin-section">
-          <h3><i class="fa-solid fa-user-shield"></i> Gerenciar Administradores</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Adicione o Gmail de um usuário para dar permissões de admin ou remova acessos existentes.</p>
-          <div style="display: flex; gap: 1rem; margin-bottom: 1.2rem;">
-            <input type="email" id="newAdminEmail" class="input-field" placeholder="novoadmin@gmail.com">
-            <button class="btn-hero-primary" style="white-space: nowrap;" onclick="addAdminEmail()">Dar Admin</button>
-          </div>
-          <div id="adminListContainer">
-            </div>
+          <h3><i class="fa-solid fa-users-gear"></i> Gerenciar Usuários Cadastrados</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Lista de usuários registrados no sistema. Você pode remover contas a qualquer momento.</p>
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="usersListBody">
+              </tbody>
+          </table>
         </div>
 
         <div class="admin-section">
@@ -940,9 +933,7 @@
         </div>
 
         <div class="admin-section">
-          <h3><i class="fa-solid fa-users-gear"></i> Gerenciar Perfil das Equipes</h3>
-          
-          <h4 style="color: #fff; margin-bottom: 0.8rem; font-size: 0.95rem;">Adicionar Novo Integrante</h4>
+          <h3><i class="fa-solid fa-user-plus"></i> Adicionar Integrante na Equipe</h3>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div class="form-group">
               <label>Nome</label>
@@ -961,11 +952,7 @@
             <label>Descrição</label>
             <input type="text" id="newMemberDesc" class="input-field" placeholder="Pequena descrição...">
           </div>
-          <button class="btn-hero-primary" style="margin-bottom: 2rem;" onclick="addTeamMember()">Adicionar à Equipe</button>
-
-          <h4 style="color: #fff; margin-bottom: 0.8rem; font-size: 0.95rem;">Integrantes Atuais (Editar ou Remover)</h4>
-          <div id="adminTeamEditContainer">
-            </div>
+          <button class="btn-hero-primary" onclick="addTeamMember()">Adicionar à Equipe</button>
         </div>
       </div>
 
@@ -1013,41 +1000,44 @@
   </footer>
 
   <script>
-    // ESTADO E DADOS INICIAIS
+    // CREDENCIAIS DE ADMIN FIXAS
+    const ADMIN_EMAIL = "admin@gmail.com";
+    const ADMIN_PASS = "admin123";
+
+    // ESTADO E DADOS PERSISTIDOS
     let isRegisterMode = false;
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
+    let registeredUsers = JSON.parse(localStorage.getItem('gv3_users')) || [];
 
-    // Lista de Admins (padrão com o email admin)
-    let adminEmails = JSON.parse(localStorage.getItem('gv3_admins')) || ['admin@gv3.com'];
-
-    // Lista de Membros da Equipe
     let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
       { name: "V3nom", role: "Fundador & Dev Principal", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/V3nom.png", desc: "Especialista em arquitetura de softwares de otimização e tweaks de registro." },
-      { name: "G0mult", role: "Otimizador & QA Tester", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/G0mult.png", desc: "Responsável pelo controle de qualidade e testes intensivos de estabilidade." }
+      { name: "G0mult", role: "Otimizador & QA Tester", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gomult.png", desc: "Responsável por testes de desempenho e refinamento de estabilidade." }
     ];
 
-    // NAVEGAÇÃO
+    // INICIALIZAÇÃO DA PÁGINA
+    window.onload = function() {
+      renderTeam();
+      updateAuthUI();
+    };
+
+    // TROCA DE ABAS
     function switchTab(tabId, event) {
       if (event) event.preventDefault();
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-      const targetSection = document.getElementById('tab-' + tabId);
-      if (targetSection) targetSection.classList.add('active');
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) targetTab.classList.add('active');
 
       const btns = document.querySelectorAll('.tab-btn');
       btns.forEach(btn => {
-        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${tabId}'`)) {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
           btn.classList.add('active');
         }
       });
-
-      if (tabId === 'login') {
-        updateAccountView();
-      }
     }
 
-    // ALTERNAR MODO LOGIN / REGISTRO
+    // ALTERNAR MODO LOGIN / CADASTRO
     function toggleAuthMode(e) {
       e.preventDefault();
       isRegisterMode = !isRegisterMode;
@@ -1057,17 +1047,14 @@
       const submitBtn = document.getElementById('btnAuthSubmit');
       const toggleText = document.getElementById('toggleAuthText');
       const toggleLink = document.getElementById('toggleAuthLink');
-      const authError = document.getElementById('authError');
-
-      authError.style.display = 'none';
 
       if (isRegisterMode) {
-        title.innerText = "Criar Conta";
-        subtitle.innerText = "Crie sua conta para gerenciar seu acesso";
+        title.innerText = "Criar Nova Conta";
+        subtitle.innerText = "Cadastre-se para acessar os recursos da plataforma";
         nameGroup.style.display = "block";
         submitBtn.innerText = "Cadastrar";
-        toggleText.innerText = "Já tem uma conta?";
-        toggleLink.innerText = "Entrar";
+        toggleText.innerText = "Já possui uma conta?";
+        toggleLink.innerText = "Fazer Login";
       } else {
         title.innerText = "Entrar na Conta";
         subtitle.innerText = "Acesse sua conta ou painel administrativo";
@@ -1078,295 +1065,237 @@
       }
     }
 
-    // AUTENTICAÇÃO (LOGIN / REGISTRO)
+    // PROCESSAR LOGIN / CADASTRO
     function handleAuth(e) {
       e.preventDefault();
-      const email = document.getElementById('authEmail').value.trim().toLowerCase();
-      const pass = document.getElementById('authPass').value;
-      const name = document.getElementById('authName').value.trim();
-      const authError = document.getElementById('authError');
+      const email = document.getElementById('authEmail').value.trim();
+      const pass = document.getElementById('authPass').value.trim();
+      const errorEl = document.getElementById('authError');
+      errorEl.style.display = 'none';
 
-      authError.style.display = 'none';
+      // 1. LOGIN DE ADMINISTRADOR
+      if (!isRegisterMode && email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+        currentUser = { name: "Administrador", email: ADMIN_EMAIL, role: "admin" };
+        saveAndLogin();
+        return;
+      }
 
-      let users = JSON.parse(localStorage.getItem('gv3_users')) || [];
-
-      // Verifica se é Admin (E-mail na lista de admins ou senha master)
-      const isAdminEmail = adminEmails.map(e => e.toLowerCase()).includes(email);
-
+      // 2. MODO DE CADASTRO DE USUÁRIO
       if (isRegisterMode) {
+        const name = document.getElementById('authName').value.trim();
         if (!name) {
           showAuthError("Por favor, preencha o seu nome.");
           return;
         }
-        if (users.find(u => u.email === email)) {
+
+        if (registeredUsers.some(u => u.email === email)) {
           showAuthError("Este e-mail já está cadastrado.");
           return;
         }
-        const newUser = { name, email, pass, isVip: false, isAdmin: isAdminEmail };
-        users.push(newUser);
-        localStorage.setItem('gv3_users', JSON.stringify(users));
-        currentUser = newUser;
-        localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-        updateAccountView();
-      } else {
-        // Modo Login
-        if (email === 'admin@gv3.com' && pass === 'admin123') {
-          currentUser = { name: "Administrador", email: email, isAdmin: true, isVip: true };
-          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-          updateAccountView();
-          return;
-        }
 
-        const existingUser = users.find(u => u.email === email && u.pass === pass);
-        if (existingUser) {
-          // Atualiza permissão de admin dinamicamente caso o email tenha sido adicionado à lista
-          existingUser.isAdmin = isAdminEmail;
-          currentUser = existingUser;
-          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-          updateAccountView();
-        } else {
-          showAuthError("E-mail ou senha incorretos.");
-        }
+        const newUser = { name, email, pass, isVip: false, role: "user" };
+        registeredUsers.push(newUser);
+        localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
+
+        currentUser = newUser;
+        saveAndLogin();
+        return;
       }
+
+      // 3. LOGIN DE USUÁRIO COMUM
+      const foundUser = registeredUsers.find(u => u.email === email && u.pass === pass);
+      if (foundUser) {
+        currentUser = foundUser;
+        saveAndLogin();
+      } else {
+        showAuthError("E-mail ou senha incorretos.");
+      }
+    }
+
+    function saveAndLogin() {
+      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+      updateAuthUI();
+      document.getElementById('authEmail').value = '';
+      document.getElementById('authPass').value = '';
+      if (document.getElementById('authName')) document.getElementById('authName').value = '';
     }
 
     function showAuthError(msg) {
-      const authError = document.getElementById('authError');
-      authError.innerText = msg;
-      authError.style.display = 'block';
+      const errorEl = document.getElementById('authError');
+      errorEl.innerText = msg;
+      errorEl.style.display = 'block';
     }
 
+    // LOGOUT
     function logout() {
       currentUser = null;
       localStorage.removeItem('gv3_current_user');
-      updateAccountView();
+      updateAuthUI();
     }
 
-    function updateAccountView() {
-      const loginForm = document.getElementById('loginFormBlock');
-      const adminPanel = document.getElementById('adminPanelBlock');
-      const userPanel = document.getElementById('userPanelBlock');
-      const navAccountText = document.getElementById('navAccountText');
+    // ATUALIZAR INTERFACE CONFORME SESSÃO
+    function updateAuthUI() {
+      const loginBlock = document.getElementById('loginFormBlock');
+      const adminBlock = document.getElementById('adminPanelBlock');
+      const userBlock = document.getElementById('userPanelBlock');
+      const navText = document.getElementById('navAccountText');
+
+      loginBlock.style.display = 'none';
+      adminBlock.style.display = 'none';
+      userBlock.style.display = 'none';
 
       if (!currentUser) {
-        loginForm.style.display = 'block';
-        adminPanel.style.display = 'none';
-        userPanel.style.display = 'none';
-        navAccountText.innerText = 'Login';
+        loginBlock.style.display = 'block';
+        navText.innerText = 'Login';
+      } else if (currentUser.role === 'admin') {
+        adminBlock.style.display = 'block';
+        navText.innerText = 'Painel Admin';
+        renderAdminUsersList();
       } else {
-        loginForm.style.display = 'none';
-        navAccountText.innerText = currentUser.name.split(' ')[0];
+        userBlock.style.display = 'block';
+        navText.innerText = currentUser.name.split(' ')[0];
 
-        // Se o e-mail atual estiver na lista de admins
-        const isUserAdmin = currentUser.isAdmin || adminEmails.map(e => e.toLowerCase()).includes(currentUser.email.toLowerCase());
+        document.getElementById('uDisplayName').innerText = currentUser.name;
+        document.getElementById('uDisplayEmail').innerText = currentUser.email;
 
-        if (isUserAdmin) {
-          adminPanel.style.display = 'block';
-          userPanel.style.display = 'none';
-          renderAdminList();
-          renderAdminTeamList();
+        const statusBadge = document.getElementById('uDisplayStatus');
+        if (currentUser.isVip) {
+          statusBadge.innerText = 'VIP / PREMIUM';
+          statusBadge.className = 'badge-user badge-vip-status';
         } else {
-          adminPanel.style.display = 'none';
-          userPanel.style.display = 'block';
-
-          document.getElementById('uDisplayName').innerText = currentUser.name;
-          document.getElementById('uDisplayEmail').innerText = currentUser.email;
-          const statusElem = document.getElementById('uDisplayStatus');
-          if (currentUser.isVip) {
-            statusElem.innerText = "VIP / PREMIUM";
-            statusElem.className = "badge-user badge-vip-status";
-          } else {
-            statusElem.innerText = "GRÁTIS";
-            statusElem.className = "badge-user badge-free-status";
-          }
+          statusBadge.innerText = 'GRÁTIS';
+          statusBadge.className = 'badge-user badge-free-status';
         }
       }
     }
 
-    // GERENCIAR PERMISSÕES DE ADMINS (GMAIL)
-    function renderAdminList() {
-      const container = document.getElementById('adminListContainer');
-      container.innerHTML = '';
+    // RENDERIZAR TABELA DE USUÁRIOS NO PAINEL ADMIN
+    function renderAdminUsersList() {
+      const tbody = document.getElementById('usersListBody');
+      tbody.innerHTML = '';
 
-      adminEmails.forEach((email, index) => {
-        const item = document.createElement('div');
-        item.className = 'admin-list-item';
-        item.innerHTML = `
-          <span><i class="fa-solid fa-envelope" style="color: var(--accent-purple); margin-right: 8px;"></i> ${email}</span>
-          ${email !== 'admin@gv3.com' ? `<button onclick="removeAdminEmail(${index})" class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem;">Remover</button>` : '<span style="font-size:0.75rem; color: var(--text-muted);">Principal</span>'}
+      if (registeredUsers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="color: var(--text-muted); text-align: center;">Nenhum usuário cadastrado ainda.</td></tr>';
+        return;
+      }
+
+      registeredUsers.forEach((u, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${u.name}</strong></td>
+          <td>${u.email}</td>
+          <td><span class="badge-user ${u.isVip ? 'badge-vip-status' : 'badge-free-status'}">${u.isVip ? 'VIP' : 'GRÁTIS'}</span></td>
+          <td>
+            <button onclick="deleteUser(${index})" class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem;">
+              <i class="fa-solid fa-trash"></i> Apagar Conta
+            </button>
+          </td>
         `;
-        container.appendChild(item);
+        tbody.appendChild(tr);
       });
     }
 
-    function addAdminEmail() {
-      const input = document.getElementById('newAdminEmail');
-      const email = input.value.trim().toLowerCase();
-
-      if (!email || !email.includes('@')) {
-        alert("Por favor, digite um e-mail válido.");
-        return;
-      }
-
-      if (adminEmails.includes(email)) {
-        alert("Este e-mail já possui permissões de admin.");
-        return;
-      }
-
-      adminEmails.push(email);
-      localStorage.setItem('gv3_admins', JSON.stringify(adminEmails));
-      input.value = '';
-      renderAdminList();
-      alert(`Permissão de Admin concedida ao e-mail ${email}!`);
-    }
-
-    function removeAdminEmail(index) {
-      if (confirm("Deseja remover as permissões de admin deste e-mail?")) {
-        adminEmails.splice(index, 1);
-        localStorage.setItem('gv3_admins', JSON.stringify(adminEmails));
-        renderAdminList();
+    // EXCLUIR CONTA DE USUÁRIO (ADMIN)
+    function deleteUser(index) {
+      if (confirm(`Tem certeza que deseja apagar a conta de "${registeredUsers[index].name}"?`)) {
+        registeredUsers.splice(index, 1);
+        localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
+        renderAdminUsersList();
       }
     }
 
-    // RESGATAR KEY DE USUÁRIO
+    // RESGATAR KEY VIP
     function redeemKey() {
-      const input = document.getElementById('keyInput').value.trim();
+      const key = document.getElementById('keyInput').value.trim();
       const msg = document.getElementById('keyMsg');
 
-      if (input === "GV3-VIP-2026" || input.length >= 8) {
+      if (key.toUpperCase() === 'GV3-VIP-2026') {
         currentUser.isVip = true;
         localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
 
-        let users = JSON.parse(localStorage.getItem('gv3_users')) || [];
-        users = users.map(u => u.email === currentUser.email ? currentUser : u);
-        localStorage.setItem('gv3_users', JSON.stringify(users));
+        // Atualizar lista global
+        const idx = registeredUsers.findIndex(u => u.email === currentUser.email);
+        if (idx !== -1) {
+          registeredUsers[idx].isVip = true;
+          localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
+        }
 
-        msg.style.color = "#10b981";
-        msg.innerText = "Key ativada com sucesso! Você agora é VIP.";
-        msg.style.display = "block";
-        updateAccountView();
+        msg.style.color = '#10b981';
+        msg.innerText = 'Parabéns! Sua conta agora possui acesso VIP/Premium.';
+        msg.style.display = 'block';
+        updateAuthUI();
       } else {
-        msg.style.color = "#ef4444";
-        msg.innerText = "Key inválida. Verifique o código digitado.";
-        msg.style.display = "block";
+        msg.style.color = '#ef4444';
+        msg.innerText = 'Key inválida. Tente novamente.';
+        msg.style.display = 'block';
       }
     }
 
     // PERSONALIZAR CORES (ADMIN)
     function updateTheme() {
-      const p = document.getElementById('pickerPurple').value;
-      const b = document.getElementById('pickerBlue').value;
+      const purple = document.getElementById('pickerPurple').value;
+      const blue = document.getElementById('pickerBlue').value;
       const bg = document.getElementById('pickerBg').value;
       const cardBg = document.getElementById('pickerCardBg').value;
 
-      document.documentElement.style.setProperty('--accent-purple', p);
-      document.documentElement.style.setProperty('--accent-blue', b);
+      document.documentElement.style.setProperty('--accent-purple', purple);
+      document.documentElement.style.setProperty('--accent-blue', blue);
       document.documentElement.style.setProperty('--bg-dark', bg);
       document.documentElement.style.setProperty('--card-bg', cardBg);
     }
 
-    // ALTERAR TEXTOS (ADMIN)
+    // ALTERAR TEXTOS DO HERO (ADMIN)
     function saveTexts() {
-      const title = document.getElementById('editHeroTitle').value;
-      const desc = document.getElementById('editHeroDesc').value;
+      const newTitle = document.getElementById('editHeroTitle').value;
+      const newDesc = document.getElementById('editHeroDesc').value;
 
-      document.getElementById('hero-title').innerHTML = title.replace("1 clique", "<span>1 clique.</span>");
-      document.getElementById('hero-desc-text').innerText = desc;
-      alert("Textos alterados com sucesso!");
+      if (newTitle) document.getElementById('hero-title').innerHTML = newTitle;
+      if (newDesc) document.getElementById('hero-desc-text').innerText = newDesc;
+
+      alert('Textos atualizados com sucesso!');
     }
 
-    // GERENCIAR MEMBROS DA EQUIPE (ADMIN & FRONT)
+    // RENDERIZAR EQUIPE
     function renderTeam() {
       const container = document.getElementById('teamContainer');
       container.innerHTML = '';
 
-      teamMembers.forEach(member => {
+      teamMembers.forEach(m => {
         const card = document.createElement('div');
         card.className = 'team-card';
         card.innerHTML = `
-          <img src="${member.img}" class="team-avatar" alt="${member.name}" onerror="this.src='https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png'">
-          <h3>${member.name}</h3>
-          <span class="team-role">${member.role}</span>
-          <p style="color: var(--text-muted); font-size: 0.88rem;">${member.desc}</p>
+          <img src="${m.img}" class="team-avatar" alt="${m.name}">
+          <h3>${m.name}</h3>
+          <span class="team-role">${m.role}</span>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">${m.desc}</p>
         `;
         container.appendChild(card);
       });
     }
 
-    function renderAdminTeamList() {
-      const container = document.getElementById('adminTeamEditContainer');
-      if (!container) return;
-      container.innerHTML = '';
-
-      teamMembers.forEach((member, idx) => {
-        const item = document.createElement('div');
-        item.className = 'admin-team-item';
-        item.innerHTML = `
-          <div class="admin-team-row">
-            <input type="text" class="input-field" value="${member.name}" placeholder="Nome" onchange="updateTeamMemberField(${idx}, 'name', this.value)">
-            <input type="text" class="input-field" value="${member.role}" placeholder="Cargo" onchange="updateTeamMemberField(${idx}, 'role', this.value)">
-          </div>
-          <input type="text" class="input-field" value="${member.img}" placeholder="URL Imagem" onchange="updateTeamMemberField(${idx}, 'img', this.value)">
-          <input type="text" class="input-field" value="${member.desc}" placeholder="Descrição" onchange="updateTeamMemberField(${idx}, 'desc', this.value)">
-          <div style="text-align: right;">
-            <button class="btn-danger" style="padding: 6px 14px; font-size: 0.85rem;" onclick="removeTeamMember(${idx})">Remover Integrante</button>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
+    // ADICIONAR MEMBRO DA EQUIPE (ADMIN)
     function addTeamMember() {
-      const name = document.getElementById('newMemberName').value.trim();
-      const role = document.getElementById('newMemberRole').value.trim();
-      const img = document.getElementById('newMemberImg').value.trim();
-      const desc = document.getElementById('newMemberDesc').value.trim();
+      const name = document.getElementById('newMemberName').value;
+      const role = document.getElementById('newMemberRole').value;
+      const img = document.getElementById('newMemberImg').value || 'https://via.placeholder.com/100';
+      const desc = document.getElementById('newMemberDesc').value;
 
       if (!name || !role) {
-        alert("Preencha ao menos Nome e Cargo do novo integrante.");
+        alert('Por favor, preencha nome e cargo.');
         return;
       }
 
-      teamMembers.push({
-        name,
-        role,
-        img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png',
-        desc: desc || 'Membro da equipe GV3 Optimizer.'
-      });
-
+      teamMembers.push({ name, role, img, desc });
       localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
-      
-      // Limpa formulário
+      renderTeam();
+
       document.getElementById('newMemberName').value = '';
       document.getElementById('newMemberRole').value = '';
       document.getElementById('newMemberImg').value = '';
       document.getElementById('newMemberDesc').value = '';
 
-      renderTeam();
-      renderAdminTeamList();
-      alert("Integrante adicionado com sucesso!");
+      alert('Membro adicionado com sucesso!');
     }
-
-    function updateTeamMemberField(index, field, value) {
-      teamMembers[index][field] = value;
-      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
-      renderTeam();
-    }
-
-    function removeTeamMember(index) {
-      if (confirm("Tem certeza que deseja remover este integrante da equipe?")) {
-        teamMembers.splice(index, 1);
-        localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
-        renderTeam();
-        renderAdminTeamList();
-      }
-    }
-
-    // INICIALIZAÇÃO
-    window.onload = function() {
-      renderTeam();
-      updateAccountView();
-    };
   </script>
 </body>
 </html>
