@@ -43,7 +43,6 @@
       position: relative;
     }
 
-    /* Estilos do Vídeo de Fundo */
     .bg-video-container {
       position: fixed;
       top: 0;
@@ -61,7 +60,6 @@
       opacity: 0.25;
     }
 
-    /* Overlay escuro sobre o vídeo */
     .bg-overlay {
       position: fixed;
       top: 0;
@@ -152,7 +150,7 @@
     .btn-discord:hover { color: #ffffff; }
 
     /* ==========================================
-       3. CONTEÚDO DAS ABAS (SISTEMA DE SWITCH)
+       3. CONTEÚDO DAS ABAS
        ========================================== */
     .main-container {
       flex: 1;
@@ -175,7 +173,7 @@
     }
 
     /* ==========================================
-       4. ABA INÍCIO (HERO & DESTAQUES)
+       4. HERO
        ========================================== */
     .hero {
       display: flex;
@@ -192,7 +190,7 @@
       align-items: center;
       gap: 8px;
       background: rgba(139, 92, 246, 0.12);
-      color: #a78bfa;
+      color: var(--accent-purple);
       border: 1px solid rgba(139, 92, 246, 0.3);
       padding: 6px 16px;
       border-radius: 30px;
@@ -210,7 +208,7 @@
     }
 
     .hero h1 span {
-      background: linear-gradient(135deg, #a78bfa, #3b82f6);
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -265,7 +263,7 @@
       padding-top: 1.8rem;
     }
 
-    .metric h3 { font-size: 1.6rem; color: #a78bfa; font-weight: 800; }
+    .metric h3 { font-size: 1.6rem; color: var(--accent-purple); font-weight: 800; }
     .metric p { color: var(--text-muted); font-size: 0.85rem; }
 
     .layers-container {
@@ -287,7 +285,7 @@
     .layer-2 { top: 25px; left: 25px; z-index: 2; opacity: 0.75; }
 
     /* ==========================================
-       5. ABA RECURSOS
+       5. RECURSOS & PLANOS
        ========================================== */
     .section-title { text-align: center; margin-bottom: 3rem; }
     .section-title h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
@@ -317,7 +315,7 @@
       width: 48px;
       height: 48px;
       background: rgba(139, 92, 246, 0.15);
-      color: #a78bfa;
+      color: var(--accent-purple);
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -329,9 +327,6 @@
     .feature-card h3 { font-size: 1.2rem; margin-bottom: 0.6rem; }
     .feature-card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
 
-    /* ==========================================
-       6. ABA PLANOS E PREÇOS
-       ========================================== */
     .card-free {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -346,7 +341,7 @@
 
     .badge-free {
       background: rgba(16, 185, 129, 0.15);
-      color: #10b981;
+      color: var(--accent-green);
       font-size: 0.75rem;
       font-weight: 700;
       padding: 4px 10px;
@@ -423,197 +418,8 @@
 
     .features-list li { color: var(--text-muted); font-size: 0.9rem; }
 
-    .coupon-box {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .coupon-group {
-      display: flex;
-      margin-top: 1rem;
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .coupon-group input {
-      background: transparent;
-      border: none;
-      padding: 12px 16px;
-      color: #fff;
-      flex: 1;
-      outline: none;
-    }
-
-    .coupon-group button {
-      background: var(--accent-blue);
-      color: #fff;
-      border: none;
-      padding: 0 20px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
     /* ==========================================
-       7. MODAL DE CHECKOUT
-       ========================================== */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 2000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .checkout-modal {
-      background: #0f1420;
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      width: 90%;
-      max-width: 550px;
-      padding: 2rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-      position: relative;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.active .checkout-modal {
-      transform: translateY(0);
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 18px;
-      right: 20px;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.3rem;
-      cursor: pointer;
-    }
-
-    .close-modal:hover { color: #fff; }
-
-    .checkout-header {
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .summary-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1rem 1.2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .payment-methods {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .pay-btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid var(--card-border);
-      background: rgba(255, 255, 255, 0.02);
-      color: var(--text-muted);
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-
-    .pay-btn.active {
-      border-color: var(--accent-purple);
-      background: rgba(139, 92, 246, 0.15);
-      color: #fff;
-    }
-
-    .pay-form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .input-field {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      padding: 12px 14px;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .input-field:focus { border-color: var(--accent-purple); }
-
-    .pix-container {
-      text-align: center;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 12px;
-      border: 1px dashed var(--card-border);
-    }
-
-    .qr-placeholder {
-      width: 140px;
-      height: 140px;
-      background: #fff;
-      margin: 1rem auto;
-      padding: 10px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn-finish {
-      width: 100%;
-      background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-      color: #fff;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      font-weight: 800;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 1.5rem;
-      box-shadow: 0 4px 15px var(--accent-purple-glow);
-    }
-
-    /* ==========================================
-       8. ABA EQUIPE & SOBRE
+       6. EQUIPE & FAQ
        ========================================== */
     .team-grid {
       display: grid;
@@ -643,16 +449,13 @@
     }
 
     .team-role {
-      color: #a78bfa;
+      color: var(--accent-purple);
       font-size: 0.85rem;
       font-weight: 700;
       display: block;
       margin: 0.4rem 0 1rem 0;
     }
 
-    /* ==========================================
-       9. ABA FAQ
-       ========================================== */
     .faq-container { max-width: 800px; margin: 0 auto; }
 
     .faq-item {
@@ -688,14 +491,14 @@
     }
 
     /* ==========================================
-       10. ESTILOS PAINEL DE LOGIN & ADMIN
+       7. PAINÉIS DE LOGIN, ADMIN & USUÁRIO
        ========================================== */
     .admin-box {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 20px;
       padding: 2.5rem;
-      max-width: 600px;
+      max-width: 500px;
       margin: 0 auto;
     }
 
@@ -715,13 +518,11 @@
     }
 
     .admin-section h3 {
-      color: #a78bfa;
+      color: var(--accent-purple);
       margin-bottom: 1rem;
     }
 
-    .form-group {
-      margin-bottom: 1.2rem;
-    }
+    .form-group { margin-bottom: 1.2rem; }
 
     .form-group label {
       display: block;
@@ -730,32 +531,69 @@
       margin-bottom: 0.4rem;
     }
 
+    .input-field {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .input-field:focus { border-color: var(--accent-purple); }
+
+    .color-pickers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .color-picker-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .color-picker-item input[type="color"] {
+      border: none;
+      width: 35px;
+      height: 35px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: none;
+    }
+
     .btn-danger {
       background: #ef4444;
       color: #fff;
       border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.8rem;
-      margin-top: 10px;
+      font-weight: 600;
     }
 
-    /* ==========================================
-       11. FOOTER
-       ========================================== */
+    .badge-user {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+    .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+
+    /* FOOTER */
     footer {
       background: rgba(5, 7, 10, 0.95);
       border-top: 1px solid var(--card-border);
       padding: 3rem 8% 1.5rem 8%;
       margin-top: 4rem;
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
     }
 
     .footer-bottom {
@@ -789,7 +627,7 @@
       <button class="tab-btn" onclick="switchTab('sobre', event)">Sobre</button>
       <button class="tab-btn" onclick="switchTab('equipe', event)">Equipe</button>
       <button class="tab-btn" onclick="switchTab('faq', event)">FAQ</button>
-      <button class="tab-btn" onclick="switchTab('login', event)"><i class="fa-solid fa-user"></i> Login</button>
+      <button class="tab-btn" onclick="switchTab('login', event)"><i class="fa-solid fa-user"></i> <span id="navAccountText">Login</span></button>
     </nav>
 
     <div class="nav-right">
@@ -883,7 +721,7 @@
             Acesso ao painel básico, monitoramento de sistema em tempo real e limpeza manual simples. 
           </p>
         </div>
-        <button class="btn-hero-outline" style="padding: 10px 20px;" onclick="openCheckout('Plano Grátis', 0)">Criar Conta Grátis</button>
+        <button class="btn-hero-outline" style="padding: 10px 20px;" onclick="switchTab('login')">Criar Conta Grátis</button>
       </div>
 
       <div class="pricing-grid">
@@ -891,7 +729,7 @@
           <h3>Mensal</h3>
           <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
           <div class="price">R$ 4,99 <span>/mês</span></div>
-          <button class="btn-plan btn-plan-outline" onclick="openCheckout('Plano Mensal', 4.99)">Assinar Agora</button>
+          <button class="btn-plan btn-plan-outline" onclick="switchTab('login')">Assinar Agora</button>
           <div class="features-list">
             <ul>
               <li>✓ Acesso completo ao app</li>
@@ -906,7 +744,7 @@
           <h3>Anual</h3>
           <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
           <div class="price">R$ 6,99 <span>/ano</span></div>
-          <button class="btn-plan btn-plan-primary" onclick="openCheckout('Plano Anual', 6.99)">Garantir Desconto</button>
+          <button class="btn-plan btn-plan-primary" onclick="switchTab('login')">Garantir Desconto</button>
           <div class="features-list">
             <ul>
               <li>✓ Tudo do Plano Mensal</li>
@@ -920,7 +758,7 @@
           <h3>Vitalício</h3>
           <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
           <div class="price">R$ 17,99</div>
-          <button class="btn-plan btn-plan-outline" onclick="openCheckout('Plano Vitalício', 17.99)">Acesso Vitalício</button>
+          <button class="btn-plan btn-plan-outline" onclick="switchTab('login')">Acesso Vitalício</button>
           <div class="features-list">
             <ul>
               <li>✓ Acesso permanente sem mensalidades</li>
@@ -929,15 +767,6 @@
             </ul>
           </div>
         </div>
-      </div>
-
-      <div class="coupon-box">
-        <h3>Possui um Cupom de Desconto?</h3>
-        <div class="coupon-group">
-          <input type="text" id="couponInput" placeholder="Digite seu cupom aqui">
-          <button type="button" onclick="applyCoupon()">Aplicar</button>
-        </div>
-        <p id="couponMsg" style="font-size: 0.85rem; margin-top: 8px; display: none;"></p>
       </div>
     </section>
 
@@ -950,7 +779,7 @@
       <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 2.5rem; max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-muted);">
         <h3 style="color: #fff; margin-bottom: 1rem;">Nossa Missão</h3>
         <p style="margin-bottom: 1.5rem;">
-          A GV3 nasceu da necessidade de entregar soluções simples e reais para jogadores que sofrem com travamentos e queda de desempenho. Desenvolvemos scripts e softwares refinados para extrair a máxima capacidade do seu computador de forma segura e prática.
+          A GV3 nasceu da necessidade de entregar soluções simples e reais para jogadores que sofrem com travamentos e queda de desempenho.
         </p>
         <h3 style="color: #fff; margin-bottom: 1rem;">Tecnologia de Ponta</h3>
         <p>
@@ -966,34 +795,7 @@
       </div>
 
       <div class="team-grid" id="teamContainer">
-        <div class="team-card">
-          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/V3nom.png" alt="EulsVenom" class="team-avatar">
-          <h3>V3nom</h3>
-          <span class="team-role"><i class="fa-solid fa-code"></i> Fundador & Dev Principal</span>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Especialista em arquitetura de softwares de otimização e tweaks de registro.</p>
         </div>
-
-        <div class="team-card">
-          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gomult.png" alt="Membro 02" class="team-avatar">
-          <h3>G0mult</h3>
-          <span class="team-role"><i class="fa-solid fa-gears"></i> Otimizador & QA Tester</span>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Responsável por testes de latência, estabilidade de FPS e benchmarks.</p>
-        </div>
-
-        <div class="team-card">
-          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/ygorneko.png" alt="Membro 03" class="team-avatar">
-          <h3>ygorneko</h3>
-          <span class="team-role"><i class="fa-solid fa-paint-brush"></i> UI/UX Designer</span>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Designer encarregado da experiência do usuário e interfaces modernas.</p>
-        </div>
-
-        <div class="team-card">
-          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/hwnt3r.png" alt="Membro 04" class="team-avatar">
-          <h3>Hwnt3rx</h3>
-          <span class="team-role"><i class="fa-solid fa-headset"></i> Suporte & Comunidade</span>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Gerenciador da comunidade do Discord e atendimento aos membros.</p>
-        </div>
-      </div>
     </section>
 
     <section id="tab-faq" class="tab-content">
@@ -1020,291 +822,391 @@
             <i class="fa-solid fa-chevron-down"></i>
           </summary>
           <div class="faq-answer">
-            <p>Não. O GV3 Optimizer atua exclusivamente nas configurações do seu sistema operacional Windows. Ele não injeta arquivos nos jogos e é 100% seguro com qualquer Anti-Cheat (Vanguard, EAC, BattleEye, etc.).</p>
+            <p>Não. O GV3 Optimizer atua exclusivamente nas configurações do seu sistema operacional Windows. Ele não injeta arquivos nos jogos e é 100% seguro.</p>
           </div>
         </details>
       </div>
     </section>
 
     <section id="tab-login" class="tab-content">
+      
       <div class="admin-box" id="loginFormBlock">
         <div class="section-title" style="margin-bottom: 1.5rem;">
-          <h2>Área do Administrador</h2>
-          <p>Faça login para editar o conteúdo do site.</p>
+          <h2 id="loginTitle">Entrar na Conta</h2>
+          <p id="loginSubtitle">Acesse sua conta ou painel administrativo</p>
         </div>
-        <form onsubmit="handleLogin(event)">
+        <form onsubmit="handleAuth(event)">
+          <div class="form-group" id="nameGroup" style="display: none;">
+            <label>Nome Completo</label>
+            <input type="text" id="authName" class="input-field" placeholder="Seu nome">
+          </div>
           <div class="form-group">
-            <label>Usuário</label>
-            <input type="text" id="HadryanUser" class="input-field" placeholder="Digite seu usuário" required>
+            <label>E-mail / Gmail</label>
+            <input type="email" id="authEmail" class="input-field" placeholder="seu@gmail.com" required>
           </div>
           <div class="form-group">
             <label>Senha</label>
-            <input type="password" id="HadryanPass" class="input-field" placeholder="Digite sua senha" required>
+            <input type="password" id="authPass" class="input-field" placeholder="Digite sua senha" required>
           </div>
-          <p id="loginError" style="color: #ef4444; font-size: 0.85rem; display: none; margin-bottom: 1rem;">Usuário ou senha incorretos! (Dica: admin / admin)</p>
-          <button type="submit" class="btn-hero-primary" style="width: 100%;">Entrar no Painel</button>
+          <p id="authError" style="color: #ef4444; font-size: 0.85rem; display: none; margin-bottom: 1rem;"></p>
+          
+          <button type="submit" class="btn-hero-primary" style="width: 100%;" id="btnAuthSubmit">Entrar</button>
+          
+          <p style="text-align: center; margin-top: 1.2rem; font-size: 0.9rem; color: var(--text-muted);">
+            <span id="toggleAuthText">Não tem uma conta?</span> 
+            <a href="#" onclick="toggleAuthMode(event)" style="color: var(--accent-purple); font-weight: 700; text-decoration: none;" id="toggleAuthLink">Criar Conta</a>
+          </p>
         </form>
       </div>
 
       <div class="admin-panel" id="adminPanelBlock" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-          <h2><i class="fa-solid fa-pen-to-square"></i> Painel de Edição do Site</h2>
-          <button class="btn-hero-outline" onclick="handleLogout()" style="padding: 8px 16px;">Sair</button>
+          <h2><i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Painel do Administrador</h2>
+          <button onclick="logout()" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </div>
 
         <div class="admin-section">
-          <h3>1. Editar Seção Início</h3>
+          <h3><i class="fa-solid fa-palette"></i> Personalizar Cores do Site</h3>
+          <div class="color-pickers">
+            <div class="color-picker-item">
+              <span>Cor Principal:</span>
+              <input type="color" id="pickerPurple" value="#8b5cf6" onchange="updateTheme()">
+            </div>
+            <div class="color-picker-item">
+              <span>Cor Secundária:</span>
+              <input type="color" id="pickerBlue" value="#2563eb" onchange="updateTheme()">
+            </div>
+            <div class="color-picker-item">
+              <span>Cor de Fundo:</span>
+              <input type="color" id="pickerBg" value="#05070a" onchange="updateTheme()">
+            </div>
+            <div class="color-picker-item">
+              <span>Cor dos Cards:</span>
+              <input type="color" id="pickerCardBg" value="#0f1420" onchange="updateTheme()">
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-section">
+          <h3><i class="fa-solid fa-pen"></i> Alterar Textos do Início</h3>
           <div class="form-group">
-            <label>Título Principal</label>
+            <label>Título do Hero</label>
             <input type="text" id="editHeroTitle" class="input-field" value="Otimize seu PC com 1 clique.">
           </div>
           <div class="form-group">
-            <label>Descrição Principal</label>
-
-            <textarea id="editHeroDesc" class="input-field" rows="3">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</textarea>
+            <label>Descrição do Hero</label>
+            <textarea id="editHeroDesc" class="input-field" rows="3">Aumente seu FPS e reduza o input lag com otimizaciones inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</textarea>
           </div>
-          <button class="btn-hero-primary" onclick="saveHeroChanges()">Salvar Alterações do Início</button>
+          <button class="btn-hero-primary" onclick="saveTexts()">Salvar Alterações de Texto</button>
         </div>
 
         <div class="admin-section">
-          <h3>2. Adicionar Novo Membro na Equipe</h3>
-          <div class="form-group">
-            <label>Nome do Membro</label>
-            <input type="text" id="newMemberName" class="input-field" placeholder="Ex: Lucas">
+          <h3><i class="fa-solid fa-user-plus"></i> Adicionar Integrante na Equipe</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Nome</label>
+              <input type="text" id="newMemberName" class="input-field" placeholder="Ex: Player1">
+            </div>
+            <div class="form-group">
+              <label>Cargo</label>
+              <input type="text" id="newMemberRole" class="input-field" placeholder="Ex: Moderador">
+            </div>
           </div>
           <div class="form-group">
-            <label>Cargo / Função</label>
-            <input type="text" id="newMemberRole" class="input-field" placeholder="Ex: Moderador">
-          </div>
-          <div class="form-group">
-            <label>URL da Imagem de Perfil</label>
-            <input type="text" id="newMemberImg" class="input-field" placeholder="https://exemplo.com/imagem.png">
+            <label>URL da Foto (Avatar)</label>
+            <input type="text" id="newMemberImg" class="input-field" placeholder="https://link-da-imagem.png">
           </div>
           <div class="form-group">
             <label>Descrição</label>
-            <input type="text" id="newMemberDesc" class="input-field" placeholder="Breve resumo das funções">
+            <input type="text" id="newMemberDesc" class="input-field" placeholder="Pequena descrição...">
           </div>
-          <button class="btn-hero-primary" onclick="addNewMember()">Adicionar Membro</button>
+          <button class="btn-hero-primary" onclick="addTeamMember()">Adicionar à Equipe</button>
         </div>
       </div>
+
+      <div class="admin-panel" id="userPanelBlock" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h2><i class="fa-solid fa-user-gear"></i> Minha Conta</h2>
+          <button onclick="logout()" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+        </div>
+
+        <div class="admin-section">
+          <h3>Informações da Conta</h3>
+          <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 1rem;">
+            <div style="width: 70px; height: 70px; border-radius: 50%; background: var(--accent-purple); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div>
+              <h3 id="uDisplayName" style="margin: 0; color: #fff;">Nome do Usuário</h3>
+              <p id="uDisplayEmail" style="color: var(--text-muted); font-size: 0.9rem;">email@gmail.com</p>
+              <div style="margin-top: 8px;">
+                Status da Conta: <span id="uDisplayStatus" class="badge-user badge-free-status">GRÁTIS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-section">
+          <h3><i class="fa-solid fa-key"></i> Resgatar Key VIP / Premium</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Digite a chave de ativação fornecida após a compra para liberar a licença Premium.</p>
+          <div style="display: flex; gap: 1rem;">
+            <input type="text" id="keyInput" class="input-field" placeholder="GV3-XXXX-XXXX-XXXX">
+            <button class="btn-hero-primary" style="white-space: nowrap;" onclick="redeemKey()">Ativar Key</button>
+          </div>
+          <p id="keyMsg" style="margin-top: 10px; font-size: 0.85rem; display: none;"></p>
+        </div>
+      </div>
+
     </section>
 
   </main>
 
-  <div class="modal-overlay" id="checkoutModal">
-    <div class="checkout-modal">
-      <button class="close-modal" onclick="closeCheckout()"><i class="fa-solid fa-xmark"></i></button>
-
-      <div class="checkout-header">
-        <h2>Finalizar Compra</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Ambiente de pagamento seguro</p>
-      </div>
-
-      <div class="summary-card">
-        <div>
-          <strong id="modalPlanName">Plano Selecionado</strong>
-          <p style="color: var(--text-muted); font-size: 0.8rem;" id="modalDiscountTag">Sem desconto aplicado</p>
-        </div>
-        <div style="text-align: right;">
-          <span style="font-size: 1.3rem; font-weight: 800; color: #a78bfa;" id="modalPlanPrice">R$ 0,00</span>
-        </div>
-      </div>
-
-      <div class="payment-methods">
-        <button class="pay-btn active" id="btnPix" onclick="selectPayment('pix')">
-          <i class="fa-solid fa-qrcode"></i> PIX
-        </button>
-        <button class="pay-btn" id="btnCard" onclick="selectPayment('card')">
-          <i class="fa-solid fa-credit-card"></i> Cartão
-        </button>
-      </div>
-
-      <div id="pixPayment" class="pix-container">
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Escaneie o QR Code abaixo com o aplicativo do seu banco:</p>
-        <div class="qr-placeholder">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=GV3OptimizerPaymentSimulated" alt="QR Code PIX">
-        </div>
-        <input type="text" class="input-field" value="00020126580014BR.GOV.BCB.PIX0136gv3-optimizer-key-pix" readonly style="text-align: center; font-size: 0.75rem;">
-      </div>
-
-      <div id="cardPayment" class="pay-form-group" style="display: none;">
-        <input type="text" class="input-field" placeholder="Nome Impresso no Cartão">
-        <input type="text" class="input-field" placeholder="Número do Cartão (0000 0000 0000 0000)">
-        <div style="display: flex; gap: 1rem;">
-          <input type="text" class="input-field" placeholder="MM/AA">
-          <input type="text" class="input-field" placeholder="CVC">
-        </div>
-      </div>
-
-      <button class="btn-finish" onclick="processPayment()" id="btnSubmitPay">Confirmar Pagamento</button>
-    </div>
-  </div>
-
   <footer>
-    <div class="footer-content">
-      <div class="logo">
-        <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" alt="GV3 Logo">
-        <span>GV3 Optimizer</span>
-      </div>
-      <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Comunidade no Discord</a>
-    </div>
     <div class="footer-bottom">
-      <p>© 2026 GV3 Optimizer. Todos os direitos reservados.</p>
+      <p>&copy; 2026 GV3 Optimizer. Todos os direitos reservados.</p>
     </div>
   </footer>
 
   <script>
-    let currentDiscount = 0;
-    let selectedPrice = 0;
-    let selectedPlan = '';
+    // ESTADO E DADOS
+    let isRegisterMode = false;
+    let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
 
-    // Troca de Abas
-    function switchTab(tabId, evt) {
-      const contents = document.querySelectorAll('.tab-content');
-      contents.forEach(content => content.classList.remove('active'));
+    let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
+      { name: "V3nom", role: "Fundador & Dev Principal", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/V3nom.png", desc: "Especialista em arquitetura de softwares de otimização e tweaks de registro." },
+      { name: "G0mult", role: "Otimizador & QA Tester", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gomult.png", desc: "Responsável por testes de latência, estabilidade de FPS e benchmarks." },
+      { name: "ygorneko", role: "UI/UX Designer", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/ygorneko.png", desc: "Designer encarregado da experiência do usuário e interfaces modernas." },
+      { name: "Hwnt3rx", role: "Suporte & Comunidade", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/hwnt3r.png", desc: "Gerenciador da comunidade do Discord e atendimento aos membros." }
+    ];
 
-      const buttons = document.querySelectorAll('.tab-btn');
-      buttons.forEach(btn => btn.classList.remove('active'));
+    // NAVEGAÇÃO DE ABAS
+    function switchTab(tabId, event) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
-      const targetContent = document.getElementById('tab-' + tabId);
-      if (targetContent) {
-        targetContent.classList.add('active');
-      }
-
-      if (evt && evt.currentTarget) {
-        evt.currentTarget.classList.add('active');
-      }
+      document.getElementById('tab-' + tabId).classList.add('active');
+      if (event) event.currentTarget.classList.add('active');
     }
 
-    // Cupons
-    function applyCoupon() {
-      const coupon = document.getElementById('couponInput').value.trim().toUpperCase();
-      const msg = document.getElementById('couponMsg');
-
-      if (coupon === 'GV310') {
-        currentDiscount = 0.10;
-        msg.style.color = '#10b981';
-        msg.innerText = 'Cupom de 10% de desconto aplicado com sucesso!';
-        msg.style.display = 'block';
-      } else if (coupon === 'DESCONTO20') {
-        currentDiscount = 0.20;
-        msg.style.color = '#10b981';
-        msg.innerText = 'Cupom de 20% de desconto aplicado com sucesso!';
-        msg.style.display = 'block';
-      } else {
-        msg.style.color = '#ef4444';
-        msg.innerText = 'Cupom inválido ou expirado.';
-        msg.style.display = 'block';
-      }
-    }
-
-    // Modal de Checkout
-    function openCheckout(planName, price) {
-      selectedPlan = planName;
-      selectedPrice = price;
-
-      document.getElementById('modalPlanName').innerText = planName;
+    // AUTHENTICAÇÃO (LOGIN / REGISTRO)
+    function toggleAuthMode(e) {
+      if(e) e.preventDefault();
+      isRegisterMode = !isRegisterMode;
       
-      let finalPrice = selectedPrice - (selectedPrice * currentDiscount);
-      document.getElementById('modalPlanPrice').innerText = 'R$ ' + finalPrice.toFixed(2).replace('.', ',');
-      
-      if(currentDiscount > 0) {
-        document.getElementById('modalDiscountTag').innerText = `Desconto de ${(currentDiscount*100)}% aplicado`;
+      const title = document.getElementById('loginTitle');
+      const subtitle = document.getElementById('loginSubtitle');
+      const nameGroup = document.getElementById('nameGroup');
+      const btnSubmit = document.getElementById('btnAuthSubmit');
+      const toggleText = document.getElementById('toggleAuthText');
+      const toggleLink = document.getElementById('toggleAuthLink');
+
+      if (isRegisterMode) {
+        title.innerText = "Criar Conta";
+        subtitle.innerText = "Cadastre-se para acessar o GV3 Optimizer";
+        nameGroup.style.display = "block";
+        btnSubmit.innerText = "Cadastrar";
+        toggleText.innerText = "Já tem uma conta?";
+        toggleLink.innerText = "Fazer Login";
       } else {
-        document.getElementById('modalDiscountTag').innerText = 'Sem desconto aplicado';
-      }
-
-      document.getElementById('checkoutModal').classList.add('active');
-    }
-
-    function closeCheckout() {
-      document.getElementById('checkoutModal').classList.remove('active');
-    }
-
-    function selectPayment(method) {
-      document.getElementById('btnPix').classList.remove('active');
-      document.getElementById('btnCard').classList.remove('active');
-      
-      if(method === 'pix') {
-        document.getElementById('btnPix').classList.add('active');
-        document.getElementById('pixPayment').style.display = 'block';
-        document.getElementById('cardPayment').style.display = 'none';
-      } else {
-        document.getElementById('btnCard').classList.add('active');
-        document.getElementById('pixPayment').style.display = 'none';
-        document.getElementById('cardPayment').style.display = 'flex';
+        title.innerText = "Entrar na Conta";
+        subtitle.innerText = "Acesse sua conta ou painel administrativo";
+        nameGroup.style.display = "none";
+        btnSubmit.innerText = "Entrar";
+        toggleText.innerText = "Não tem uma conta?";
+        toggleLink.innerText = "Criar Conta";
       }
     }
 
-    function processPayment() {
-      alert('Pagamento processado com sucesso! Verifique seu e-mail/Discord.');
-      closeCheckout();
-    }
-
-    // Sistema de Login e Administração
-    function handleLogin(e) {
+    function handleAuth(e) {
       e.preventDefault();
-      const user = document.getElementById('adminUser').value;
-      const pass = document.getElementById('adminPass').value;
+      const email = document.getElementById('authEmail').value.trim();
+      const pass = document.getElementById('authPass').value;
+      const name = document.getElementById('authName').value;
+      const authError = document.getElementById('authError');
 
-      if(user === 'admin' && pass === 'admin') {
-        document.getElementById('loginFormBlock').style.display = 'none';
-        document.getElementById('adminPanelBlock').style.display = 'block';
-        document.getElementById('loginError').style.display = 'none';
-      } else {
-        document.getElementById('loginError').style.display = 'block';
-      }
-    }
+      authError.style.display = "none";
 
-    function handleLogout() {
-      document.getElementById('loginFormBlock').style.display = 'block';
-      document.getElementById('adminPanelBlock').style.display = 'none';
-      document.getElementById('adminUser').value = '';
-      document.getElementById('adminPass').value = '';
-    }
-
-    function saveHeroChanges() {
-      const newTitle = document.getElementById('editHeroTitle').value;
-      const newDesc = document.getElementById('editHeroDesc').value;
-
-      if(newTitle) document.getElementById('hero-title').innerText = newTitle;
-      if(newDesc) document.getElementById('hero-desc-text').innerText = newDesc;
-
-      alert('Alterações da Seção Início salvas com sucesso!');
-    }
-
-    function addNewMember() {
-      const name = document.getElementById('newMemberName').value.trim();
-      const role = document.getElementById('newMemberRole').value.trim();
-      const img = document.getElementById('newMemberImg').value.trim() || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png';
-      const desc = document.getElementById('newMemberDesc').value.trim();
-
-      if(!name || !role) {
-        alert('Por favor, preencha pelo menos o nome e a função.');
+      // VERIFICAÇÃO EXCLUSIVA DE ADMIN
+      if (email === "Sebastyan18paulocop@gmail.com" && pass === "Hadryan.") {
+        currentUser = { name: "Sebastyan (Admin)", email: email, role: "admin", isPremium: true };
+        saveAndLogin();
         return;
       }
 
-      const teamContainer = document.getElementById('teamContainer');
-      const card = document.createElement('div');
-      card.className = 'team-card';
-      card.innerHTML = `
-        <img src="${img}" alt="${name}" class="team-avatar">
-        <h3>${name}</h3>
-        <span class="team-role"><i class="fa-solid fa-user-check"></i> ${role}</span>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">${desc}</p>
-        <button class="btn-danger" onclick="this.parentElement.remove()">Remover</button>
-      `;
-
-      teamContainer.appendChild(card);
-
-      // Limpar campos
-      document.getElementById('newMemberName').value = '';
-      document.getElementById('newMemberRole').value = '';
-      document.getElementById('newMemberImg').value = '';
-      document.getElementById('newMemberDesc').value = '';
-
-      alert('Novo membro adicionado com sucesso!');
+      if (isRegisterMode) {
+        if (!name) {
+          authError.innerText = "Preencha o seu nome!";
+          authError.style.display = "block";
+          return;
+        }
+        let users = JSON.parse(localStorage.getItem('gv3_registered_users')) || [];
+        if (users.find(u => u.email === email)) {
+          authError.innerText = "Este e-mail já está cadastrado!";
+          authError.style.display = "block";
+          return;
+        }
+        const newUser = { name, email, pass, isPremium: false, role: "user" };
+        users.push(newUser);
+        localStorage.setItem('gv3_registered_users', JSON.stringify(users));
+        
+        currentUser = newUser;
+        saveAndLogin();
+      } else {
+        let users = JSON.parse(localStorage.getItem('gv3_registered_users')) || [];
+        let found = users.find(u => u.email === email && u.pass === pass);
+        
+        if (found) {
+          currentUser = found;
+          saveAndLogin();
+        } else {
+          authError.innerText = "Credenciais incorretas!";
+          authError.style.display = "block";
+        }
+      }
     }
+
+    function saveAndLogin() {
+      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+      updateUserUI();
+    }
+
+    function logout() {
+      currentUser = null;
+      localStorage.removeItem('gv3_current_user');
+      updateUserUI();
+    }
+
+    function updateUserUI() {
+      const loginFormBlock = document.getElementById('loginFormBlock');
+      const adminPanelBlock = document.getElementById('adminPanelBlock');
+      const userPanelBlock = document.getElementById('userPanelBlock');
+      const navAccountText = document.getElementById('navAccountText');
+
+      if (!currentUser) {
+        loginFormBlock.style.display = "block";
+        adminPanelBlock.style.display = "none";
+        userPanelBlock.style.display = "none";
+        navAccountText.innerText = "Login";
+      } else if (currentUser.role === "admin") {
+        loginFormBlock.style.display = "none";
+        adminPanelBlock.style.display = "block";
+        userPanelBlock.style.display = "none";
+        navAccountText.innerText = "Admin";
+      } else {
+        loginFormBlock.style.display = "none";
+        adminPanelBlock.style.display = "none";
+        userPanelBlock.style.display = "block";
+        navAccountText.innerText = currentUser.name.split(' ')[0];
+
+        // Atualiza UI de Usuário
+        document.getElementById('uDisplayName').innerText = currentUser.name;
+        document.getElementById('uDisplayEmail').innerText = currentUser.email;
+        const statusSpan = document.getElementById('uDisplayStatus');
+        if (currentUser.isPremium) {
+          statusSpan.innerText = "PREMIUM / VIP";
+          statusSpan.className = "badge-user badge-vip-status";
+        } else {
+          statusSpan.innerText = "GRÁTIS";
+          statusSpan.className = "badge-user badge-free-status";
+        }
+      }
+    }
+
+    // GERENCIADOR DE KEYS DO USUÁRIO
+    function redeemKey() {
+      const key = document.getElementById('keyInput').value.trim();
+      const msg = document.getElementById('keyMsg');
+      
+      if (key === "GV3-VIP-2026" || key === "GV3-PREMIUM") {
+        currentUser.isPremium = true;
+        localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+        
+        // Atualiza banco de dados local
+        let users = JSON.parse(localStorage.getItem('gv3_registered_users')) || [];
+        let idx = users.findIndex(u => u.email === currentUser.email);
+        if (idx !== -1) {
+          users[idx].isPremium = true;
+          localStorage.setItem('gv3_registered_users', JSON.stringify(users));
+        }
+
+        msg.style.color = "#10b981";
+        msg.innerText = "Key ativada com sucesso! Você agora é VIP.";
+        msg.style.display = "block";
+        updateUserUI();
+      } else {
+        msg.style.color = "#ef4444";
+        msg.innerText = "Key inválida ou já utilizada.";
+        msg.style.display = "block";
+      }
+    }
+
+    // PERSONALIZAÇÃO DE CORES (ADMIN)
+    function updateTheme() {
+      const pColor = document.getElementById('pickerPurple').value;
+      const bColor = document.getElementById('pickerBlue').value;
+      const bgColor = document.getElementById('pickerBg').value;
+      const cardBgColor = document.getElementById('pickerCardBg').value;
+
+      document.documentElement.style.setProperty('--accent-purple', pColor);
+      document.documentElement.style.setProperty('--accent-blue', bColor);
+      document.documentElement.style.setProperty('--bg-dark', bgColor);
+      document.documentElement.style.setProperty('--card-bg', cardBgColor);
+    }
+
+    function saveTexts() {
+      const title = document.getElementById('editHeroTitle').value;
+      const desc = document.getElementById('editHeroDesc').value;
+
+      document.getElementById('hero-title').innerText = title;
+      document.getElementById('hero-desc-text').innerText = desc;
+      alert('Textos atualizados com sucesso!');
+    }
+
+    // GERENCIAMENTO DA EQUIPE
+    function renderTeam() {
+      const container = document.getElementById('teamContainer');
+      container.innerHTML = "";
+      teamMembers.forEach((member, index) => {
+        container.innerHTML += `
+          <div class="team-card">
+            <img src="${member.img}" alt="${member.name}" class="team-avatar">
+            <h3>${member.name}</h3>
+            <span class="team-role">${member.role}</span>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">${member.desc}</p>
+            ${currentUser && currentUser.role === 'admin' ? `<button onclick="removeTeamMember(${index})" class="btn-danger" style="margin-top: 15px;">Remover</button>` : ''}
+          </div>
+        `;
+      });
+    }
+
+    function addTeamMember() {
+      const name = document.getElementById('newMemberName').value;
+      const role = document.getElementById('newMemberRole').value;
+      const img = document.getElementById('newMemberImg').value;
+      const desc = document.getElementById('newMemberDesc').value;
+
+      if (!name || !role) {
+        alert('Preencha pelo menos Nome e Cargo!');
+        return;
+      }
+
+      teamMembers.push({ name, role, img: img || "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc });
+      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
+      renderTeam();
+      alert('Membro adicionado!');
+    }
+
+    function removeTeamMember(index) {
+      teamMembers.splice(index, 1);
+      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
+      renderTeam();
+    }
+
+    // INICIALIZAÇÃO
+    window.onload = function() {
+      renderTeam();
+      updateUserUI();
+    };
   </script>
 </body>
 </html>
