@@ -1103,6 +1103,56 @@
         }
       });
     });
+  <script>
+    // Função para alternar entre as abas do site
+    function switchTab(tabId, event) {
+      // 1. Esconder todo o conteúdo atual
+      const allTabs = document.querySelectorAll('.tab-content');
+      allTabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // 2. Mostrar a aba que foi clicada
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) {
+        targetTab.classList.add('active');
+      }
+
+      // 3. Atualizar a cor do botão ativo no menu superior
+      const allBtns = document.querySelectorAll('.tab-btn');
+      allBtns.forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Se o clique veio do menu, destaca o botão clicado
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      } else {
+        // Se o clique veio dos botões "Começar agora" ou "Ver recursos",
+        // tentamos acender o botão correto do menu baseados no ID
+        allBtns.forEach(btn => {
+          const btnText = btn.textContent.toLowerCase();
+          if (btnText.includes(tabId.substring(0, 4))) { 
+            btn.classList.add('active');
+          }
+        });
+      }
+
+      // 4. Se estiver no celular, fecha o menu dropdown automaticamente
+      const menu = document.getElementById('menuContainer');
+      if (menu && menu.classList.contains('ativo')) {
+        menu.classList.remove('ativo');
+      }
+      
+      // Rola a página para o topo ao trocar de aba
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Função para abrir e fechar o menu hambúrguer no celular
+    function toggleMenu() {
+      const menu = document.getElementById('menuContainer');
+      menu.classList.toggle('ativo');
+    }
   </script>
 
 </body>
