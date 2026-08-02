@@ -284,9 +284,7 @@
       object-fit: cover;
     }
 
-    .layer-1 { top: 0; left: 0; z-index: 3; height: 280px; background: #000; }
     .layer-2 { top: 25px; left: 25px; z-index: 2; opacity: 0.75; }
-    .layer-3 { top: 50px; left: 50px; z-index: 1; opacity: 0.4; }
 
     /* ==========================================
        5. ABA RECURSOS
@@ -425,7 +423,6 @@
 
     .features-list li { color: var(--text-muted); font-size: 0.9rem; }
 
-    /* Coupon Box */
     .coupon-box {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -463,7 +460,7 @@
     }
 
     /* ==========================================
-       7. MODAL DE CHECKOUT (SISTEMA DE COMPRAS)
+       7. MODAL DE CHECKOUT
        ========================================== */
     .modal-overlay {
       position: fixed;
@@ -620,9 +617,9 @@
        ========================================== */
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
-      max-width: 900px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
@@ -632,6 +629,7 @@
       border-radius: 20px;
       padding: 2.5rem 2rem;
       text-align: center;
+      position: relative;
     }
 
     .team-avatar {
@@ -690,7 +688,61 @@
     }
 
     /* ==========================================
-       10. FOOTER
+       10. ESTILOS PAINEL DE LOGIN & ADMIN
+       ========================================== */
+    .admin-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .admin-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .admin-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .admin-section h3 {
+      color: #a78bfa;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-top: 10px;
+    }
+
+    /* ==========================================
+       11. FOOTER
        ========================================== */
     footer {
       background: rgba(5, 7, 10, 0.95);
@@ -731,12 +783,13 @@
     </div>
 
     <nav class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('inicio')">Início</button>
-      <button class="tab-btn" onclick="switchTab('recursos')">Recursos</button>
-      <button class="tab-btn" onclick="switchTab('precos')">Planos & Preços</button>
-      <button class="tab-btn" onclick="switchTab('sobre')">Sobre</button>
-      <button class="tab-btn" onclick="switchTab('equipe')">Equipe</button>
-      <button class="tab-btn" onclick="switchTab('faq')">FAQ</button>
+      <button class="tab-btn active" onclick="switchTab('inicio', event)">Início</button>
+      <button class="tab-btn" onclick="switchTab('recursos', event)">Recursos</button>
+      <button class="tab-btn" onclick="switchTab('precos', event)">Planos & Preços</button>
+      <button class="tab-btn" onclick="switchTab('sobre', event)">Sobre</button>
+      <button class="tab-btn" onclick="switchTab('equipe', event)">Equipe</button>
+      <button class="tab-btn" onclick="switchTab('faq', event)">FAQ</button>
+      <button class="tab-btn" onclick="switchTab('login', event)"><i class="fa-solid fa-user"></i> Login</button>
     </nav>
 
     <div class="nav-right">
@@ -752,8 +805,8 @@
           <div class="badge-tag">
             <i class="fa-solid fa-bolt"></i> DESEMPENHO MÁXIMO PARA SEU PC
           </div>
-          <h1>Otimize seu PC com <span>1 clique.</span></h1>
-          <p class="hero-desc">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
+          <h1 id="hero-title">Otimize seu PC com <span>1 clique.</span></h1>
+          <p class="hero-desc" id="hero-desc-text">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
           
           <div class="hero-cta">
             <button class="btn-hero-primary" onclick="switchTab('precos')">Começar agora</button>
@@ -912,7 +965,7 @@
         <p>Os desenvolvedores e especialistas por trás do GV3 Optimizer.</p>
       </div>
 
-      <div class="team-grid">
+      <div class="team-grid" id="teamContainer">
         <div class="team-card">
           <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/V3nom.png" alt="EulsVenom" class="team-avatar">
           <h3>V3nom</h3>
@@ -925,6 +978,20 @@
           <h3>G0mult</h3>
           <span class="team-role"><i class="fa-solid fa-gears"></i> Otimizador & QA Tester</span>
           <p style="color: var(--text-muted); font-size: 0.9rem;">Responsável por testes de latência, estabilidade de FPS e benchmarks.</p>
+        </div>
+
+        <div class="team-card">
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" alt="Membro 03" class="team-avatar">
+          <h3>Apex</h3>
+          <span class="team-role"><i class="fa-solid fa-paint-brush"></i> UI/UX Designer</span>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Designer encarregado da experiência do usuário e interfaces modernas.</p>
+        </div>
+
+        <div class="team-card">
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" alt="Membro 04" class="team-avatar">
+          <h3>Shadow</h3>
+          <span class="team-role"><i class="fa-solid fa-headset"></i> Suporte & Comunidade</span>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Gerenciador da comunidade do Discord e atendimento aos membros.</p>
         </div>
       </div>
     </section>
@@ -956,6 +1023,69 @@
             <p>Não. O GV3 Optimizer atua exclusivamente nas configurações do seu sistema operacional Windows. Ele não injeta arquivos nos jogos e é 100% seguro com qualquer Anti-Cheat (Vanguard, EAC, BattleEye, etc.).</p>
           </div>
         </details>
+      </div>
+    </section>
+
+    <section id="tab-login" class="tab-content">
+      <div class="admin-box" id="loginFormBlock">
+        <div class="section-title" style="margin-bottom: 1.5rem;">
+          <h2>Área do Administrador</h2>
+          <p>Faça login para editar o conteúdo do site.</p>
+        </div>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Usuário</label>
+            <input type="text" id="adminUser" class="input-field" placeholder="Digite seu usuário" required>
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="adminPass" class="input-field" placeholder="Digite sua senha" required>
+          </div>
+          <p id="loginError" style="color: #ef4444; font-size: 0.85rem; display: none; margin-bottom: 1rem;">Usuário ou senha incorretos! (Dica: admin / admin)</p>
+          <button type="submit" class="btn-hero-primary" style="width: 100%;">Entrar no Painel</button>
+        </form>
+      </div>
+
+      <div class="admin-panel" id="adminPanelBlock" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h2><i class="fa-solid fa-pen-to-square"></i> Painel de Edição do Site</h2>
+          <button class="btn-hero-outline" onclick="handleLogout()" style="padding: 8px 16px;">Sair</button>
+        </div>
+
+        <div class="admin-section">
+          <h3>1. Editar Seção Início</h3>
+          <div class="form-group">
+            <label>Título Principal</label>
+            <input type="text" id="editHeroTitle" class="input-field" value="Otimize seu PC com 1 clique.">
+          </div>
+          <div class="form-group">
+            <label>Descrição Principal</label>
+
+            <textarea id="editHeroDesc" class="input-field" rows="3">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</textarea>
+          </div>
+          <button class="btn-hero-primary" onclick="saveHeroChanges()">Salvar Alterações do Início</button>
+        </div>
+
+        <div class="admin-section">
+          <h3>2. Adicionar Novo Membro na Equipe</h3>
+          <div class="form-group">
+            <label>Nome do Membro</label>
+            <input type="text" id="newMemberName" class="input-field" placeholder="Ex: Lucas">
+          </div>
+          <div class="form-group">
+            <label>Cargo / Função</label>
+            <input type="text" id="newMemberRole" class="input-field" placeholder="Ex: Moderador">
+          </div>
+          <div class="form-group">
+            <label>URL da Imagem de Perfil</label>
+            <input type="text" id="newMemberImg" class="input-field" placeholder="https://exemplo.com/imagem.png">
+          </div>
+          <div class="form-group">
+            <label>Descrição</label>
+            <input type="text" id="newMemberDesc" class="input-field" placeholder="Breve resumo das funções">
+          </div>
+          <button class="btn-hero-primary" onclick="addNewMember()">Adicionar Membro</button>
+        </div>
       </div>
     </section>
 
@@ -1028,7 +1158,8 @@
     let selectedPrice = 0;
     let selectedPlan = '';
 
-    function switchTab(tabId) {
+    // Troca de Abas
+    function switchTab(tabId, evt) {
       const contents = document.querySelectorAll('.tab-content');
       contents.forEach(content => content.classList.remove('active'));
 
@@ -1040,96 +1171,139 @@
         targetContent.classList.add('active');
       }
 
-      if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
+      if (evt && evt.currentTarget) {
+        evt.currentTarget.classList.add('active');
       }
     }
 
-   // Sistema de Cupons
+    // Cupons
     function applyCoupon() {
       const coupon = document.getElementById('couponInput').value.trim().toUpperCase();
       const msg = document.getElementById('couponMsg');
 
-      // Lista de cupons atualizada
-      const coupons = {
-        'GV310': 0.25,    // 10% de desconto
-        'G0MULT10': 0.25, // 20% de desconto
-        'HWNT3R10': 0.25, // 50% de desconto
-        'TESY10': 0.25    // 15% de desconto
-      };
-
-      if (coupons.hasOwnProperty(coupon)) {
-        currentDiscount = coupons[coupon];
-        const percentage = currentDiscount * 100;
-        
+      if (coupon === 'GV310') {
+        currentDiscount = 0.10;
         msg.style.color = '#10b981';
-        msg.innerText = `Cupom de ${percentage}% de desconto aplicado com sucesso!`;
-      } else if (coupon !== '') {
-        currentDiscount = 0;
+        msg.innerText = 'Cupom de 10% de desconto aplicado com sucesso!';
+        msg.style.display = 'block';
+      } else if (coupon === 'DESCONTO20') {
+        currentDiscount = 0.20;
+        msg.style.color = '#10b981';
+        msg.innerText = 'Cupom de 20% de desconto aplicado com sucesso!';
+        msg.style.display = 'block';
+      } else {
         msg.style.color = '#ef4444';
         msg.innerText = 'Cupom inválido ou expirado.';
-      } else {
-        currentDiscount = 0;
-        msg.style.color = '#ef4444';
-        msg.innerText = 'Por favor, digite um cupom.';
+        msg.style.display = 'block';
       }
-
-      msg.style.display = 'block';
     }
-    
 
-    // Sistema de Checkout
+    // Modal de Checkout
     function openCheckout(planName, price) {
       selectedPlan = planName;
       selectedPrice = price;
 
-      const modal = document.getElementById('checkoutModal');
-      const planNameEl = document.getElementById('modalPlanName');
-      const planPriceEl = document.getElementById('modalPlanPrice');
-      const discountTagEl = document.getElementById('modalDiscountTag');
-
-      const finalPrice = selectedPrice * (1 - currentDiscount);
-
-      planNameEl.innerText = selectedPlan;
-      planPriceEl.innerText = `R$ ${finalPrice.toFixed(2).replace('.', ',')}`;
-
-      if (currentDiscount > 0) {
-        discountTagEl.innerText = `Desconto de ${(currentDiscount * 100)}% aplicado`;
-        discountTagEl.style.color = '#10b981';
+      document.getElementById('modalPlanName').innerText = planName;
+      
+      let finalPrice = selectedPrice - (selectedPrice * currentDiscount);
+      document.getElementById('modalPlanPrice').innerText = 'R$ ' + finalPrice.toFixed(2).replace('.', ',');
+      
+      if(currentDiscount > 0) {
+        document.getElementById('modalDiscountTag').innerText = `Desconto de ${(currentDiscount*100)}% aplicado`;
       } else {
-        discountTagEl.innerText = 'Sem desconto aplicado';
-        discountTagEl.style.color = 'var(--text-muted)';
+        document.getElementById('modalDiscountTag').innerText = 'Sem desconto aplicado';
       }
 
-      modal.classList.add('active');
+      document.getElementById('checkoutModal').classList.add('active');
     }
 
     function closeCheckout() {
       document.getElementById('checkoutModal').classList.remove('active');
     }
 
-    function selectPayment(type) {
-      const btnPix = document.getElementById('btnPix');
-      const btnCard = document.getElementById('btnCard');
-      const pixPayment = document.getElementById('pixPayment');
-      const cardPayment = document.getElementById('cardPayment');
-
-      if (type === 'pix') {
-        btnPix.classList.add('active');
-        btnCard.classList.remove('active');
-        pixPayment.style.display = 'block';
-        cardPayment.style.display = 'none';
+    function selectPayment(method) {
+      document.getElementById('btnPix').classList.remove('active');
+      document.getElementById('btnCard').classList.remove('active');
+      
+      if(method === 'pix') {
+        document.getElementById('btnPix').classList.add('active');
+        document.getElementById('pixPayment').style.display = 'block';
+        document.getElementById('cardPayment').style.display = 'none';
       } else {
-        btnCard.classList.add('active');
-        btnPix.classList.remove('active');
-        pixPayment.style.display = 'none';
-        cardPayment.style.display = 'flex';
+        document.getElementById('btnCard').classList.add('active');
+        document.getElementById('pixPayment').style.display = 'none';
+        document.getElementById('cardPayment').style.display = 'flex';
       }
     }
 
     function processPayment() {
-      alert('Obrigado! Seu pedido foi processado com sucesso.');
+      alert('Pagamento processado com sucesso! Verifique seu e-mail/Discord.');
       closeCheckout();
+    }
+
+    // Sistema de Login e Administração
+    function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('adminUser').value;
+      const pass = document.getElementById('adminPass').value;
+
+      if(user === 'admin' && pass === 'admin') {
+        document.getElementById('loginFormBlock').style.display = 'none';
+        document.getElementById('adminPanelBlock').style.display = 'block';
+        document.getElementById('loginError').style.display = 'none';
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function handleLogout() {
+      document.getElementById('loginFormBlock').style.display = 'block';
+      document.getElementById('adminPanelBlock').style.display = 'none';
+      document.getElementById('adminUser').value = '';
+      document.getElementById('adminPass').value = '';
+    }
+
+    function saveHeroChanges() {
+      const newTitle = document.getElementById('editHeroTitle').value;
+      const newDesc = document.getElementById('editHeroDesc').value;
+
+      if(newTitle) document.getElementById('hero-title').innerText = newTitle;
+      if(newDesc) document.getElementById('hero-desc-text').innerText = newDesc;
+
+      alert('Alterações da Seção Início salvas com sucesso!');
+    }
+
+    function addNewMember() {
+      const name = document.getElementById('newMemberName').value.trim();
+      const role = document.getElementById('newMemberRole').value.trim();
+      const img = document.getElementById('newMemberImg').value.trim() || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png';
+      const desc = document.getElementById('newMemberDesc').value.trim();
+
+      if(!name || !role) {
+        alert('Por favor, preencha pelo menos o nome e a função.');
+        return;
+      }
+
+      const teamContainer = document.getElementById('teamContainer');
+      const card = document.createElement('div');
+      card.className = 'team-card';
+      card.innerHTML = `
+        <img src="${img}" alt="${name}" class="team-avatar">
+        <h3>${name}</h3>
+        <span class="team-role"><i class="fa-solid fa-user-check"></i> ${role}</span>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">${desc}</p>
+        <button class="btn-danger" onclick="this.parentElement.remove()">Remover</button>
+      `;
+
+      teamContainer.appendChild(card);
+
+      // Limpar campos
+      document.getElementById('newMemberName').value = '';
+      document.getElementById('newMemberRole').value = '';
+      document.getElementById('newMemberImg').value = '';
+      document.getElementById('newMemberDesc').value = '';
+
+      alert('Novo membro adicionado com sucesso!');
     }
   </script>
 </body>
