@@ -1,1029 +1,1456 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>GV3 Optimizer</title>
+
   
+
   <link rel="icon" href="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" type="image/png">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
   
+
   <style>
+
     /* ==========================================
+
        1. VARIAVEIS E RESET
+
        ========================================== */
+
     :root {
+
       --bg-dark: #05070a;
+
       --card-bg: rgba(15, 20, 32, 0.65);
+
       --card-border: rgba(255, 255, 255, 0.08);
+
       --accent-purple: #8b5cf6;
+
       --accent-purple-glow: rgba(139, 92, 246, 0.35);
+
       --accent-blue: #2563eb;
+
       --accent-blue-glow: rgba(37, 99, 235, 0.35);
+
       --accent-green: #10b981;
+
       --text-main: #f3f4f6;
+
       --text-muted: #9ca3af;
+
     }
+
+
 
     * {
+
       margin: 0;
+
       padding: 0;
+
       box-sizing: border-box;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
     }
+
+
 
     body {
+
       background-color: var(--bg-dark);
+
       color: var(--text-main);
+
       overflow-x: hidden;
+
       min-height: 100vh;
+
       display: flex;
+
       flex-direction: column;
+
       position: relative;
+
     }
+
+
 
     .bg-video-container {
+
       position: fixed;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
+
       z-index: -2;
+
       overflow: hidden;
+
     }
+
+
 
     .bg-video {
+
       width: 100%;
+
       height: 100%;
+
       object-fit: cover;
+
       opacity: 0.25;
+
     }
+
+
 
     .bg-overlay {
+
       position: fixed;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
+
       background: radial-gradient(circle, rgba(5,7,10,0.4) 0%, rgba(5,7,10,0.85) 100%);
+
       z-index: -1;
+
       pointer-events: none;
+
     }
+
+
 
     /* ==========================================
+
        2. NAVBAR & NAVEGAÇÃO DE ABAS
+
        ========================================== */
+
     .navbar {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       padding: 1.2rem 8%;
+
       background: rgba(5, 7, 10, 0.75);
+
       backdrop-filter: blur(16px);
+
       border-bottom: 1px solid var(--card-border);
+
       position: sticky;
+
       top: 0;
+
       z-index: 1000;
+
     }
+
+
 
     .logo {
+
       display: flex;
+
       align-items: center;
+
       gap: 12px;
+
       font-size: 1.25rem;
+
       font-weight: 800;
+
       letter-spacing: -0.5px;
+
     }
+
+
 
     .logo img {
+
       width: 34px;
+
       height: 34px;
+
       filter: drop-shadow(0 0 8px var(--accent-purple-glow));
+
     }
+
+
 
     .nav-tabs {
+
       display: flex;
+
       gap: 0.5rem;
+
       background: rgba(255, 255, 255, 0.03);
+
       padding: 6px;
+
       border-radius: 14px;
+
       border: 1px solid var(--card-border);
+
     }
 
+
+
     .tab-btn {
+
       background: transparent;
+
       border: none;
+
       color: var(--text-muted);
+
       padding: 8px 18px;
+
       border-radius: 10px;
+
       font-size: 0.9rem;
+
       font-weight: 600;
+
       cursor: pointer;
+
       transition: all 0.3s ease;
+
     }
+
+
 
     .tab-btn:hover { color: #ffffff; }
 
+
+
     .tab-btn.active {
+
       background: var(--accent-purple);
+
       color: #ffffff;
+
       box-shadow: 0 0 15px var(--accent-purple-glow);
+
     }
+
+
 
     .nav-right {
+
       display: flex;
+
       align-items: center;
+
       gap: 1rem;
+
     }
 
+
+
     .btn-discord {
+
       color: var(--text-muted);
+
       font-size: 0.95rem;
+
       text-decoration: none;
+
       display: flex;
+
       align-items: center;
+
       gap: 8px;
+
       transition: color 0.3s;
+
     }
+
+
 
     .btn-discord:hover { color: #ffffff; }
 
+
+
     /* ==========================================
+
        3. CONTEÚDO DAS ABAS
+
        ========================================== */
+
     .main-container {
+
       flex: 1;
+
       padding: 3rem 8%;
+
       max-width: 1300px;
+
       margin: 0 auto;
+
       width: 100%;
+
     }
 
+
+
     .tab-content {
+
       display: none;
+
       animation: fadeIn 0.4s ease forwards;
+
     }
+
+
 
     .tab-content.active { display: block; }
 
+
+
     @keyframes fadeIn {
+
       from { opacity: 0; transform: translateY(12px); }
+
       to { opacity: 1; transform: translateY(0); }
+
     }
 
+
+
     /* ==========================================
+
        4. HERO
+
        ========================================== */
+
     .hero {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       gap: 4rem;
+
       padding: 2rem 0;
+
     }
+
+
 
     .hero-left { max-width: 600px; }
 
+
+
     .badge-tag {
+
       display: inline-flex;
+
       align-items: center;
+
       gap: 8px;
+
       background: rgba(139, 92, 246, 0.12);
+
       color: var(--accent-purple);
+
       border: 1px solid rgba(139, 92, 246, 0.3);
+
       padding: 6px 16px;
+
       border-radius: 30px;
+
       font-size: 0.8rem;
+
       font-weight: 700;
+
       margin-bottom: 1.5rem;
+
     }
+
+
 
     .hero h1 {
+
       font-size: 3.5rem;
+
       font-weight: 800;
+
       line-height: 1.15;
+
       margin-bottom: 1.2rem;
+
       letter-spacing: -1px;
+
     }
+
+
 
     .hero h1 span {
+
       background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+
       -webkit-background-clip: text;
+
       -webkit-text-fill-color: transparent;
+
     }
+
+
 
     .hero-desc {
+
       color: var(--text-muted);
+
       font-size: 1.1rem;
+
       line-height: 1.6;
+
       margin-bottom: 2rem;
+
     }
+
+
 
     .hero-cta {
+
       display: flex;
+
       gap: 1rem;
+
       margin-bottom: 3rem;
+
     }
 
+
+
     .btn-hero-primary {
+
       background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+
       color: #fff;
+
       padding: 14px 32px;
+
       border-radius: 12px;
+
       font-weight: 700;
+
       text-decoration: none;
+
       box-shadow: 0 4px 20px var(--accent-purple-glow);
+
       transition: transform 0.2s;
+
       cursor: pointer;
+
       border: none;
+
     }
+
+
 
     .btn-hero-primary:hover { transform: translateY(-2px); }
 
+
+
     .btn-hero-outline {
+
       border: 1px solid var(--card-border);
+
       background: rgba(255, 255, 255, 0.03);
+
       color: #fff;
+
       padding: 14px 32px;
+
       border-radius: 12px;
+
       font-weight: 600;
+
       text-decoration: none;
+
       transition: border-color 0.2s;
+
       cursor: pointer;
+
       display: inline-block;
+
     }
+
+
 
     .btn-hero-outline:hover { border-color: rgba(255, 255, 255, 0.2); }
 
+
+
     .metrics-grid {
+
       display: flex;
+
       gap: 2.5rem;
+
       border-top: 1px solid var(--card-border);
+
       padding-top: 1.8rem;
+
     }
+
+
 
     .metric h3 { font-size: 1.6rem; color: var(--accent-purple); font-weight: 800; }
+
     .metric p { color: var(--text-muted); font-size: 0.85rem; }
 
+
+
     .layers-container {
+
       position: relative;
+
       width: 450px;
+
       height: 320px;
+
     }
 
+
+
     .layer {
+
       position: absolute;
+
       width: 100%;
+
       border-radius: 16px;
+
       border: 1px solid var(--card-border);
+
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+
       transition: transform 0.3s;
+
       object-fit: cover;
+
     }
+
+
 
     .layer-2 { top: 25px; left: 25px; z-index: 2; opacity: 0.75; }
 
+
+
     /* ==========================================
+
        5. RECURSOS & PLANOS
+
        ========================================== */
+
     .section-title { text-align: center; margin-bottom: 3rem; }
+
     .section-title h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+
     .section-title p { color: var(--text-muted); font-size: 1rem; }
 
+
+
     .features-grid {
+
       display: grid;
+
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
       gap: 1.5rem;
+
     }
+
+
 
     .feature-card {
+
       background: var(--card-bg);
+
       border: 1px solid var(--card-border);
+
       backdrop-filter: blur(12px);
+
       border-radius: 16px;
+
       padding: 2rem;
+
       transition: transform 0.3s, border-color 0.3s;
+
     }
+
+
 
     .feature-card:hover {
+
       border-color: rgba(139, 92, 246, 0.4);
+
       transform: translateY(-5px);
+
     }
+
+
 
     .f-icon {
+
       width: 48px;
+
       height: 48px;
+
       background: rgba(139, 92, 246, 0.15);
+
       color: var(--accent-purple);
+
       border-radius: 12px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       font-size: 1.25rem;
+
       margin-bottom: 1.2rem;
+
     }
+
+
 
     .feature-card h3 { font-size: 1.2rem; margin-bottom: 0.6rem; }
+
     .feature-card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
 
+
+
     .card-free {
+
       background: var(--card-bg);
+
       border: 1px solid var(--card-border);
+
       border-radius: 16px;
+
       padding: 2rem 2.5rem;
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       margin-bottom: 2.5rem;
+
       gap: 2rem;
+
     }
+
+
 
     .badge-free {
+
       background: rgba(16, 185, 129, 0.15);
+
       color: var(--accent-green);
+
       font-size: 0.75rem;
+
       font-weight: 700;
+
       padding: 4px 10px;
+
       border-radius: 6px;
+
       margin-left: 10px;
+
     }
+
+
 
     .pricing-grid {
+
       display: grid;
+
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
       gap: 1.8rem;
+
       margin-bottom: 3rem;
+
     }
+
+
 
     .pricing-card {
+
       background: var(--card-bg);
+
       border: 1px solid var(--card-border);
+
       border-radius: 18px;
+
       padding: 2.2rem 1.8rem;
+
       position: relative;
+
       display: flex;
+
       flex-direction: column;
+
     }
+
+
 
     .pricing-card.highlighted {
+
       border: 2px solid var(--accent-blue);
+
       box-shadow: 0 0 30px var(--accent-blue-glow);
+
     }
+
+
 
     .badge-top {
+
       position: absolute;
+
       top: -14px;
+
       left: 50%;
+
       transform: translateX(-50%);
+
       background: var(--accent-blue);
+
       color: #ffffff;
+
       font-size: 0.75rem;
+
       font-weight: 700;
+
       padding: 4px 14px;
+
       border-radius: 20px;
+
     }
+
+
 
     .price { font-size: 2.4rem; font-weight: 800; margin: 1rem 0 1.5rem 0; }
+
     .price span { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
 
+
+
     .btn-plan {
+
       display: block;
+
       width: 100%;
+
       text-align: center;
+
       padding: 12px;
+
       border-radius: 10px;
+
       font-weight: 700;
+
       border: none;
+
       cursor: pointer;
+
       transition: all 0.2s;
+
     }
+
+
 
     .btn-plan-primary { background: var(--accent-blue); color: #fff; }
+
     .btn-plan-outline { border: 1px solid var(--card-border); color: #fff; background: rgba(255, 255, 255, 0.02); }
 
+
+
     .features-list {
+
       margin-top: 2rem;
+
       border-top: 1px solid var(--card-border);
+
       padding-top: 1.5rem;
+
     }
 
+
+
     .features-list ul {
+
       list-style: none;
+
       margin-top: 1rem;
+
       display: flex;
+
       flex-direction: column;
+
       gap: 0.8rem;
+
     }
+
+
 
     .features-list li { color: var(--text-muted); font-size: 0.9rem; }
 
+
+
     /* ==========================================
+
        6. EQUIPE & FAQ
+
        ========================================== */
+
     .team-grid {
+
       display: grid;
+
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
       gap: 2rem;
+
       max-width: 1100px;
+
       margin: 0 auto;
+
     }
+
+
 
     .team-card {
+
       background: var(--card-bg);
+
       border: 1px solid var(--card-border);
+
       border-radius: 20px;
+
       padding: 2.5rem 2rem;
+
       text-align: center;
+
       position: relative;
+
     }
+
+
 
     .team-avatar {
+
       width: 100px;
+
       height: 100px;
+
       border-radius: 50%;
+
       object-fit: cover;
+
       border: 3px solid var(--accent-purple);
+
       margin-bottom: 1.2rem;
+
       box-shadow: 0 0 20px var(--accent-purple-glow);
+
     }
 
+
+
     .team-role {
+
       color: var(--accent-purple);
+
       font-size: 0.85rem;
+
       font-weight: 700;
+
       display: block;
+
       margin: 0.4rem 0 1rem 0;
+
     }
+
+
 
     .faq-container { max-width: 800px; margin: 0 auto; }
 
+
+
     .faq-item {
+
       background: var(--card-bg);
+
       border: 1px solid var(--card-border);
+
       border-radius: 12px;
+
       margin-bottom: 1rem;
+
       padding: 1.2rem 1.5rem;
+
     }
+
+
 
     .faq-item summary {
+
       cursor: pointer;
+
       font-weight: 700;
+
       list-style: none;
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
     }
+
+
 
     .faq-answer {
+
       margin-top: 1rem;
+
       color: var(--text-muted);
+
       font-size: 0.95rem;
+
       border-top: 1px solid var(--card-border);
-      padding-top: 1.5rem;
+
+      padding-top: 1rem;
+
     }
+
+
 
     .spoiler-img {
+
       width: 100%;
+
       border-radius: 10px;
+
       margin-top: 1rem;
+
       border: 1px solid var(--card-border);
+
     }
+
+
 
     /* ==========================================
+
        7. PAINÉIS DE LOGIN, ADMIN & USUÁRIO
+
        ========================================== */
+
     .admin-box {
+
       background: var(--card-bg);
+
       border: 1px solid var(--card-border);
+
       border-radius: 20px;
+
       padding: 2.5rem;
+
       max-width: 500px;
+
       margin: 0 auto;
+
     }
+
+
 
     .admin-panel {
+
       background: var(--card-bg);
+
       border: 1px solid var(--card-border);
+
       border-radius: 20px;
+
       padding: 2.5rem;
+
       max-width: 900px;
+
       margin: 0 auto;
+
     }
+
+
 
     .admin-section {
+
       margin-bottom: 2rem;
+
       padding-bottom: 2rem;
+
       border-bottom: 1px solid var(--card-border);
+
     }
 
+
+
     .admin-section h3 {
+
       color: var(--accent-purple);
+
       margin-bottom: 1rem;
+
     }
+
+
 
     .form-group { margin-bottom: 1.2rem; }
 
+
+
     .form-group label {
+
       display: block;
+
       font-size: 0.85rem;
+
       color: var(--text-muted);
+
       margin-bottom: 0.4rem;
+
     }
 
+
+
     .input-field {
+
       width: 100%;
+
       background: rgba(255, 255, 255, 0.04);
+
       border: 1px solid var(--card-border);
+
       padding: 12px 14px;
+
       border-radius: 10px;
+
       color: #fff;
+
       font-size: 0.95rem;
+
       outline: none;
+
     }
+
+
 
     .input-field:focus { border-color: var(--accent-purple); }
 
+
+
     .color-pickers {
+
       display: grid;
+
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
       gap: 1rem;
+
     }
+
+
 
     .color-picker-item {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       background: rgba(255, 255, 255, 0.02);
+
       padding: 10px;
+
       border-radius: 8px;
+
       border: 1px solid var(--card-border);
+
     }
+
+
 
     .color-picker-item input[type="color"] {
+
       border: none;
+
       width: 35px;
+
       height: 35px;
+
       border-radius: 6px;
+
       cursor: pointer;
+
       background: none;
+
     }
+
+
 
     .btn-danger {
+
       background: #ef4444;
+
       color: #fff;
+
       border: none;
+
       padding: 8px 16px;
+
       border-radius: 8px;
+
       cursor: pointer;
+
       font-weight: 600;
+
     }
+
+
 
     .badge-user {
+
       padding: 4px 12px;
+
       border-radius: 20px;
+
       font-size: 0.8rem;
+
       font-weight: 700;
+
     }
+
     .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+
     .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
 
+
+
     /* TABELA DE USUÁRIOS DO ADMIN */
+
     .user-table {
+
       width: 100%;
+
       border-collapse: collapse;
+
       margin-top: 1rem;
-    }
-    .user-table th, .user-table td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid var(--card-border);
-    }
-    .user-table th {
-      color: var(--text-muted);
-      font-size: 0.85rem;
+
     }
 
-    /* ESTILO MODAL PIX */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(8px);
-      z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
+    .user-table th, .user-table td {
+
+      padding: 12px;
+
+      text-align: left;
+
+      border-bottom: 1px solid var(--card-border);
+
     }
-    .modal-box {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      max-width: 450px;
-      width: 90%;
-      text-align: center;
-      position: relative;
+
+    .user-table th {
+
+      color: var(--text-muted);
+
+      font-size: 0.85rem;
+
     }
+
+
 
     /* FOOTER */
+
     footer {
+
       background: rgba(5, 7, 10, 0.95);
+
       border-top: 1px solid var(--card-border);
+
       padding: 3rem 8% 1.5rem 8%;
+
       margin-top: 4rem;
+
     }
+
+
 
     .footer-bottom {
+
       text-align: center;
+
       color: var(--text-muted);
+
       font-size: 0.85rem;
+
       border-top: 1px solid var(--card-border);
+
       padding-top: 1.5rem;
+
     }
+
   </style>
+
 </head>
+
 <body>
 
+
+
   <div class="bg-video-container">
+
     <video class="bg-video" autoplay loop muted playsinline>
+
       <source src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.mp4" type="video/mp4">
+
     </video>
+
   </div>
+
   <div class="bg-overlay"></div>
 
+
+
   <header class="navbar">
+
     <div class="logo">
+
       <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" alt="GV3 Logo">
+
       <span>GV3 <strong>OPTIMIZER</strong></span>
+
     </div>
+
+
 
     <nav class="nav-tabs">
+
       <button class="tab-btn active" onclick="switchTab('inicio', event)">Início</button>
+
       <button class="tab-btn" onclick="switchTab('recursos', event)">Recursos</button>
+
       <button class="tab-btn" onclick="switchTab('precos', event)">Planos & Preços</button>
+
       <button class="tab-btn" onclick="switchTab('sobre', event)">Sobre</button>
+
       <button class="tab-btn" onclick="switchTab('equipe', event)">Equipe</button>
+
       <button class="tab-btn" onclick="switchTab('faq', event)">FAQ</button>
+
       <button class="tab-btn" onclick="switchTab('login', event)"><i class="fa-solid fa-user"></i> <span id="navAccountText">Login</span></button>
+
     </nav>
 
+
+
     <div class="nav-right">
+
       <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
+
     </div>
+
   </header>
+
+
 
   <main class="main-container">
 
+
+
     <section id="tab-inicio" class="tab-content active">
+
       <div class="hero">
+
         <div class="hero-left">
+
           <div class="badge-tag">
+
             <i class="fa-solid fa-bolt"></i> DESEMPENHO MÁXIMO PARA SEU PC
+
           </div>
+
           <h1 id="hero-title">Otimize seu PC com <span>1 clique.</span></h1>
+
           <p class="hero-desc" id="hero-desc-text">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
+
           
+
           <div class="hero-cta">
+
             <button class="btn-hero-primary" onclick="switchTab('precos')">Começar agora</button>
+
             <button class="btn-hero-outline" onclick="switchTab('recursos')">Ver recursos</button>
+
           </div>
+
+
 
           <div class="metrics-grid">
+
             <div class="metric">
+
               <h3>↓ 15ms</h3>
+
               <p>Redução de latência</p>
+
             </div>
+
             <div class="metric">
+
               <h3>↑ 30%</h3>
+
               <p>Mais estabilidade</p>
+
             </div>
+
             <div class="metric">
+
               <h3>↑ 40%</h3>
+
               <p>Boot mais rápido</p>
+
             </div>
+
           </div>
+
         </div>
+
+
 
         <div class="hero-right">
+
           <div class="layers-container">
+
             <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Layer 2" class="layer layer-2">
+
           </div>
+
         </div>
+
       </div>
+
     </section>
+
+
 
     <section id="tab-recursos" class="tab-content">
+
       <div class="section-title">
+
         <h2>Recursos do App</h2>
+
         <p>Tudo o que você precisa para extrair o máximo do seu hardware em um só lugar.</p>
+
       </div>
+
+
 
       <div class="features-grid">
+
         <div class="feature-card">
+
           <div class="f-icon"><i class="fa-solid fa-bolt"></i></div>
+
           <h3>Mais FPS em 1 Clique</h3>
+
           <p>Ajustes finos em serviços do Windows, planos de energia e prioridade de CPU direcionados para o seu jogo.</p>
+
         </div>
 
+
+
         <div class="feature-card">
+
           <div class="f-icon"><i class="fa-solid fa-wave-square"></i></div>
+
           <h3>Menor Input Lag</h3>
+
           <p>Remove processos ocultos em segundo plano para garantir resposta imediata de teclado e mouse.</p>
+
         </div>
 
+
+
         <div class="feature-card">
+
           <div class="f-icon"><i class="fa-solid fa-gauge-high"></i></div>
+
           <h3>FPS Estável & Sem Stuttering</h3>
+
           <p>Elimina quedas bruscas de quadros e travamentos no meio de trocas de tiro ou momentos decisivos.</p>
+
         </div>
 
+
+
         <div class="feature-card">
+
           <div class="f-icon"><i class="fa-solid fa-shield-halved"></i></div>
+
           <h3>100% Seguro & Reversível</h3>
+
           <p>Sem códigos perigosos. Todos os tweaks são testados e possuem ponto de restauração instantâneo.</p>
+
         </div>
+
       </div>
+
     </section>
+
+
 
     <section id="tab-precos" class="tab-content">
-      <div class="section-title">
-        <h2>Planos e Preços</h2>
-        <p>Escolha o plano ideal e libere a melhor experiência em seu computador.</p>
-      </div>
 
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <h3>Mensal</h3>
-          <p style="color:var(--text-muted); font-size: 0.9rem;">Ideal para testar</p>
-          <div class="price">R$ 15,00 <span>/ mês</span></div>
-          <button class="btn-plan btn-plan-outline" onclick="iniciarCompra('Mensal')">Comprar com PIX</button>
-          <div class="features-list">
-            <ul>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Acesso total ao Optimizer</li>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Otimizações de FPS & Input Lag</li>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Suporte Básico</li>
-            </ul>
-          </div>
-        </div>
+      <div class="section-title"> 
 
-        <div class="pricing-card highlighted">
-          <div class="badge-top">MAIS POPULAR</div>
-          <h3>Anual</h3>
-          <p style="color:var(--text-muted); font-size: 0.9rem;">Melhor custo-benefício</p>
-          <div class="price">R$ 45,00 <span>/ ano</span></div>
-          <button class="btn-plan btn-plan-primary" onclick="iniciarCompra('Anual')">Comprar com PIX</button>
-          <div class="features-list">
-            <ul>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Acesso total por 1 ano</li>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Tweaks Exclusivos VIP</li>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Suporte Prioritário</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="pricing-card">
-          <h3>Vitalício</h3>
-          <p style="color:var(--text-muted); font-size: 0.9rem;">Para sempre seu</p>
-          <div class="price">R$ 80,00 <span>/ único</span></div>
-          <button class="btn-plan btn-plan-outline" onclick="iniciarCompra('Vitalicio')">Comprar com PIX</button>
-          <div class="features-list">
-            <ul>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Acesso Vitalício ilimitado</li>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Atualizações para sempre</li>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Atendimento VIP Direto</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="tab-sobre" class="tab-content">
-      <div class="section-title">
-        <h2>Sobre o GV3 Optimizer</h2>
-        <p>Desenvolvido para entregar o máximo de rendimento com foco total em performance gamer.</p>
-      </div>
-    </section>
-
-    <section id="tab-equipe" class="tab-content">
-      <div class="section-title">
-        <h2>Nossa Equipe</h2>
-        <p>Conheça as pessoas por trás do desenvolvimento do GV3 Optimizer.</p>
-      </div>
-      <div class="team-grid">
-        <div class="team-card">
-          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" alt="Avatar" class="team-avatar">
-          <h3>Svenom</h3>
-          <span class="team-role">Desenvolvedor Principal</span>
-          <p style="color:var(--text-muted); font-size:0.9rem;">Criador do software e especialista em otimização do sistema Windows.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="tab-faq" class="tab-content">
-      <div class="section-title">
-        <h2>Perguntas Frequentes</h2>
-        <p>Tire suas dúvidas rápidas sobre nosso software.</p>
-      </div>
-      <div class="faq-container">
-        <details class="faq-item">
-          <summary>Como recebo a minha key após a compra? <i class="fa-solid fa-chevron-down"></i></summary>
-          <div class="faq-answer">
-            Assim que você confirma o pagamento via PIX, uma nova key aleatória e única é gerada instantaneamente e enviada diretamente para a aba da sua Conta (Login).
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <section id="tab-login" class="tab-content">
-      <div id="authContainer" class="admin-box">
-        <h2 style="text-align:center; margin-bottom:1.5rem;" id="authTitle">Acessar Conta</h2>
-        
-        <div class="form-group">
-          <label for="username">Usuário / Email</label>
-          <input type="text" id="username" class="input-field" placeholder="Digite seu usuário">
-        </div>
-
-        <div class="form-group">
-          <label for="password">Senha</label>
-          <input type="password" id="password" class="input-field" placeholder="Digite sua senha">
-        </div>
-
-        <button class="btn-hero-primary" style="width:100%;" onclick="fazerLogin()">Entrar</button>
-      </div>
-
-      <div id="userProfile" class="admin-panel" style="display:none;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
-          <h2>Perfil do Usuário</h2>
-          <button class="btn-danger" onclick="fazerLogout()">Sair</button>
-        </div>
-
-        <div class="admin-section">
-          <h3>Informações da Conta</h3>
-          <p><strong>Usuário:</strong> <span id="profUser">---</span></p>
-          <p style="margin-top: 0.5rem;"><strong>Status:</strong> <span id="profStatus" class="badge-user badge-free-status">Sem Plano</span></p>
-        </div>
-
-        <div class="admin-section">
-          <h3>Minhas Keys Adquiridas</h3>
-          <ul id="userKeysList" style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
-            <li style="color: var(--text-muted);">Nenhuma key vinculada ainda.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <div id="pixModal" class="modal-overlay">
-    <div class="modal-box">
-      <h3 style="margin-bottom:1rem; color:var(--text-main);">Pagamento via PIX</h3>
-      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Plano Selecionado: <strong id="modalPlanoNome" style="color:var(--accent-purple);">--</strong></p>
-      
-      <div style="background: #fff; padding: 15px; border-radius: 12px; display: inline-block; margin-bottom: 1rem;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=GV3OptimizerPixSimulacao" alt="QR Code Pix" style="display:block;">
-      </div>
-
-      <div class="form-group">
-        <input type="text" readonly value="00020126360014BR.GOV.BCB.PIX0114+5500000000000520400005303986540515.005802BR" class="input-field" style="text-align:center; font-size:0.75rem;">
-      </div>
-
-      <p style="font-size:0.8rem; color:var(--accent-green); margin-bottom: 1.5rem;"><i class="fa-solid fa-spinner fa-spin"></i> Aguardando confirmação do pagamento...</p>
-
-      <button class="btn-hero-primary" style="width:100%;" onclick="confirmarPagamentoPix()">Simular Pagamento Confirmado</button>
-      <button class="btn-hero-outline" style="width:100%; margin-top:8px;" onclick="fecharModalPix()">Cancelar</button>
-    </div>
-  </div>
-
-  <footer>
-    <div class="footer-bottom">
-      <p>&copy; 2026 GV3 Optimizer. Todos os direitos reservados.</p>
-    </div>
-  </footer>
-
-  <script>
-    // SISTEMA DE CONTROLE DE KEYS E USUÁRIO LOGADO
-    let usuarioLogado = null;
-    let planoSelecionado = null;
-    let keysGeradas = new Set(); // Garante a unicidade de keys geradas
-
-    function switchTab(tabId, event) {
-      const contents = document.querySelectorAll('.tab-content');
-      contents.forEach(content => content.classList.remove('active'));
-
-      const buttons = document.querySelectorAll('.tab-btn');
-      buttons.forEach(btn => btn.classList.remove('active'));
-
-      document.getElementById('tab-' + tabId).classList.add('active');
-      if(event) event.currentTarget.classList.add('active');
-    }
-
-    function fazerLogin() {
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
-
-      if(!user || !pass) {
-        alert('Preencha os campos para logar!');
-        return;
-      }
-
-      usuarioLogado = {
-        nome: user,
-        keys: usuarioLogado ? usuarioLogado.keys : []
-      };
-
-      atualizarInterfacePerfil();
-    }
-
-    function fazerLogout() {
-      usuarioLogado = null;
-      document.getElementById('authContainer').style.display = 'block';
-      document.getElementById('userProfile').style.display = 'none';
-      document.getElementById('navAccountText').innerText = 'Login';
-    }
-
-    function atualizarInterfacePerfil() {
-      if(!usuarioLogado) return;
-
-      document.getElementById('authContainer').style.display = 'none';
-      document.getElementById('userProfile').style.display = 'block';
-      document.getElementById('navAccountText').innerText = usuarioLogado.nome;
-      document.getElementById('profUser').innerText = usuarioLogado.nome;
-
-      const listContainer = document.getElementById('userKeysList');
-      if(usuarioLogado.keys.length > 0) {
-        document.getElementById('profStatus').className = 'badge-user badge-vip-status';
-        document.getElementById('profStatus').innerText = 'VIP / Ativo';
-
-        listContainer.innerHTML = '';
-        usuarioLogado.keys.forEach(k => {
-          const li = document.createElement('li');
-          li.style.background = 'rgba(255,255,255,0.03)';
-          li.style.padding = '10px 14px';
-          li.style.borderRadius = '8px';
-          li.style.border = '1px solid var(--card-border)';
-          li.style.fontFamily = 'monospace';
-          li.style.color = 'var(--accent-purple)';
-          li.innerHTML = `<i class="fa-solid fa-key"></i> <strong>${k.key}</strong> - <span style="color:var(--text-muted); font-size:0.85rem;">Plano: ${k.plano}</span>`;
-          listContainer.appendChild(li);
-        });
-      }
-    }
-
-    // GERADOR DE KEYS ÚNICAS
-    function gerarKeyUnica() {
-      const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let key = '';
-      
-      do {
-        let blocos = [];
-        for(let i = 0; i < 4; i++) {
-          let bloco = '';
-          for(let j = 0; j < 4; j++) {
-            bloco += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
-          }
-          blocos.push(bloco);
-        }
-        key = 'GV3-' + blocos.join('-');
-      } while (keysGeradas.has(key)); // Verifica se a key já existe para não repetir
-
-      keysGeradas.add(key);
-      return key;
-    }
-
-    // FLUXO DE COMPRA COM PIX
-    function iniciarCompra(plano) {
-      if(!usuarioLogado) {
-        alert('Por favor, faça Login ou crie uma conta antes de efetuar a compra!');
-        switchTab('login');
-        return;
-      }
-      planoSelecionado = plano;
-      document.getElementById('modalPlanoNome').innerText = plano;
-      document.getElementById('pixModal').style.display = 'flex';
-    }
-
-    function fecharModalPix() {
-      document.getElementById('pixModal').style.display = 'none';
-    }
-
-    function confirmarPagamentoPix() {
-      if(!usuarioLogado) return;
-
-      // Gera Key Única apenas DEPOIS da confirmação do pagamento
-      const novaKey = gerarKeyUnica();
-      
-      usuarioLogado.keys.push({
-        key: novaKey,
-        plano: planoSelecionado
-      });
-
-      fecharModalPix();
-      alert(`Pagamento Confirmado! Sua Key (${novaKey}) foi adicionada com sucesso ao seu perfil.`);
-      
-      atualizarInterfacePerfil();
-      switchTab('login');
-    }
-  </script>
-</body>
-</html>
