@@ -733,7 +733,7 @@
       </div>
     </section>
 
-<section id="tab-precos" class="tab-content">
+    <section id="tab-precos" class="tab-content">
       <div class="section-title">
         <h2>Planos e Preços</h2>
         <p>Escolha o plano ideal para o seu perfil e destrave todo o potencial do seu setup.</p>
@@ -743,7 +743,7 @@
         <div>
           <h3 style="display:inline-flex; align-items:center;">Versão <span class="badge-free">Grátis</span></h3>
           <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
-            Acesso ao painel básico, monitoramento de sistema em tempo real e limpeza manual simples. 
+            Acesso ao painel básico, monitoramento de sistema em tempo real e limpeza manual simples.
           </p>
         </div>
         <button class="btn-hero-outline" style="padding: 10px 20px;" onclick="window.open('https://github.com/eulsvenomyt/GV3-Gr-tis/releases', '_blank')">Baixar Grátis</button>
@@ -907,6 +907,31 @@
         </div>
 
         <div class="admin-section">
+          <h3><i class="fa-solid fa-key"></i> Gerador de Keys VIP</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Crie chaves de acesso e envie para os clientes ativarem seus planos.</p>
+          <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <select id="keyPlanSelect" class="input-field" style="width: 200px;">
+              <option value="MENSAL">Mensal</option>
+              <option value="ANUAL">Anual</option>
+              <option value="VITALÍCIO">Vitalício</option>
+            </select>
+            <button class="btn-hero-primary" onclick="generateKey()">Gerar Nova Key</button>
+          </div>
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>Código da Key</th>
+                <th>Plano</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="keysListBody">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="admin-section">
           <h3><i class="fa-solid fa-palette"></i> Personalizar Cores do Site</h3>
           <div class="color-pickers">
             <div class="color-picker-item">
@@ -992,6 +1017,16 @@
             </div>
           </div>
         </div>
+
+        <div class="admin-section">
+          <h3><i class="fa-solid fa-gift"></i> Ativar Plano VIP</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Recebeu uma Key pelo Discord? Cole o código abaixo para ativar seu plano instantaneamente.</p>
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <input type="text" id="redeemKeyInput" class="input-field" placeholder="Ex: GV3-ABCD-1234" style="max-width: 300px; text-transform: uppercase;">
+            <button class="btn-hero-primary" onclick="redeemKey()">Ativar Key</button>
+          </div>
+        </div>
+
       </div>
 
     </section>
@@ -1006,7 +1041,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyACGqDGzcK8-pJnpqFy4u5ElRvAbQZ7vE0",
@@ -1024,6 +1059,7 @@
     let isRegisterMode = false;
     let teamMembers = [];
     let registeredUsers = [];
+    let generatedKeys = []; // NOVA VARIÁVEL PARA KEYS
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
 
     window.addEventListener('DOMContentLoaded', async () => {
@@ -1035,6 +1071,7 @@
 
     async function loadDataFromCloud() {
       try {
+        // Carrega Equipe
         const teamSnap = await getDocs(collection(db, 'config'));
         let teamFound = false;
         teamSnap.forEach(d => {
@@ -1053,6 +1090,7 @@
         }
         renderTeam();
 
+        // Carrega Usuários
         const usersSnap = await getDocs(collection(db, 'users'));
         registeredUsers = [];
         usersSnap.forEach(d => {
@@ -1064,11 +1102,20 @@
           await setDoc(doc(db, 'users', defaultAdmin.email), defaultAdmin);
           registeredUsers.push(defaultAdmin);
         }
+
+        // Carrega Keys geradas
+        const keysSnap = await getDocs(collection(db, 'keys'));
+        generatedKeys = [];
+        keysSnap.forEach(d => {
+          generatedKeys.push({ id: d.id, ...d.data() });
+        });
+
       } catch (err) {
         console.error("Erro ao carregar dados do Firebase:", err);
       }
     }
 
+    // NAVEGAÇÃO
     window.switchTab = function(tabId, event) {
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1086,6 +1133,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // LOGIN & CADASTRO
     window.toggleAuthMode = function(e) {
       e.preventDefault();
       isRegisterMode = !isRegisterMode;
@@ -1184,16 +1232,26 @@
           userPanel.style.display = 'none';
           renderAdminUsers();
           renderAdminTeam();
+          renderAdminKeys(); // Atualiza a lista de Keys do Admin
         } else {
           adminPanel.style.display = 'none';
           userPanel.style.display = 'block';
           document.getElementById('uDisplayName').innerText = currentUser.name;
           document.getElementById('uDisplayEmail').innerText = currentUser.email;
           document.getElementById('uDisplayStatus').innerText = currentUser.status;
+          
+          // Muda a cor da badge do status do usuário se ele for VIP
+          const statusBadge = document.getElementById('uDisplayStatus');
+          if(currentUser.status !== "Plano Grátis" && currentUser.status !== "GRÁTIS") {
+            statusBadge.className = "badge-user badge-vip-status";
+          } else {
+            statusBadge.className = "badge-user badge-free-status";
+          }
         }
       }
     }
 
+    // ADMIN USUÁRIOS
     function renderAdminUsers() {
       const tbody = document.getElementById('usersListBody');
       if (!tbody) return;
@@ -1218,6 +1276,101 @@
       renderAdminUsers();
     }
 
+    // ==========================================
+    // NOVO: SISTEMA DE KEYS
+    // ==========================================
+    window.generateKey = async function() {
+      const plan = document.getElementById('keyPlanSelect').value;
+      const randomString = Math.random().toString(36).substring(2, 10).toUpperCase();
+      const keyId = `GV3-${randomString.slice(0,4)}-${randomString.slice(4,8)}`;
+      
+      const newKey = {
+        plan: plan,
+        status: 'Pendente',
+        usedBy: ''
+      };
+
+      await setDoc(doc(db, 'keys', keyId), newKey);
+      generatedKeys.push({ id: keyId, ...newKey });
+      renderAdminKeys();
+      alert(`Key gerada com sucesso!\nCopie: ${keyId}`);
+    }
+
+    window.renderAdminKeys = function() {
+      const tbody = document.getElementById('keysListBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      generatedKeys.forEach((k, index) => {
+        const badgeClass = k.status === 'Pendente' ? 'badge-vip-status' : 'badge-free-status';
+        tbody.innerHTML += `
+          <tr>
+            <td><strong>${k.id}</strong></td>
+            <td>${k.plan}</td>
+            <td><span class="badge-user ${badgeClass}">${k.status}</span></td>
+            <td>
+              <button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;" onclick="deleteKey('${k.id}', ${index})">Excluir</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    window.deleteKey = async function(keyId, index) {
+      await deleteDoc(doc(db, 'keys', keyId));
+      generatedKeys.splice(index, 1);
+      renderAdminKeys();
+    }
+
+    window.redeemKey = async function() {
+      const input = document.getElementById('redeemKeyInput');
+      const keyId = input.value.trim().toUpperCase();
+      
+      if(!keyId) return alert('Digite uma key válida!');
+
+      try {
+        const keyRef = doc(db, 'keys', keyId);
+        const keySnap = await getDoc(keyRef);
+
+        if(keySnap.exists()) {
+          const keyData = keySnap.data();
+          if(keyData.status === 'Pendente') {
+            
+            // 1. Marcar a Key como Usada no banco de dados
+            await updateDoc(keyRef, {
+              status: 'Usada',
+              usedBy: currentUser.email
+            });
+
+            // 2. Atualizar o plano na conta do usuário no banco de dados
+            const userRef = doc(db, 'users', currentUser.email);
+            await updateDoc(userRef, {
+              status: keyData.plan
+            });
+
+            // 3. Atualizar o sistema localmente e a interface
+            currentUser.status = keyData.plan;
+            localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+            
+            const uIndex = registeredUsers.findIndex(u => u.email === currentUser.email);
+            if(uIndex !== -1) registeredUsers[uIndex].status = keyData.plan;
+
+            checkAuthUI();
+            alert(`✅ Parabéns! Seu plano ${keyData.plan} foi ativado com sucesso!`);
+            input.value = '';
+          } else {
+            alert('❌ Esta key já foi utilizada por outra pessoa!');
+          }
+        } else {
+          alert('❌ Key não encontrada ou inválida!');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao ativar a key. Verifique sua conexão.');
+      }
+    }
+    // ==========================================
+
+    // ADMIN EQUIPE E TEMAS
     function renderTeam() {
       const container = document.getElementById('teamContainer');
       if (!container) return;
