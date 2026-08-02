@@ -8,10 +8,11 @@
   <link rel="icon" href="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
   
   <style>
+    /* ==========================================
+       1. VARIAVEIS E RESET
+       ========================================== */
     :root {
       --bg-dark: #05070a;
       --card-bg: rgba(15, 20, 32, 0.65);
@@ -70,6 +71,9 @@
       pointer-events: none;
     }
 
+    /* ==========================================
+       2. NAVBAR & NAVEGAÇÃO DE ABAS
+       ========================================== */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -145,6 +149,9 @@
 
     .btn-discord:hover { color: #ffffff; }
 
+    /* ==========================================
+       3. CONTEÚDO DAS ABAS
+       ========================================== */
     .main-container {
       flex: 1;
       padding: 3rem 8%;
@@ -165,6 +172,9 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ==========================================
+       4. HERO
+       ========================================== */
     .hero {
       display: flex;
       align-items: center;
@@ -274,6 +284,9 @@
 
     .layer-2 { top: 25px; left: 25px; z-index: 2; opacity: 0.75; }
 
+    /* ==========================================
+       5. RECURSOS & PLANOS
+       ========================================== */
     .section-title { text-align: center; margin-bottom: 3rem; }
     .section-title h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
     .section-title p { color: var(--text-muted); font-size: 1rem; }
@@ -405,6 +418,9 @@
 
     .features-list li { color: var(--text-muted); font-size: 0.9rem; }
 
+    /* ==========================================
+       6. EQUIPE & FAQ
+       ========================================== */
     .team-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -474,6 +490,9 @@
       border: 1px solid var(--card-border);
     }
 
+    /* ==========================================
+       7. PAINÉIS DE LOGIN, ADMIN & USUÁRIO
+       ========================================== */
     .admin-box {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -560,6 +579,16 @@
       font-weight: 600;
     }
 
+    .badge-user {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+    .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+
+    /* TABELA DE USUÁRIOS DO ADMIN */
     .user-table {
       width: 100%;
       border-collapse: collapse;
@@ -575,6 +604,7 @@
       font-size: 0.85rem;
     }
 
+    /* ESTILOS DE EDIÇÃO DE EQUIPE */
     .team-edit-card {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--card-border);
@@ -583,6 +613,7 @@
       margin-bottom: 1rem;
     }
 
+    /* FOOTER */
     footer {
       background: rgba(5, 7, 10, 0.95);
       border-top: 1px solid var(--card-border);
@@ -955,7 +986,9 @@
             <div>
               <h3 id="uDisplayName" style="margin: 0; color: #fff;">Nome do Usuário</h3>
               <p id="uDisplayEmail" style="color: var(--text-muted); font-size: 0.9rem;">email@gmail.com</p>
-              <div style="margin-top: 8px;"><span class="badge-user badge-free-status" id="uDisplayStatus">Plano Grátis</span></div>
+              <div style="margin-top: 8px;">
+                Status da Conta: <span id="uDisplayStatus" class="badge-user badge-free-status">GRÁTIS</span>
+              </div>
             </div>
           </div>
         </div>
@@ -971,7 +1004,7 @@
     </div>
   </footer>
 
-<script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
     import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -993,7 +1026,6 @@
     let registeredUsers = [];
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
 
-    // Inicialização ao carregar a página
     window.addEventListener('DOMContentLoaded', async () => {
       await loadDataFromCloud();
       checkAuthUI();
@@ -1003,7 +1035,6 @@
 
     async function loadDataFromCloud() {
       try {
-        // Carregar Equipe
         const teamSnap = await getDocs(collection(db, 'config'));
         let teamFound = false;
         teamSnap.forEach(d => {
@@ -1022,14 +1053,12 @@
         }
         renderTeam();
 
-        // Carregar Usuários Cadastrados
         const usersSnap = await getDocs(collection(db, 'users'));
         registeredUsers = [];
         usersSnap.forEach(d => {
           registeredUsers.push(d.data());
         });
 
-        // Se não houver usuários, cria o Admin padrão
         if (registeredUsers.length === 0) {
           const defaultAdmin = { name: "Administrador Geral", email: "admin@admin.com", pass: "admin123", isAdmin: true, status: "Admin" };
           await setDoc(doc(db, 'users', defaultAdmin.email), defaultAdmin);
