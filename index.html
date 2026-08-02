@@ -102,6 +102,21 @@
       filter: drop-shadow(0 0 8px var(--accent-purple-glow));
     }
 
+    .menu-hamburguer {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+
+    .menu-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .nav-tabs {
       display: flex;
       gap: 0.5rem;
@@ -588,7 +603,6 @@
     .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
     .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
 
-    /* TABELA DE USUÁRIOS DO ADMIN */
     .user-table {
       width: 100%;
       border-collapse: collapse;
@@ -604,7 +618,6 @@
       font-size: 0.85rem;
     }
 
-    /* ESTILOS DE EDIÇÃO DE EQUIPE */
     .team-edit-card {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--card-border);
@@ -613,7 +626,6 @@
       margin-bottom: 1rem;
     }
 
-    /* FOOTER */
     footer {
       background: rgba(5, 7, 10, 0.95);
       border-top: 1px solid var(--card-border);
@@ -627,6 +639,35 @@
       font-size: 0.85rem;
       border-top: 1px solid var(--card-border);
       padding-top: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .menu-hamburguer { display: block; }
+      .menu-container {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-dark);
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--card-border);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      }
+      .menu-container.ativo { display: flex; }
+      .nav-tabs {
+        flex-direction: column;
+        width: 100%;
+        background: transparent;
+        border: none;
+      }
+      .tab-btn { width: 100%; text-align: center; padding: 14px; }
+      .hero { flex-direction: column; text-align: center; gap: 2rem; }
+      .hero-cta { justify-content: center; flex-wrap: wrap; }
+      .metrics-grid { justify-content: center; flex-wrap: wrap; }
+      .layers-container { width: 100%; max-width: 350px; height: 250px; margin: 0 auto; }
+      .card-free { flex-direction: column; text-align: center; gap: 1.5rem; }
     }
   </style>
 </head>
@@ -645,18 +686,24 @@
       <span>GV3 <strong>OPTIMIZER</strong></span>
     </div>
 
-    <nav class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('inicio', event)">Início</button>
-      <button class="tab-btn" onclick="switchTab('recursos', event)">Recursos</button>
-      <button class="tab-btn" onclick="switchTab('precos', event)">Planos & Preços</button>
-      <button class="tab-btn" onclick="switchTab('sobre', event)">Sobre</button>
-      <button class="tab-btn" onclick="switchTab('equipe', event)">Equipe</button>
-      <button class="tab-btn" onclick="switchTab('faq', event)">FAQ</button>
-      <button class="tab-btn" onclick="switchTab('login', event)"><i class="fa-solid fa-user"></i> <span id="navAccountText">Login</span></button>
-    </nav>
+    <button class="menu-hamburguer" onclick="toggleMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
-    <div class="nav-right">
-      <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
+    <div class="menu-container" id="menuContainer">
+      <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('inicio', event)">Início</button>
+        <button class="tab-btn" onclick="switchTab('recursos', event)">Recursos</button>
+        <button class="tab-btn" onclick="switchTab('precos', event)">Planos & Preços</button>
+        <button class="tab-btn" onclick="switchTab('sobre', event)">Sobre</button>
+        <button class="tab-btn" onclick="switchTab('equipe', event)">Equipe</button>
+        <button class="tab-btn" onclick="switchTab('faq', event)">FAQ</button>
+        <button class="tab-btn" onclick="switchTab('login', event)"><i class="fa-solid fa-user"></i> <span id="navAccountText">Login</span></button>
+      </nav>
+
+      <div class="nav-right">
+        <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
+      </div>
     </div>
   </header>
 
@@ -669,7 +716,7 @@
             <i class="fa-solid fa-bolt"></i> DESEMPENHO MÁXIMO PARA SEU PC
           </div>
           <h1 id="hero-title">Otimize seu PC com <span>1 clique.</span></h1>
-          <p class="hero-desc" id="hero-desc-text">Aumente seu FPS e reduza o input lag com otimizaciones inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
+          <p class="hero-desc" id="hero-desc-text">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
           
           <div class="hero-cta">
             <button class="btn-hero-primary" onclick="switchTab('precos')">Começar agora</button>
@@ -853,7 +900,6 @@
     </section>
 
     <section id="tab-login" class="tab-content">
-      
       <div class="admin-box" id="loginFormBlock">
         <div class="section-title" style="margin-bottom: 1.5rem;">
           <h2 id="loginTitle">Entrar na Conta</h2>
@@ -901,8 +947,7 @@
                 <th>Ações</th>
               </tr>
             </thead>
-            <tbody id="usersListBody">
-            </tbody>
+            <tbody id="usersListBody"></tbody>
           </table>
         </div>
 
@@ -992,226 +1037,169 @@
             </div>
           </div>
         </div>
-
-        <div class="admin-section">
-          <h3><i class="fa-solid fa-key"></i> Resgatar Key VIP / Premium</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Digite a chave de ativação fornecida após a compra para liberar a licença Premium.</p>
-          <div style="display: flex; gap: 1rem;">
-            <input type="text" id="keyInput" class="input-field" placeholder="GV3-XXXX-XXXX">
-            <button class="btn-hero-primary" style="white-space: nowrap;" onclick="redeemKey()">Resgatar Key</button>
-          </div>
-        </div>
       </div>
-
     </section>
 
   </main>
 
   <footer>
     <div class="footer-bottom">
-      &copy; 2026 GV3 Optimizer. Todos os direitos reservados.
+      <p>&copy; 2026 GV3 Optimizer. Todos os direitos reservados.</p>
     </div>
   </footer>
 
   <script>
-    /* ==========================================
-       DADOS INICIAIS E GERENCIAMENTO DE ESTADO
-       ========================================== */
-    const ADMIN_EMAIL = "Sebastyan18paulocop@gmail.com";
-    const ADMIN_PASS = "123456";
-
+    // ESTADO INICIAL
     let isRegisterMode = false;
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
-    let usersList = JSON.parse(localStorage.getItem('gv3_users')) || [];
-    
-    let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
-      { id: 1, name: "Svenom", role: "Fundador & Dev Lead", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Responsável pelo desenvolvimento das otimizações nativas." }
+    let users = JSON.parse(localStorage.getItem('gv3_users')) || [
+      { name: 'Admin Principal', email: 'admin@gv3.com', pass: 'admin123', role: 'admin', status: 'VIP' }
     ];
 
-    /* ==========================================
-       INICIALIZAÇÃO DA PÁGINA
-       ========================================== */
-    window.onload = function() {
-      renderTeam();
-      updateAuthUI();
-    };
+    let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
+      { name: 'EulsVenom', role: 'Fundador & Dev Lead', img: 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', desc: 'Especialista em otimizações de baixo nível e arquitetura Windows.' }
+    ];
 
-    /* Navegação entre abas */
+    // MANIPULAÇÃO DE MENU E ABAS
+    function toggleMenu() {
+      const menu = document.getElementById('menuContainer');
+      menu.classList.toggle('ativo');
+    }
+
     function switchTab(tabId, event) {
-      if (event) event.preventDefault();
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       const targetTab = document.getElementById('tab-' + tabId);
       if (targetTab) targetTab.classList.add('active');
 
-      const btnIndex = ['inicio', 'recursos', 'precos', 'sobre', 'equipe', 'faq', 'login'].indexOf(tabId);
-      if (btnIndex !== -1) {
-        const btns = document.querySelectorAll('.tab-btn');
-        if (btns[btnIndex]) btns[btnIndex].classList.add('active');
-      }
-    };
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
-    /* Alterna formulário entre Login e Cadastro */
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+
+      const menu = document.getElementById('menuContainer');
+      if (menu && menu.classList.contains('ativo')) {
+        menu.classList.remove('ativo');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // AUTHENTICATION SYSTEM
     function toggleAuthMode(e) {
-      if (e) e.preventDefault();
+      if(e) e.preventDefault();
       isRegisterMode = !isRegisterMode;
-      
       document.getElementById('nameGroup').style.display = isRegisterMode ? 'block' : 'none';
-      document.getElementById('loginTitle').innerText = isRegisterMode ? 'Criar Nova Conta' : 'Entrar na Conta';
-      document.getElementById('loginSubtitle').innerText = isRegisterMode ? 'Cadastre-se para acessar seu painel' : 'Acesse sua conta ou painel administrativo';
+      document.getElementById('loginTitle').innerText = isRegisterMode ? 'Criar Conta' : 'Entrar na Conta';
+      document.getElementById('loginSubtitle').innerText = isRegisterMode ? 'Crie sua conta para acessar o sistema' : 'Acesse sua conta ou painel administrativo';
       document.getElementById('btnAuthSubmit').innerText = isRegisterMode ? 'Cadastrar' : 'Entrar';
       document.getElementById('toggleAuthText').innerText = isRegisterMode ? 'Já tem uma conta?' : 'Não tem uma conta?';
-      document.getElementById('toggleAuthLink').innerText = isRegisterMode ? 'Entrar' : 'Criar Conta';
+      document.getElementById('toggleAuthLink').innerText = isRegisterMode ? 'Fazer Login' : 'Criar Conta';
       document.getElementById('authError').style.display = 'none';
     }
 
-    /* Manipula Login ou Cadastro */
     function handleAuth(e) {
       e.preventDefault();
       const email = document.getElementById('authEmail').value.trim();
       const pass = document.getElementById('authPass').value.trim();
       const name = document.getElementById('authName').value.trim();
-      const errorEl = document.getElementById('authError');
-
-      errorEl.style.display = 'none';
+      const errEl = document.getElementById('authError');
 
       if (isRegisterMode) {
         if (!name) {
-          errorEl.innerText = "Por favor, informe seu nome.";
-          errorEl.style.display = 'block';
+          errEl.innerText = 'Preencha o seu nome!';
+          errEl.style.display = 'block';
           return;
         }
-        if (usersList.find(u => u.email.toLowerCase() === email.toLowerCase())) {
-          errorEl.innerText = "Este e-mail já está cadastrado.";
-          errorEl.style.display = 'block';
+        if (users.find(u => u.email === email)) {
+          errEl.innerText = 'Este e-mail já está cadastrado!';
+          errEl.style.display = 'block';
           return;
         }
-        const newUser = { id: Date.now(), name, email, pass, isVip: false };
-        usersList.push(newUser);
-        localStorage.setItem('gv3_users', JSON.stringify(usersList));
-        
+        const newUser = { name, email, pass, role: 'user', status: 'GRÁTIS' };
+        users.push(newUser);
+        localStorage.setItem('gv3_users', JSON.stringify(users));
         currentUser = newUser;
         localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-        updateAuthUI();
       } else {
-        if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-          currentUser = { name: "Administrador", email: ADMIN_EMAIL, isAdmin: true };
-          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-          updateAuthUI();
+        const found = users.find(u => u.email === email && u.pass === pass);
+        if (!found) {
+          errEl.innerText = 'E-mail ou senha incorretos!';
+          errEl.style.display = 'block';
           return;
         }
-
-        const user = usersList.find(u => u.email.toLowerCase() === email.toLowerCase() && u.pass === pass);
-        if (user) {
-          currentUser = user;
-          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-          updateAuthUI();
-        } else {
-          errorEl.innerText = "E-mail ou senha incorretos.";
-          errorEl.style.display = 'block';
-        }
+        currentUser = found;
+        localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
       }
-    }
 
-    /* Atualização de interface com base no estado de login */
-    function updateAuthUI() {
-      const navText = document.getElementById('navAccountText');
-      const formBlock = document.getElementById('loginFormBlock');
-      const adminBlock = document.getElementById('adminPanelBlock');
-      const userBlock = document.getElementById('userPanelBlock');
-
-      if (!currentUser) {
-        navText.innerText = 'Login';
-        formBlock.style.display = 'block';
-        adminBlock.style.display = 'none';
-        userBlock.style.display = 'none';
-      } else {
-        navText.innerText = currentUser.name;
-        formBlock.style.display = 'none';
-        
-        if (currentUser.isAdmin) {
-          adminBlock.style.display = 'block';
-          userBlock.style.display = 'none';
-          renderUsersList();
-          renderAdminTeamEditList();
-        } else {
-          adminBlock.style.display = 'none';
-          userBlock.style.display = 'block';
-          document.getElementById('uDisplayName').innerText = currentUser.name;
-          document.getElementById('uDisplayEmail').innerText = currentUser.email;
-          const statusSpan = document.getElementById('uDisplayStatus');
-          if (currentUser.isVip) {
-            statusSpan.innerText = 'VIP / PREMIUM';
-            statusSpan.className = 'badge-user badge-vip-status';
-          } else {
-            statusSpan.innerText = 'GRÁTIS';
-            statusSpan.className = 'badge-user badge-free-status';
-          }
-        }
-      }
+      checkLoginState();
     }
 
     function logout() {
       currentUser = null;
       localStorage.removeItem('gv3_current_user');
-      updateAuthUI();
+      checkLoginState();
     }
 
-    /* Renderização e Edição de Usuários no Painel Admin */
-    function renderUsersList() {
+    function checkLoginState() {
+      const loginForm = document.getElementById('loginFormBlock');
+      const adminPanel = document.getElementById('adminPanelBlock');
+      const userPanel = document.getElementById('userPanelBlock');
+      const navAccountText = document.getElementById('navAccountText');
+
+      if (!currentUser) {
+        loginForm.style.display = 'block';
+        adminPanel.style.display = 'none';
+        userPanel.style.display = 'none';
+        navAccountText.innerText = 'Login';
+      } else if (currentUser.role === 'admin') {
+        loginForm.style.display = 'none';
+        adminPanel.style.display = 'block';
+        userPanel.style.display = 'none';
+        navAccountText.innerText = 'Painel Admin';
+        renderAdminUsers();
+        renderAdminTeam();
+      } else {
+        loginForm.style.display = 'none';
+        adminPanel.style.display = 'none';
+        userPanel.style.display = 'block';
+        navAccountText.innerText = currentUser.name.split(' ')[0];
+        document.getElementById('uDisplayName').innerText = currentUser.name;
+        document.getElementById('uDisplayEmail').innerText = currentUser.email;
+        document.getElementById('uDisplayStatus').innerText = currentUser.status || 'GRÁTIS';
+      }
+    }
+
+    // ADMIN PAINEL
+    function renderAdminUsers() {
       const tbody = document.getElementById('usersListBody');
       tbody.innerHTML = '';
-      if (usersList.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="color: var(--text-muted); text-align: center;">Nenhum usuário cadastrado.</td></tr>`;
-        return;
-      }
-      usersList.forEach(u => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${u.name}</td>
-          <td>${u.email}</td>
-          <td><span class="badge-user ${u.isVip ? 'badge-vip-status' : 'badge-free-status'}">${u.isVip ? 'VIP' : 'GRÁTIS'}</span></td>
-          <td><button onclick="removeUser(${u.id})" class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem;">Remover</button></td>
+      users.forEach((u, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${u.name}</td>
+            <td>${u.email}</td>
+            <td><span class="badge-user ${u.status === 'VIP' ? 'badge-vip-status' : 'badge-free-status'}">${u.status || 'GRÁTIS'}</span></td>
+            <td>${u.role !== 'admin' ? `<button onclick="deleteUser(${index})" class="btn-danger" style="padding:4px 8px; font-size:0.75rem;">Remover</button>` : '<em>Admin</em>'}</td>
+          </tr>
         `;
-        tbody.appendChild(tr);
       });
     }
 
-    function removeUser(id) {
-      usersList = usersList.filter(u => u.id !== id);
-      localStorage.setItem('gv3_users', JSON.stringify(usersList));
-      renderUsersList();
+    function deleteUser(index) {
+      users.splice(index, 1);
+      localStorage.setItem('gv3_users', JSON.stringify(users));
+      renderAdminUsers();
     }
 
-    /* Resgate de Keys */
-    function redeemKey() {
-      const key = document.getElementById('keyInput').value.trim();
-      if (!key) return;
-      
-      currentUser.isVip = true;
-      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-      
-      const idx = usersList.findIndex(u => u.id === currentUser.id);
-      if (idx !== -1) {
-        usersList[idx].isVip = true;
-        localStorage.setItem('gv3_users', JSON.stringify(usersList));
-      }
-
-      alert('Key resgatada com sucesso! Seu status agora é VIP.');
-      document.getElementById('keyInput').value = '';
-      updateAuthUI();
-    }
-
-    /* Edição do Tema e Textos pelo Admin */
     function updateTheme() {
-      const p = document.getElementById('pickerPurple').value;
-      const b = document.getElementById('pickerBlue').value;
+      const purple = document.getElementById('pickerPurple').value;
+      const blue = document.getElementById('pickerBlue').value;
       const bg = document.getElementById('pickerBg').value;
       const cardBg = document.getElementById('pickerCardBg').value;
 
-      document.documentElement.style.setProperty('--accent-purple', p);
-      document.documentElement.style.setProperty('--accent-blue', b);
+      document.documentElement.style.setProperty('--accent-purple', purple);
+      document.documentElement.style.setProperty('--accent-blue', blue);
       document.documentElement.style.setProperty('--bg-dark', bg);
       document.documentElement.style.setProperty('--card-bg', cardBg);
     }
@@ -1219,136 +1207,77 @@
     function saveTexts() {
       const title = document.getElementById('editHeroTitle').value;
       const desc = document.getElementById('editHeroDesc').value;
-      document.getElementById('hero-title').innerText = title;
+
+      document.getElementById('hero-title').innerHTML = title.replace(/(1 clique\.)/, '<span>$1</span>');
       document.getElementById('hero-desc-text').innerText = desc;
-      alert('Textos do Início salvos!');
+      alert('Textos salvos com sucesso!');
     }
 
-    /* ==========================================
-       GERENCIAMENTO DE EQUIPE (EXIBIÇÃO & EDIÇÃO)
-       ========================================== */
+    // EQUIPE
     function renderTeam() {
       const container = document.getElementById('teamContainer');
       container.innerHTML = '';
       teamMembers.forEach(m => {
-        const div = document.createElement('div');
-        div.className = 'team-card';
-        div.innerHTML = `
-          <img src="${m.img}" alt="${m.name}" class="team-avatar">
-          <h3>${m.name}</h3>
-          <span class="team-role">${m.role}</span>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">${m.desc}</p>
+        container.innerHTML += `
+          <div class="team-card">
+            <img src="${m.img}" class="team-avatar" alt="${m.name}">
+            <h3>${m.name}</h3>
+            <span class="team-role">${m.role}</span>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">${m.desc}</p>
+          </div>
         `;
-        container.appendChild(div);
       });
     }
 
-    /* Desenha os campos de edição para cada integrante dentro do Painel de Admin */
-    function renderAdminTeamEditList() {
+    function renderAdminTeam() {
       const list = document.getElementById('adminTeamEditList');
       list.innerHTML = '';
-      
-      if (teamMembers.length === 0) {
-        list.innerHTML = `<p style="color: var(--text-muted);">Nenhum integrante cadastrado na equipe.</p>`;
-        return;
-      }
-
-      teamMembers.forEach((member, index) => {
-        const card = document.createElement('div');
-        card.className = 'team-edit-card';
-        card.innerHTML = `
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div class="form-group">
-              <label>Nome do Integrante</label>
-              <input type="text" class="input-field" id="editTeamName_${index}" value="${member.name}">
+      teamMembers.forEach((m, index) => {
+        list.innerHTML += `
+          <div class="team-edit-card">
+            <div style="display:flex; justify-content:space-between; margin-bottom: 0.5rem;">
+              <strong>${m.name}</strong>
+              <button onclick="removeTeamMember(${index})" class="btn-danger" style="padding: 2px 8px; font-size: 0.75rem;">Excluir</button>
             </div>
-            <div class="form-group">
-              <label>Cargo</label>
-              <input type="text" class="input-field" id="editTeamRole_${index}" value="${member.role}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>URL da Foto (Avatar)</label>
-            <input type="text" class="input-field" id="editTeamImg_${index}" value="${member.img}">
-          </div>
-          <div class="form-group">
-            <label>Descrição</label>
-            <input type="text" class="input-field" id="editTeamDesc_${index}" value="${member.desc}">
-          </div>
-          <div style="display: flex; gap: 1rem;">
-            <button class="btn-hero-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="saveTeamMember(${index})">Salvar Alterações</button>
-            <button class="btn-danger" style="padding: 8px 16px; font-size: 0.85rem;" onclick="deleteTeamMember(${index})">Excluir</button>
+            <p style="font-size:0.85rem; color:var(--text-muted);">${m.role}</p>
           </div>
         `;
-        list.appendChild(card);
       });
     }
 
-    /* Salva as edições do integrante no elemento */
-    function saveTeamMember(index) {
-      const name = document.getElementById(`editTeamName_${index}`).value.trim();
-      const role = document.getElementById(`editTeamRole_${index}`).value.trim();
-      const img = document.getElementById(`editTeamImg_${index}`).value.trim();
-      const desc = document.getElementById(`editTeamDesc_${index}`).value.trim();
-
-      if (!name) {
-        alert("O nome não pode ficar vazio.");
-        return;
-      }
-
-      teamMembers[index] = {
-        id: teamMembers[index].id || Date.now(),
-        name,
-        role,
-        img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png',
-        desc
-      };
-
-      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
-      renderTeam();
-      renderAdminTeamEditList();
-      alert('Perfil do integrante atualizado com sucesso!');
-    }
-
-    /* Remove um integrante da equipe */
-    function deleteTeamMember(index) {
-      teamMembers.splice(index, 1);
-      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
-      renderTeam();
-      renderAdminTeamEditList();
-    }
-
-    /* Adiciona novos membros à equipe */
     function addTeamMember() {
       const name = document.getElementById('newMemberName').value.trim();
       const role = document.getElementById('newMemberRole').value.trim();
-      const img = document.getElementById('newMemberImg').value.trim();
+      const img = document.getElementById('newMemberImg').value.trim() || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png';
       const desc = document.getElementById('newMemberDesc').value.trim();
 
-      if (!name) {
-        alert('Por favor insira ao menos o nome do integrante.');
+      if (!name || !role) {
+        alert('Nome e cargo são obrigatórios!');
         return;
       }
 
-      teamMembers.push({
-        id: Date.now(),
-        name,
-        role: role || 'Membro da Equipe',
-        img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png',
-        desc: desc || ''
-      });
-
+      teamMembers.push({ name, role, img, desc });
       localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
-      renderTeam();
-      renderAdminTeamEditList();
-
+      
       document.getElementById('newMemberName').value = '';
       document.getElementById('newMemberRole').value = '';
       document.getElementById('newMemberImg').value = '';
       document.getElementById('newMemberDesc').value = '';
 
-      alert('Novo integrante adicionado à equipe!');
+      renderTeam();
+      renderAdminTeam();
     }
+
+    function removeTeamMember(index) {
+      teamMembers.splice(index, 1);
+      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
+      renderTeam();
+      renderAdminTeam();
+    }
+
+    // INICIALIZAÇÃO
+    renderTeam();
+    checkLoginState();
   </script>
 </body>
 </html>
