@@ -604,6 +604,15 @@
       font-size: 0.85rem;
     }
 
+    /* ESTILOS DE EDIÇÃO DE EQUIPE */
+    .team-edit-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
     /* FOOTER */
     footer {
       background: rgba(5, 7, 10, 0.95);
@@ -660,7 +669,7 @@
             <i class="fa-solid fa-bolt"></i> DESEMPENHO MÁXIMO PARA SEU PC
           </div>
           <h1 id="hero-title">Otimize seu PC com <span>1 clique.</span></h1>
-          <p class="hero-desc" id="hero-desc-text">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
+          <p class="hero-desc" id="hero-desc-text">Aumente seu FPS e reduza o input lag com otimizaciones inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
           
           <div class="hero-cta">
             <button class="btn-hero-primary" onclick="switchTab('precos')">Começar agora</button>
@@ -893,7 +902,7 @@
               </tr>
             </thead>
             <tbody id="usersListBody">
-              </tbody>
+            </tbody>
           </table>
         </div>
 
@@ -930,6 +939,12 @@
             <textarea id="editHeroDesc" class="input-field" rows="3">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</textarea>
           </div>
           <button class="btn-hero-primary" onclick="saveTexts()">Salvar Alterações de Texto</button>
+        </div>
+
+        <div class="admin-section">
+          <h3><i class="fa-solid fa-user-pen"></i> Editar Integrantes da Equipe</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Altere dados de qualquer membro da equipe ou remova-os.</p>
+          <div id="adminTeamEditList"></div>
         </div>
 
         <div class="admin-section">
@@ -982,10 +997,9 @@
           <h3><i class="fa-solid fa-key"></i> Resgatar Key VIP / Premium</h3>
           <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Digite a chave de ativação fornecida após a compra para liberar a licença Premium.</p>
           <div style="display: flex; gap: 1rem;">
-            <input type="text" id="keyInput" class="input-field" placeholder="GV3-XXXX-XXXX-XXXX">
-            <button class="btn-hero-primary" style="white-space: nowrap;" onclick="redeemKey()">Ativar Key</button>
+            <input type="text" id="keyInput" class="input-field" placeholder="GV3-XXXX-XXXX">
+            <button class="btn-hero-primary" style="white-space: nowrap;" onclick="redeemKey()">Resgatar Key</button>
           </div>
-          <p id="keyMsg" style="margin-top: 10px; font-size: 0.85rem; display: none;"></p>
         </div>
       </div>
 
@@ -995,306 +1009,345 @@
 
   <footer>
     <div class="footer-bottom">
-      <p>&copy; 2026 GV3 Optimizer. Todos os direitos reservados.</p>
+      &copy; 2026 GV3 Optimizer. Todos os direitos reservados.
     </div>
   </footer>
 
   <script>
-    // CREDENCIAIS DE ADMIN FIXAS
-    const ADMIN_EMAIL = "admin@gmail.com";
-    const ADMIN_PASS = "admin123";
+    /* ==========================================
+       DADOS INICIAIS E GERENCIAMENTO DE ESTADO
+       ========================================== */
+    const ADMIN_EMAIL = "Sebastyan18paulocop@gmail.com";
+    const ADMIN_PASS = "123456";
 
-    // ESTADO E DADOS PERSISTIDOS
     let isRegisterMode = false;
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
-    let registeredUsers = JSON.parse(localStorage.getItem('gv3_users')) || [];
-
+    let usersList = JSON.parse(localStorage.getItem('gv3_users')) || [];
+    
     let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
-      { name: "V3nom", role: "Fundador & Dev Principal", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/V3nom.png", desc: "Especialista em arquitetura de softwares de otimização e tweaks de registro." },
-      { name: "G0mult", role: "Otimizador & QA Tester", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gomult.png", desc: "Responsável por testes de desempenho e refinamento de estabilidade." }
+      { id: 1, name: "Svenom", role: "Fundador & Dev Lead", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Responsável pelo desenvolvimento das otimizações nativas." }
     ];
 
-    // INICIALIZAÇÃO DA PÁGINA
+    /* ==========================================
+       INICIALIZAÇÃO DA PÁGINA
+       ========================================== */
     window.onload = function() {
       renderTeam();
       updateAuthUI();
     };
 
-    // TROCA DE ABAS
+    /* Navegação entre abas */
     function switchTab(tabId, event) {
       if (event) event.preventDefault();
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-
+      
       const targetTab = document.getElementById('tab-' + tabId);
       if (targetTab) targetTab.classList.add('active');
 
-      const btns = document.querySelectorAll('.tab-btn');
-      btns.forEach(btn => {
-        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
-          btn.classList.add('active');
-        }
-      });
-    }
-
-    // ALTERNAR MODO LOGIN / CADASTRO
-    function toggleAuthMode(e) {
-      e.preventDefault();
-      isRegisterMode = !isRegisterMode;
-      const title = document.getElementById('loginTitle');
-      const subtitle = document.getElementById('loginSubtitle');
-      const nameGroup = document.getElementById('nameGroup');
-      const submitBtn = document.getElementById('btnAuthSubmit');
-      const toggleText = document.getElementById('toggleAuthText');
-      const toggleLink = document.getElementById('toggleAuthLink');
-
-      if (isRegisterMode) {
-        title.innerText = "Criar Nova Conta";
-        subtitle.innerText = "Cadastre-se para acessar os recursos da plataforma";
-        nameGroup.style.display = "block";
-        submitBtn.innerText = "Cadastrar";
-        toggleText.innerText = "Já possui uma conta?";
-        toggleLink.innerText = "Fazer Login";
-      } else {
-        title.innerText = "Entrar na Conta";
-        subtitle.innerText = "Acesse sua conta ou painel administrativo";
-        nameGroup.style.display = "none";
-        submitBtn.innerText = "Entrar";
-        toggleText.innerText = "Não tem uma conta?";
-        toggleLink.innerText = "Criar Conta";
+      const btnIndex = ['inicio', 'recursos', 'precos', 'sobre', 'equipe', 'faq', 'login'].indexOf(tabId);
+      if (btnIndex !== -1) {
+        const btns = document.querySelectorAll('.tab-btn');
+        if (btns[btnIndex]) btns[btnIndex].classList.add('active');
       }
+    };
+
+    /* Alterna formulário entre Login e Cadastro */
+    function toggleAuthMode(e) {
+      if (e) e.preventDefault();
+      isRegisterMode = !isRegisterMode;
+      
+      document.getElementById('nameGroup').style.display = isRegisterMode ? 'block' : 'none';
+      document.getElementById('loginTitle').innerText = isRegisterMode ? 'Criar Nova Conta' : 'Entrar na Conta';
+      document.getElementById('loginSubtitle').innerText = isRegisterMode ? 'Cadastre-se para acessar seu painel' : 'Acesse sua conta ou painel administrativo';
+      document.getElementById('btnAuthSubmit').innerText = isRegisterMode ? 'Cadastrar' : 'Entrar';
+      document.getElementById('toggleAuthText').innerText = isRegisterMode ? 'Já tem uma conta?' : 'Não tem uma conta?';
+      document.getElementById('toggleAuthLink').innerText = isRegisterMode ? 'Entrar' : 'Criar Conta';
+      document.getElementById('authError').style.display = 'none';
     }
 
-    // PROCESSAR LOGIN / CADASTRO
+    /* Manipula Login ou Cadastro */
     function handleAuth(e) {
       e.preventDefault();
       const email = document.getElementById('authEmail').value.trim();
       const pass = document.getElementById('authPass').value.trim();
+      const name = document.getElementById('authName').value.trim();
       const errorEl = document.getElementById('authError');
+
       errorEl.style.display = 'none';
 
-      // 1. LOGIN DE ADMINISTRADOR
-      if (!isRegisterMode && email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-        currentUser = { name: "Administrador", email: ADMIN_EMAIL, role: "admin" };
-        saveAndLogin();
-        return;
-      }
-
-      // 2. MODO DE CADASTRO DE USUÁRIO
       if (isRegisterMode) {
-        const name = document.getElementById('authName').value.trim();
         if (!name) {
-          showAuthError("Por favor, preencha o seu nome.");
+          errorEl.innerText = "Por favor, informe seu nome.";
+          errorEl.style.display = 'block';
           return;
         }
-
-        if (registeredUsers.some(u => u.email === email)) {
-          showAuthError("Este e-mail já está cadastrado.");
+        if (usersList.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+          errorEl.innerText = "Este e-mail já está cadastrado.";
+          errorEl.style.display = 'block';
           return;
         }
-
-        const newUser = { name, email, pass, isVip: false, role: "user" };
-        registeredUsers.push(newUser);
-        localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
-
+        const newUser = { id: Date.now(), name, email, pass, isVip: false };
+        usersList.push(newUser);
+        localStorage.setItem('gv3_users', JSON.stringify(usersList));
+        
         currentUser = newUser;
-        saveAndLogin();
-        return;
-      }
-
-      // 3. LOGIN DE USUÁRIO COMUM
-      const foundUser = registeredUsers.find(u => u.email === email && u.pass === pass);
-      if (foundUser) {
-        currentUser = foundUser;
-        saveAndLogin();
+        localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+        updateAuthUI();
       } else {
-        showAuthError("E-mail ou senha incorretos.");
+        if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+          currentUser = { name: "Administrador", email: ADMIN_EMAIL, isAdmin: true };
+          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+          updateAuthUI();
+          return;
+        }
+
+        const user = usersList.find(u => u.email.toLowerCase() === email.toLowerCase() && u.pass === pass);
+        if (user) {
+          currentUser = user;
+          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+          updateAuthUI();
+        } else {
+          errorEl.innerText = "E-mail ou senha incorretos.";
+          errorEl.style.display = 'block';
+        }
       }
     }
 
-    function saveAndLogin() {
-      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-      updateAuthUI();
-      document.getElementById('authEmail').value = '';
-      document.getElementById('authPass').value = '';
-      if (document.getElementById('authName')) document.getElementById('authName').value = '';
+    /* Atualização de interface com base no estado de login */
+    function updateAuthUI() {
+      const navText = document.getElementById('navAccountText');
+      const formBlock = document.getElementById('loginFormBlock');
+      const adminBlock = document.getElementById('adminPanelBlock');
+      const userBlock = document.getElementById('userPanelBlock');
+
+      if (!currentUser) {
+        navText.innerText = 'Login';
+        formBlock.style.display = 'block';
+        adminBlock.style.display = 'none';
+        userBlock.style.display = 'none';
+      } else {
+        navText.innerText = currentUser.name;
+        formBlock.style.display = 'none';
+        
+        if (currentUser.isAdmin) {
+          adminBlock.style.display = 'block';
+          userBlock.style.display = 'none';
+          renderUsersList();
+          renderAdminTeamEditList();
+        } else {
+          adminBlock.style.display = 'none';
+          userBlock.style.display = 'block';
+          document.getElementById('uDisplayName').innerText = currentUser.name;
+          document.getElementById('uDisplayEmail').innerText = currentUser.email;
+          const statusSpan = document.getElementById('uDisplayStatus');
+          if (currentUser.isVip) {
+            statusSpan.innerText = 'VIP / PREMIUM';
+            statusSpan.className = 'badge-user badge-vip-status';
+          } else {
+            statusSpan.innerText = 'GRÁTIS';
+            statusSpan.className = 'badge-user badge-free-status';
+          }
+        }
+      }
     }
 
-    function showAuthError(msg) {
-      const errorEl = document.getElementById('authError');
-      errorEl.innerText = msg;
-      errorEl.style.display = 'block';
-    }
-
-    // LOGOUT
     function logout() {
       currentUser = null;
       localStorage.removeItem('gv3_current_user');
       updateAuthUI();
     }
 
-    // ATUALIZAR INTERFACE CONFORME SESSÃO
-    function updateAuthUI() {
-      const loginBlock = document.getElementById('loginFormBlock');
-      const adminBlock = document.getElementById('adminPanelBlock');
-      const userBlock = document.getElementById('userPanelBlock');
-      const navText = document.getElementById('navAccountText');
-
-      loginBlock.style.display = 'none';
-      adminBlock.style.display = 'none';
-      userBlock.style.display = 'none';
-
-      if (!currentUser) {
-        loginBlock.style.display = 'block';
-        navText.innerText = 'Login';
-      } else if (currentUser.role === 'admin') {
-        adminBlock.style.display = 'block';
-        navText.innerText = 'Painel Admin';
-        renderAdminUsersList();
-      } else {
-        userBlock.style.display = 'block';
-        navText.innerText = currentUser.name.split(' ')[0];
-
-        document.getElementById('uDisplayName').innerText = currentUser.name;
-        document.getElementById('uDisplayEmail').innerText = currentUser.email;
-
-        const statusBadge = document.getElementById('uDisplayStatus');
-        if (currentUser.isVip) {
-          statusBadge.innerText = 'VIP / PREMIUM';
-          statusBadge.className = 'badge-user badge-vip-status';
-        } else {
-          statusBadge.innerText = 'GRÁTIS';
-          statusBadge.className = 'badge-user badge-free-status';
-        }
-      }
-    }
-
-    // RENDERIZAR TABELA DE USUÁRIOS NO PAINEL ADMIN
-    function renderAdminUsersList() {
+    /* Renderização e Edição de Usuários no Painel Admin */
+    function renderUsersList() {
       const tbody = document.getElementById('usersListBody');
       tbody.innerHTML = '';
-
-      if (registeredUsers.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="color: var(--text-muted); text-align: center;">Nenhum usuário cadastrado ainda.</td></tr>';
+      if (usersList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="color: var(--text-muted); text-align: center;">Nenhum usuário cadastrado.</td></tr>`;
         return;
       }
-
-      registeredUsers.forEach((u, index) => {
+      usersList.forEach(u => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><strong>${u.name}</strong></td>
+          <td>${u.name}</td>
           <td>${u.email}</td>
           <td><span class="badge-user ${u.isVip ? 'badge-vip-status' : 'badge-free-status'}">${u.isVip ? 'VIP' : 'GRÁTIS'}</span></td>
-          <td>
-            <button onclick="deleteUser(${index})" class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem;">
-              <i class="fa-solid fa-trash"></i> Apagar Conta
-            </button>
-          </td>
+          <td><button onclick="removeUser(${u.id})" class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem;">Remover</button></td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    // EXCLUIR CONTA DE USUÁRIO (ADMIN)
-    function deleteUser(index) {
-      if (confirm(`Tem certeza que deseja apagar a conta de "${registeredUsers[index].name}"?`)) {
-        registeredUsers.splice(index, 1);
-        localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
-        renderAdminUsersList();
-      }
+    function removeUser(id) {
+      usersList = usersList.filter(u => u.id !== id);
+      localStorage.setItem('gv3_users', JSON.stringify(usersList));
+      renderUsersList();
     }
 
-    // RESGATAR KEY VIP
+    /* Resgate de Keys */
     function redeemKey() {
       const key = document.getElementById('keyInput').value.trim();
-      const msg = document.getElementById('keyMsg');
-
-      if (key.toUpperCase() === 'GV3-VIP-2026') {
-        currentUser.isVip = true;
-        localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-
-        // Atualizar lista global
-        const idx = registeredUsers.findIndex(u => u.email === currentUser.email);
-        if (idx !== -1) {
-          registeredUsers[idx].isVip = true;
-          localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
-        }
-
-        msg.style.color = '#10b981';
-        msg.innerText = 'Parabéns! Sua conta agora possui acesso VIP/Premium.';
-        msg.style.display = 'block';
-        updateAuthUI();
-      } else {
-        msg.style.color = '#ef4444';
-        msg.innerText = 'Key inválida. Tente novamente.';
-        msg.style.display = 'block';
+      if (!key) return;
+      
+      currentUser.isVip = true;
+      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+      
+      const idx = usersList.findIndex(u => u.id === currentUser.id);
+      if (idx !== -1) {
+        usersList[idx].isVip = true;
+        localStorage.setItem('gv3_users', JSON.stringify(usersList));
       }
+
+      alert('Key resgatada com sucesso! Seu status agora é VIP.');
+      document.getElementById('keyInput').value = '';
+      updateAuthUI();
     }
 
-    // PERSONALIZAR CORES (ADMIN)
+    /* Edição do Tema e Textos pelo Admin */
     function updateTheme() {
-      const purple = document.getElementById('pickerPurple').value;
-      const blue = document.getElementById('pickerBlue').value;
+      const p = document.getElementById('pickerPurple').value;
+      const b = document.getElementById('pickerBlue').value;
       const bg = document.getElementById('pickerBg').value;
       const cardBg = document.getElementById('pickerCardBg').value;
 
-      document.documentElement.style.setProperty('--accent-purple', purple);
-      document.documentElement.style.setProperty('--accent-blue', blue);
+      document.documentElement.style.setProperty('--accent-purple', p);
+      document.documentElement.style.setProperty('--accent-blue', b);
       document.documentElement.style.setProperty('--bg-dark', bg);
       document.documentElement.style.setProperty('--card-bg', cardBg);
     }
 
-    // ALTERAR TEXTOS DO HERO (ADMIN)
     function saveTexts() {
-      const newTitle = document.getElementById('editHeroTitle').value;
-      const newDesc = document.getElementById('editHeroDesc').value;
-
-      if (newTitle) document.getElementById('hero-title').innerHTML = newTitle;
-      if (newDesc) document.getElementById('hero-desc-text').innerText = newDesc;
-
-      alert('Textos atualizados com sucesso!');
+      const title = document.getElementById('editHeroTitle').value;
+      const desc = document.getElementById('editHeroDesc').value;
+      document.getElementById('hero-title').innerText = title;
+      document.getElementById('hero-desc-text').innerText = desc;
+      alert('Textos do Início salvos!');
     }
 
-    // RENDERIZAR EQUIPE
+    /* ==========================================
+       GERENCIAMENTO DE EQUIPE (EXIBIÇÃO & EDIÇÃO)
+       ========================================== */
     function renderTeam() {
       const container = document.getElementById('teamContainer');
       container.innerHTML = '';
-
       teamMembers.forEach(m => {
-        const card = document.createElement('div');
-        card.className = 'team-card';
-        card.innerHTML = `
-          <img src="${m.img}" class="team-avatar" alt="${m.name}">
+        const div = document.createElement('div');
+        div.className = 'team-card';
+        div.innerHTML = `
+          <img src="${m.img}" alt="${m.name}" class="team-avatar">
           <h3>${m.name}</h3>
           <span class="team-role">${m.role}</span>
-          <p style="color: var(--text-muted); font-size: 0.88rem;">${m.desc}</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">${m.desc}</p>
         `;
-        container.appendChild(card);
+        container.appendChild(div);
       });
     }
 
-    // ADICIONAR MEMBRO DA EQUIPE (ADMIN)
-    function addTeamMember() {
-      const name = document.getElementById('newMemberName').value;
-      const role = document.getElementById('newMemberRole').value;
-      const img = document.getElementById('newMemberImg').value || 'https://via.placeholder.com/100';
-      const desc = document.getElementById('newMemberDesc').value;
-
-      if (!name || !role) {
-        alert('Por favor, preencha nome e cargo.');
+    /* Desenha os campos de edição para cada integrante dentro do Painel de Admin */
+    function renderAdminTeamEditList() {
+      const list = document.getElementById('adminTeamEditList');
+      list.innerHTML = '';
+      
+      if (teamMembers.length === 0) {
+        list.innerHTML = `<p style="color: var(--text-muted);">Nenhum integrante cadastrado na equipe.</p>`;
         return;
       }
 
-      teamMembers.push({ name, role, img, desc });
+      teamMembers.forEach((member, index) => {
+        const card = document.createElement('div');
+        card.className = 'team-edit-card';
+        card.innerHTML = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Nome do Integrante</label>
+              <input type="text" class="input-field" id="editTeamName_${index}" value="${member.name}">
+            </div>
+            <div class="form-group">
+              <label>Cargo</label>
+              <input type="text" class="input-field" id="editTeamRole_${index}" value="${member.role}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>URL da Foto (Avatar)</label>
+            <input type="text" class="input-field" id="editTeamImg_${index}" value="${member.img}">
+          </div>
+          <div class="form-group">
+            <label>Descrição</label>
+            <input type="text" class="input-field" id="editTeamDesc_${index}" value="${member.desc}">
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <button class="btn-hero-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="saveTeamMember(${index})">Salvar Alterações</button>
+            <button class="btn-danger" style="padding: 8px 16px; font-size: 0.85rem;" onclick="deleteTeamMember(${index})">Excluir</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    /* Salva as edições do integrante no elemento */
+    function saveTeamMember(index) {
+      const name = document.getElementById(`editTeamName_${index}`).value.trim();
+      const role = document.getElementById(`editTeamRole_${index}`).value.trim();
+      const img = document.getElementById(`editTeamImg_${index}`).value.trim();
+      const desc = document.getElementById(`editTeamDesc_${index}`).value.trim();
+
+      if (!name) {
+        alert("O nome não pode ficar vazio.");
+        return;
+      }
+
+      teamMembers[index] = {
+        id: teamMembers[index].id || Date.now(),
+        name,
+        role,
+        img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png',
+        desc
+      };
+
       localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
       renderTeam();
+      renderAdminTeamEditList();
+      alert('Perfil do integrante atualizado com sucesso!');
+    }
+
+    /* Remove um integrante da equipe */
+    function deleteTeamMember(index) {
+      teamMembers.splice(index, 1);
+      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
+      renderTeam();
+      renderAdminTeamEditList();
+    }
+
+    /* Adiciona novos membros à equipe */
+    function addTeamMember() {
+      const name = document.getElementById('newMemberName').value.trim();
+      const role = document.getElementById('newMemberRole').value.trim();
+      const img = document.getElementById('newMemberImg').value.trim();
+      const desc = document.getElementById('newMemberDesc').value.trim();
+
+      if (!name) {
+        alert('Por favor insira ao menos o nome do integrante.');
+        return;
+      }
+
+      teamMembers.push({
+        id: Date.now(),
+        name,
+        role: role || 'Membro da Equipe',
+        img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png',
+        desc: desc || ''
+      });
+
+      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
+      renderTeam();
+      renderAdminTeamEditList();
 
       document.getElementById('newMemberName').value = '';
       document.getElementById('newMemberRole').value = '';
       document.getElementById('newMemberImg').value = '';
       document.getElementById('newMemberDesc').value = '';
 
-      alert('Membro adicionado com sucesso!');
+      alert('Novo integrante adicionado à equipe!');
     }
   </script>
 </body>
