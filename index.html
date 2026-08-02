@@ -11,7 +11,7 @@
   
   <style>
     /* ==========================================
-       1. VARIÁVEIS E RESET
+       1. VARIAVEIS E RESET
        ========================================== */
     :root {
       --bg-dark: #05070a;
@@ -237,9 +237,6 @@
       transition: transform 0.2s;
       cursor: pointer;
       border: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .btn-hero-primary:hover { transform: translateY(-2px); }
@@ -254,9 +251,7 @@
       text-decoration: none;
       transition: border-color 0.2s;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
     }
 
     .btn-hero-outline:hover { border-color: rgba(255, 255, 255, 0.2); }
@@ -393,9 +388,7 @@
     .price span { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
 
     .btn-plan {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: block;
       width: 100%;
       text-align: center;
       padding: 12px;
@@ -403,7 +396,6 @@
       font-weight: 700;
       border: none;
       cursor: pointer;
-      text-decoration: none;
       transition: all 0.2s;
     }
 
@@ -642,7 +634,7 @@
 
   <div class="bg-video-container">
     <video class="bg-video" autoplay loop muted playsinline>
-      <source src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.gif" type="video/mp4">
+      <source src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.mp4" type="video/mp4">
     </video>
   </div>
   <div class="bg-overlay"></div>
@@ -749,12 +741,12 @@
 
       <div class="card-free">
         <div>
-          <h3 style="display:inline-flex; align-items:center;">Versão <span class="badge-free">Grátis</span></h3>
+          <h3 style="display:inline-flex; align-items:center;">Grátis <span class="badge-free">R$0 PARA SEMPRE</span></h3>
           <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
             Acesso ao painel básico, monitoramento de sistema em tempo real e limpeza manual simples. 
           </p>
         </div>
-        <a href="https://github.com/eulsvenomyt/GV3-Gr-tis/releases" target="_blank" class="btn-hero-outline" style="padding: 10px 20px;">Baixar Grátis</a>
+        <button class="btn-hero-outline" style="padding: 10px 20px;" onclick="switchTab('login')">Criar Conta Grátis</button>
       </div>
 
       <div class="pricing-grid">
@@ -762,7 +754,7 @@
           <h3>Mensal</h3>
           <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
           <div class="price">R$ 4,99 <span>/mês</span></div>
-          <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-plan btn-plan-outline">Assinar Agora</a>
+          <button class="btn-plan btn-plan-outline" onclick="switchTab('login')">Assinar Agora</button>
           <div class="features-list">
             <ul>
               <li>✓ Acesso completo ao app</li>
@@ -777,7 +769,7 @@
           <h3>Anual</h3>
           <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
           <div class="price">R$ 6,99 <span>/ano</span></div>
-          <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-plan btn-plan-primary">Garantir Desconto</a>
+          <button class="btn-plan btn-plan-primary" onclick="switchTab('login')">Garantir Desconto</button>
           <div class="features-list">
             <ul>
               <li>✓ Tudo do Plano Mensal</li>
@@ -791,7 +783,7 @@
           <h3>Vitalício</h3>
           <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
           <div class="price">R$ 17,99</div>
-          <a href="https://discord.gg/HPVGYybK5A" target="_blank" class="btn-plan btn-plan-outline">Acesso Vitalício</a>
+          <button class="btn-plan btn-plan-outline" onclick="switchTab('login')">Acesso Vitalício</button>
           <div class="features-list">
             <ul>
               <li>✓ Acesso permanente sem mensalidades</li>
@@ -844,9 +836,7 @@
           </summary>
           <div class="faq-answer">
             <p>Confira abaixo o design moderno do nosso painel principal:</p>
-            <video autoplay loop muted playsinline class="spoiler-img">
-              <source src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/spoiller.mp4" type="video/mp4">
-            </video>
+            <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" class="spoiler-img" alt="Interface GV3">
           </div>
         </details>
 
@@ -1003,6 +993,7 @@
           </div>
         </div>
       </div>
+
     </section>
 
   </main>
@@ -1013,190 +1004,360 @@
     </div>
   </footer>
 
-  <script>
-    // ESTADO E NAVEGAÇÃO DE ABAS
-    function switchTab(tabId, event) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      
-      const selectedTab = document.getElementById('tab-' + tabId);
-      if(selectedTab) selectedTab.classList.add('active');
-      
-      if(event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-      }
-    }
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-    // EQUIPE INICIAL
-    let teamMembers = [
-      { name: "svenom", role: "Fundador & Dev", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Responsável pelo desenvolvimento do núcleo do app e otimizações." }
-    ];
+    const firebaseConfig = {
+      apiKey: "AIzaSyACGqDGzcK8-pJnpqFy4u5ElRvAbQZ7vE0",
+      authDomain: "gv3suporte.firebaseapp.com",
+      projectId: "gv3suporte",
+      storageBucket: "gv3suporte.firebasestorage.app",
+      messagingSenderId: "863071488745",
+      appId: "1:863071488745:web:dc7af6bfe77fd3169dbe78",
+      measurementId: "G-ZHJ87L7HFV"
+    };
 
-    function renderTeam() {
-      const container = document.getElementById('teamContainer');
-      const editContainer = document.getElementById('adminTeamEditList');
-      
-      if(container) {
-        container.innerHTML = teamMembers.map(m => `
-          <div class="team-card">
-            <img src="${m.img}" class="team-avatar" alt="${m.name}">
-            <h3>${m.name}</h3>
-            <span class="team-role">${m.role}</span>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">${m.desc}</p>
-          </div>
-        `).join('');
-      }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-      if(editContainer) {
-        editContainer.innerHTML = teamMembers.map((m, i) => `
-          <div class="team-edit-card">
-            <div style="display: flex; gap: 1rem; margin-bottom: 0.8rem;">
-              <input type="text" class="input-field" value="${m.name}" onchange="teamMembers[${i}].name=this.value">
-              <input type="text" class="input-field" value="${m.role}" onchange="teamMembers[${i}].role=this.value">
-            </div>
-            <input type="text" class="input-field" value="${m.img}" onchange="teamMembers[${i}].img=this.value" style="margin-bottom: 0.8rem;">
-            <input type="text" class="input-field" value="${m.desc}" onchange="teamMembers[${i}].desc=this.value" style="margin-bottom: 0.8rem;">
-            <button class="btn-danger" onclick="removeTeamMember(${i})">Remover</button>
-          </div>
-        `).join('');
-      }
-    }
-
-    function addTeamMember() {
-      const name = document.getElementById('newMemberName').value;
-      const role = document.getElementById('newMemberRole').value;
-      const img = document.getElementById('newMemberImg').value || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png';
-      const desc = document.getElementById('newMemberDesc').value;
-
-      if(name && role) {
-        teamMembers.push({ name, role, img, desc });
-        renderTeam();
-        document.getElementById('newMemberName').value = '';
-        document.getElementById('newMemberRole').value = '';
-        document.getElementById('newMemberImg').value = '';
-        document.getElementById('newMemberDesc').value = '';
-      }
-    }
-
-    function removeTeamMember(index) {
-      teamMembers.splice(index, 1);
-      renderTeam();
-    }
-
-    // GERENCIAMENTO DE CORES E TEXTOS (ADMIN)
-    function updateTheme() {
-      const root = document.documentElement;
-      root.style.setProperty('--accent-purple', document.getElementById('pickerPurple').value);
-      root.style.setProperty('--accent-blue', document.getElementById('pickerBlue').value);
-      root.style.setProperty('--bg-dark', document.getElementById('pickerBg').value);
-      root.style.setProperty('--card-bg', document.getElementById('pickerCardBg').value);
-    }
-
-    function saveTexts() {
-      const title = document.getElementById('editHeroTitle').value;
-      const desc = document.getElementById('editHeroDesc').value;
-      document.getElementById('hero-title').innerHTML = title;
-      document.getElementById('hero-desc-text').innerText = desc;
-      alert('Textos atualizados!');
-    }
-
-    // AUTENTICAÇÃO E PAINÉIS
     let isRegisterMode = false;
-    let currentUser = null;
-    let users = [];
+    let teamMembers = [];
+    let registeredUsers = [];
+    let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
 
-    function toggleAuthMode(e) {
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadDataFromCloud();
+      checkAuthUI();
+      loadTheme();
+      loadTexts();
+    });
+
+    async function loadDataFromCloud() {
+      try {
+        const teamSnap = await getDocs(collection(db, 'config'));
+        let teamFound = false;
+        teamSnap.forEach(d => {
+          if (d.id === 'team') {
+            teamMembers = d.data().members;
+            teamFound = true;
+          }
+        });
+
+        if (!teamFound) {
+          teamMembers = [
+            { name: "Sven", role: "Fundador & Dev Principal", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Criador do GV3 Optimizer e apaixonado por performance." },
+            { name: "Admin", role: "Co-Fundador & Suporte", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Especialista em otimização e redes." }
+          ];
+          await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+        }
+        renderTeam();
+
+        const usersSnap = await getDocs(collection(db, 'users'));
+        registeredUsers = [];
+        usersSnap.forEach(d => {
+          registeredUsers.push(d.data());
+        });
+
+        if (registeredUsers.length === 0) {
+          const defaultAdmin = { name: "Administrador Geral", email: "admin@admin.com", pass: "admin123", isAdmin: true, status: "Admin" };
+          await setDoc(doc(db, 'users', defaultAdmin.email), defaultAdmin);
+          registeredUsers.push(defaultAdmin);
+        }
+      } catch (err) {
+        console.error("Erro ao carregar dados do Firebase:", err);
+      }
+    }
+
+    window.switchTab = function(tabId, event) {
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) targetTab.classList.add('active');
+
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          if (btn.getAttribute('onclick')?.includes(tabId)) btn.classList.add('active');
+        });
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.toggleAuthMode = function(e) {
       e.preventDefault();
       isRegisterMode = !isRegisterMode;
-      document.getElementById('nameGroup').style.display = isRegisterMode ? 'block' : 'none';
-      document.getElementById('loginTitle').innerText = isRegisterMode ? 'Criar Conta' : 'Entrar na Conta';
-      document.getElementById('loginSubtitle').innerText = isRegisterMode ? 'Crie sua conta para acessar o painel' : 'Acesse sua conta ou painel administrativo';
-      document.getElementById('btnAuthSubmit').innerText = isRegisterMode ? 'Cadastrar' : 'Entrar';
-      document.getElementById('toggleAuthText').innerText = isRegisterMode ? 'Já tem uma conta?' : 'Não tem uma conta?';
-      document.getElementById('toggleAuthLink').innerText = isRegisterMode ? 'Entrar' : 'Criar Conta';
+      const title = document.getElementById('loginTitle');
+      const subtitle = document.getElementById('loginSubtitle');
+      const nameGroup = document.getElementById('nameGroup');
+      const btnSubmit = document.getElementById('btnAuthSubmit');
+      const toggleText = document.getElementById('toggleAuthText');
+      const toggleLink = document.getElementById('toggleAuthLink');
+
+      if (isRegisterMode) {
+        title.innerText = "Criar Conta";
+        subtitle.innerText = "Registre-se para acessar o GV3 Optimizer";
+        nameGroup.style.display = "block";
+        btnSubmit.innerText = "Cadastrar";
+        toggleText.innerText = "Já tem uma conta?";
+        toggleLink.innerText = "Entrar";
+      } else {
+        title.innerText = "Entrar na Conta";
+        subtitle.innerText = "Acesse sua conta ou painel administrativo";
+        nameGroup.style.display = "none";
+        btnSubmit.innerText = "Entrar";
+        toggleText.innerText = "Não tem uma conta?";
+        toggleLink.innerText = "Criar Conta";
+      }
     }
 
-    function handleAuth(e) {
+    window.handleAuth = async function(e) {
       e.preventDefault();
-      const email = document.getElementById('authEmail').value;
-      const pass = document.getElementById('authPass').value;
-      const name = document.getElementById('authName').value;
-      const err = document.getElementById('authError');
+      const email = document.getElementById('authEmail').value.trim();
+      const pass = document.getElementById('authPass').value.trim();
+      const name = document.getElementById('authName').value.trim();
+      const errorEl = document.getElementById('authError');
+      errorEl.style.display = 'none';
 
-      // Admin Check
-      if(!isRegisterMode && email === 'admin@gv3.com' && pass === 'admin123') {
-        currentUser = { name: 'Administrador', email: 'admin@gv3.com', role: 'admin' };
-        showPanel('admin');
-        return;
-      }
+      if (isRegisterMode) {
+        const exists = registeredUsers.find(u => u.email === email);
+        if (exists) {
+          errorEl.innerText = "Este e-mail já está cadastrado!";
+          errorEl.style.display = 'block';
+          return;
+        }
+        const newUser = {
+          name: name || "Usuário",
+          email: email,
+          pass: pass,
+          isAdmin: false,
+          status: "Plano Grátis"
+        };
 
-      if(isRegisterMode) {
-        if(!name) { err.innerText = 'Preencha seu nome.'; err.style.display='block'; return; }
-        const newUser = { name, email, pass, status: 'GRÁTIS' };
-        users.push(newUser);
+        await setDoc(doc(db, 'users', email), newUser);
+        registeredUsers.push(newUser);
+        
         currentUser = newUser;
-        showPanel('user');
+        localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+        checkAuthUI();
+        switchTab('login');
       } else {
-        const found = users.find(u => u.email === email && u.pass === pass);
-        if(found) {
-          currentUser = found;
-          showPanel('user');
+        const user = registeredUsers.find(u => u.email === email && u.pass === pass);
+        if (user) {
+          currentUser = user;
+          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+          checkAuthUI();
         } else {
-          err.innerText = 'E-mail ou senha incorretos!';
-          err.style.display = 'block';
+          errorEl.innerText = "E-mail ou senha incorretos!";
+          errorEl.style.display = 'block';
         }
       }
     }
 
-    function showPanel(type) {
-      document.getElementById('loginFormBlock').style.display = 'none';
-      document.getElementById('authError').style.display = 'none';
-      
-      if(type === 'admin') {
-        document.getElementById('adminPanelBlock').style.display = 'block';
-        document.getElementById('userPanelBlock').style.display = 'none';
-        document.getElementById('navAccountText').innerText = 'Painel Admin';
-        renderUsersList();
+    window.logout = function() {
+      currentUser = null;
+      localStorage.removeItem('gv3_current_user');
+      checkAuthUI();
+      document.getElementById('authEmail').value = '';
+      document.getElementById('authPass').value = '';
+    }
+
+    function checkAuthUI() {
+      const loginForm = document.getElementById('loginFormBlock');
+      const adminPanel = document.getElementById('adminPanelBlock');
+      const userPanel = document.getElementById('userPanelBlock');
+      const navAccountText = document.getElementById('navAccountText');
+
+      if (!currentUser) {
+        loginForm.style.display = 'block';
+        adminPanel.style.display = 'none';
+        userPanel.style.display = 'none';
+        navAccountText.innerText = "Login";
       } else {
-        document.getElementById('userPanelBlock').style.display = 'block';
-        document.getElementById('adminPanelBlock').style.display = 'none';
-        document.getElementById('navAccountText').innerText = 'Minha Conta';
-        document.getElementById('uDisplayName').innerText = currentUser.name;
-        document.getElementById('uDisplayEmail').innerText = currentUser.email;
+        loginForm.style.display = 'none';
+        navAccountText.innerText = currentUser.name.split(' ')[0];
+
+        if (currentUser.isAdmin) {
+          adminPanel.style.display = 'block';
+          userPanel.style.display = 'none';
+          renderAdminUsers();
+          renderAdminTeam();
+        } else {
+          adminPanel.style.display = 'none';
+          userPanel.style.display = 'block';
+          document.getElementById('uDisplayName').innerText = currentUser.name;
+          document.getElementById('uDisplayEmail').innerText = currentUser.email;
+          document.getElementById('uDisplayStatus').innerText = currentUser.status;
+        }
       }
     }
 
-    function renderUsersList() {
+    function renderAdminUsers() {
       const tbody = document.getElementById('usersListBody');
-      if(tbody) {
-        tbody.innerHTML = users.map((u, index) => `
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      registeredUsers.forEach((u, index) => {
+        tbody.innerHTML += `
           <tr>
             <td>${u.name}</td>
             <td>${u.email}</td>
-            <td><span class="badge-user badge-free-status">${u.status}</span></td>
-            <td><button class="btn-danger" onclick="deleteUser(${index})">Excluir</button></td>
+            <td><span style="color: ${u.isAdmin ? '#f59e0b' : 'var(--accent-green)'};">${u.status}</span></td>
+            <td>
+              ${!u.isAdmin ? `<button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;" onclick="deleteUser('${u.email}', ${index})">Remover</button>` : '<span>-</span>'}
+            </td>
           </tr>
-        `).join('');
+        `;
+      });
+    }
+
+    window.deleteUser = async function(email, index) {
+      await deleteDoc(doc(db, 'users', email));
+      registeredUsers.splice(index, 1);
+      renderAdminUsers();
+    }
+
+    function renderTeam() {
+      const container = document.getElementById('teamContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      teamMembers.forEach(m => {
+        container.innerHTML += `
+          <div class="team-card">
+            <img src="${m.img}" alt="${m.name}" class="team-avatar">
+            <h3>${m.name}</h3>
+            <span class="team-role">${m.role}</span>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">${m.desc}</p>
+          </div>
+        `;
+      });
+    }
+
+    function renderAdminTeam() {
+      const container = document.getElementById('adminTeamEditList');
+      if (!container) return;
+      container.innerHTML = '';
+      teamMembers.forEach((m, index) => {
+        container.innerHTML += `
+          <div class="team-edit-card">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.8rem;">
+              <input type="text" class="input-field" id="editMemberName_${index}" value="${m.name}">
+              <input type="text" class="input-field" id="editMemberRole_${index}" value="${m.role}">
+            </div>
+            <div class="form-group" style="margin-bottom: 0.8rem;">
+              <input type="text" class="input-field" id="editMemberImg_${index}" value="${m.img}">
+            </div>
+            <div class="form-group" style="margin-bottom: 0.8rem;">
+              <input type="text" class="input-field" id="editMemberDesc_${index}" value="${m.desc}">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+              <button class="btn-hero-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="updateTeamMember(${index})">Salvar</button>
+              <button class="btn-danger" style="padding: 8px 16px; font-size: 0.85rem;" onclick="removeTeamMember(${index})">Excluir</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    window.addTeamMember = async function() {
+      const name = document.getElementById('newMemberName').value;
+      const role = document.getElementById('newMemberRole').value;
+      const img = document.getElementById('newMemberImg').value;
+      const desc = document.getElementById('newMemberDesc').value;
+
+      if (!name || !role) {
+        alert('Preencha pelo menos o nome e o cargo!');
+        return;
+      }
+
+      teamMembers.push({
+        name,
+        role,
+        img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png',
+        desc: desc || ''
+      });
+
+      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+      renderTeam();
+      renderAdminTeam();
+
+      document.getElementById('newMemberName').value = '';
+      document.getElementById('newMemberRole').value = '';
+      document.getElementById('newMemberImg').value = '';
+      document.getElementById('newMemberDesc').value = '';
+    }
+
+    window.updateTeamMember = async function(index) {
+      teamMembers[index].name = document.getElementById(`editMemberName_${index}`).value;
+      teamMembers[index].role = document.getElementById(`editMemberRole_${index}`).value;
+      teamMembers[index].img = document.getElementById(`editMemberImg_${index}`).value;
+      teamMembers[index].desc = document.getElementById(`editMemberDesc_${index}`).value;
+
+      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+      renderTeam();
+      alert('Membro atualizado com sucesso!');
+    }
+
+    window.removeTeamMember = async function(index) {
+      teamMembers.splice(index, 1);
+      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+      renderTeam();
+      renderAdminTeam();
+    }
+
+    window.updateTheme = function() {
+      const purple = document.getElementById('pickerPurple').value;
+      const blue = document.getElementById('pickerBlue').value;
+      const bg = document.getElementById('pickerBg').value;
+      const cardBg = document.getElementById('pickerCardBg').value;
+
+      document.documentElement.style.setProperty('--accent-purple', purple);
+      document.documentElement.style.setProperty('--accent-blue', blue);
+      document.documentElement.style.setProperty('--bg-dark', bg);
+      document.documentElement.style.setProperty('--card-bg', cardBg);
+
+      localStorage.setItem('gv3_theme', JSON.stringify({ purple, blue, bg, cardBg }));
+    }
+
+    function loadTheme() {
+      const saved = JSON.parse(localStorage.getItem('gv3_theme'));
+      if (saved) {
+        document.documentElement.style.setProperty('--accent-purple', saved.purple);
+        document.documentElement.style.setProperty('--accent-blue', saved.blue);
+        document.documentElement.style.setProperty('--bg-dark', saved.bg);
+        document.documentElement.style.setProperty('--card-bg', saved.cardBg);
+        
+        if(document.getElementById('pickerPurple')) document.getElementById('pickerPurple').value = saved.purple;
+        if(document.getElementById('pickerBlue')) document.getElementById('pickerBlue').value = saved.blue;
+        if(document.getElementById('pickerBg')) document.getElementById('pickerBg').value = saved.bg;
+        if(document.getElementById('pickerCardBg')) document.getElementById('pickerCardBg').value = saved.cardBg;
       }
     }
 
-    function deleteUser(index) {
-      users.splice(index, 1);
-      renderUsersList();
+    window.saveTexts = function() {
+      const title = document.getElementById('editHeroTitle').value;
+      const desc = document.getElementById('editHeroDesc').value;
+
+      localStorage.setItem('gv3_hero_title', title);
+      localStorage.setItem('gv3_hero_desc', desc);
+      loadTexts();
+      alert('Textos atualizados com sucesso!');
     }
 
-    function logout() {
-      currentUser = null;
-      document.getElementById('loginFormBlock').style.display = 'block';
-      document.getElementById('adminPanelBlock').style.display = 'none';
-      document.getElementById('userPanelBlock').style.display = 'none';
-      document.getElementById('navAccountText').innerText = 'Login';
-    }
+    function loadTexts() {
+      const savedTitle = localStorage.getItem('gv3_hero_title');
+      const savedDesc = localStorage.getItem('gv3_hero_desc');
 
-    // INICIALIZAÇÃO
-    window.onload = function() {
-      renderTeam();
-    };
+      if (savedTitle) {
+        document.getElementById('hero-title').innerHTML = savedTitle;
+        if(document.getElementById('editHeroTitle')) document.getElementById('editHeroTitle').value = savedTitle;
+      }
+      if (savedDesc) {
+        document.getElementById('hero-desc-text').innerText = savedDesc;
+        if(document.getElementById('editHeroDesc')) document.getElementById('editHeroDesc').value = savedDesc;
+      }
+    }
   </script>
 </body>
 </html>
