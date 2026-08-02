@@ -480,7 +480,7 @@
       color: var(--text-muted);
       font-size: 0.95rem;
       border-top: 1px solid var(--card-border);
-      padding-top: 1rem;
+      padding-top: 1.5rem;
     }
 
     .spoiler-img {
@@ -604,39 +604,26 @@
       font-size: 0.85rem;
     }
 
-    /* ESTILOS DA AREA DE PAGAMENTO / KEYS */
-    .key-box {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px dashed var(--accent-green);
-      color: var(--accent-green);
-      padding: 1rem;
-      border-radius: 12px;
-      font-family: monospace;
-      font-size: 1.2rem;
-      text-align: center;
-      margin-top: 1rem;
-      word-break: break-all;
+    /* ESTILO MODAL PIX */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
     }
-
-    .pix-container {
-      background: rgba(255, 255, 255, 0.03);
+    .modal-box {
+      background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-top: 1.5rem;
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 450px;
+      width: 90%;
       text-align: center;
-    }
-
-    .pix-code {
-      background: rgba(0,0,0,0.4);
-      padding: 12px;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      word-break: break-all;
-      margin: 1rem 0;
-      border: 1px solid var(--card-border);
+      position: relative;
     }
 
     /* FOOTER */
@@ -762,280 +749,151 @@
     <section id="tab-precos" class="tab-content">
       <div class="section-title">
         <h2>Planos e Preços</h2>
-        <p>Escolha o plano ideal para o seu perfil e destrave todo o potencial do seu setup.</p>
-      </div>
-
-      <div class="card-free">
-        <div>
-          <h3 style="display:inline-flex; align-items:center;">Grátis <span class="badge-free">R$0 PARA SEMPRE</span></h3>
-          <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
-            Acesso ao painel básico, monitoramento de sistema em tempo real e limpeza manual simples. 
-          </p>
-        </div>
-        <button class="btn-hero-outline" style="padding: 10px 20px;" onclick="switchTab('login')">Criar Conta Grátis</button>
+        <p>Escolha o plano ideal e libere a melhor experiência em seu computador.</p>
       </div>
 
       <div class="pricing-grid">
         <div class="pricing-card">
           <h3>Mensal</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
-          <div class="price">R$ 4,99 <span>/mês</span></div>
-          <button class="btn-plan btn-plan-outline" onclick="initiateCheckout('Mensal', '4.99')">Assinar Agora</button>
+          <p style="color:var(--text-muted); font-size: 0.9rem;">Ideal para testar</p>
+          <div class="price">R$ 15,00 <span>/ mês</span></div>
+          <button class="btn-plan btn-plan-outline" onclick="iniciarCompra('Mensal')">Comprar com PIX</button>
           <div class="features-list">
             <ul>
-              <li>✓ Acesso completo ao app</li>
-              <li>✓ Game Mode + PC Boost</li>
-              <li>✓ Suporte no Discord</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Acesso total ao Optimizer</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Otimizações de FPS & Input Lag</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Suporte Básico</li>
             </ul>
           </div>
         </div>
 
         <div class="pricing-card highlighted">
-          <div class="badge-top">⭐ MELHOR OFERTA</div>
+          <div class="badge-top">MAIS POPULAR</div>
           <h3>Anual</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
-          <div class="price">R$ 6,99 <span>/ano</span></div>
-          <button class="btn-plan btn-plan-primary" onclick="initiateCheckout('Anual', '6.99')">Garantir Desconto</button>
+          <p style="color:var(--text-muted); font-size: 0.9rem;">Melhor custo-benefício</p>
+          <div class="price">R$ 45,00 <span>/ ano</span></div>
+          <button class="btn-plan btn-plan-primary" onclick="iniciarCompra('Anual')">Comprar com PIX</button>
           <div class="features-list">
             <ul>
-              <li>✓ Tudo do Plano Mensal</li>
-              <li>✓ 2 meses totalmente grátis</li>
-              <li>✓ Cargo VIP e canais exclusivos no Discord</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Acesso total por 1 ano</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Tweaks Exclusivos VIP</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Suporte Prioritário</li>
             </ul>
           </div>
         </div>
 
         <div class="pricing-card">
           <h3>Vitalício</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Licença pessoal • Windows 10/11</p>
-          <div class="price">R$ 17,99</div>
-          <button class="btn-plan btn-plan-outline" onclick="initiateCheckout('Vitalício', '17.99')">Acesso Vitalício</button>
+          <p style="color:var(--text-muted); font-size: 0.9rem;">Para sempre seu</p>
+          <div class="price">R$ 80,00 <span>/ único</span></div>
+          <button class="btn-plan btn-plan-outline" onclick="iniciarCompra('Vitalicio')">Comprar com PIX</button>
           <div class="features-list">
             <ul>
-              <li>✓ Acesso permanente sem mensalidades</li>
-              <li>✓ Atualizações pra sempre</li>
-              <li>✓ Suporte prioritário</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Acesso Vitalício ilimitado</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Atualizações para sempre</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-green)"></i> Atendimento VIP Direto</li>
             </ul>
           </div>
         </div>
-      </div>
-
-      <div id="checkoutSection" class="pix-container" style="display: none; max-width: 600px; margin: 0 auto;">
-        <h3 id="checkoutPlanTitle" style="color: #fff; margin-bottom: 0.5rem;">Pagamento via Pix</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Copie o código abaixo para efetuar o pagamento no app do seu banco.</p>
-        
-        <div class="pix-code" id="pixCopiaColaText">00020126360014BR.GOV.BCB.PIX0114+551199999999952040000530398654044.995802BR5913GV3 Optimizer6009SAO PAULO62070503***6304E2CA</div>
-        
-        <button class="btn-hero-outline" style="width: 100%; margin-bottom: 1rem;" onclick="copyPixCode()"><i class="fa-regular fa-copy"></i> Copiar Código Pix</button>
-        <button class="btn-hero-primary" style="width: 100%;" onclick="confirmPaymentAndGenerateKey()"><i class="fa-solid fa-check"></i> Já realizei o pagamento</button>
       </div>
     </section>
 
     <section id="tab-sobre" class="tab-content">
       <div class="section-title">
-        <h2>Sobre a GV3</h2>
-        <p>A história de como buscamos revolucionar a otimização de sistemas.</p>
-      </div>
-
-      <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 2.5rem; max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-muted);">
-        <h3 style="color: #fff; margin-bottom: 1rem;">Nossa Missão</h3>
-        <p style="margin-bottom: 1.5rem;">
-          A GV3 nasceu da necessidade de entregar soluções simples e reais para jogadores que sofrem com travamentos e queda de desempenho.
-        </p>
-        <h3 style="color: #fff; margin-bottom: 1rem;">Tecnologia de Ponta</h3>
-        <p>
-          Nossos algoritmos realizam ajustes finos nos serviços nativos do Windows, registro do sistema e protocolos de rede sem afetar a estabilidade da máquina.
-        </p>
+        <h2>Sobre o GV3 Optimizer</h2>
+        <p>Desenvolvido para entregar o máximo de rendimento com foco total em performance gamer.</p>
       </div>
     </section>
 
     <section id="tab-equipe" class="tab-content">
       <div class="section-title">
         <h2>Nossa Equipe</h2>
-        <p>Os desenvolvedores e especialistas por trás do GV3 Optimizer.</p>
+        <p>Conheça as pessoas por trás do desenvolvimento do GV3 Optimizer.</p>
       </div>
-
-      <div class="team-grid" id="teamContainer"></div>
+      <div class="team-grid">
+        <div class="team-card">
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" alt="Avatar" class="team-avatar">
+          <h3>Svenom</h3>
+          <span class="team-role">Desenvolvedor Principal</span>
+          <p style="color:var(--text-muted); font-size:0.9rem;">Criador do software e especialista em otimização do sistema Windows.</p>
+        </div>
+      </div>
     </section>
 
     <section id="tab-faq" class="tab-content">
       <div class="section-title">
         <h2>Perguntas Frequentes</h2>
-        <p>Tire suas dúvidas sobre o funcionamento do app.</p>
+        <p>Tire suas dúvidas rápidas sobre nosso software.</p>
       </div>
-
       <div class="faq-container">
         <details class="faq-item">
-          <summary>
-            <span><i class="fa-solid fa-camera-retro"></i> Como é a interface do GV3 por dentro?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </summary>
+          <summary>Como recebo a minha key após a compra? <i class="fa-solid fa-chevron-down"></i></summary>
           <div class="faq-answer">
-            <p>Confira abaixo o design moderno do nosso painel principal:</p>
-            <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" class="spoiler-img" alt="Interface GV3">
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            <span><i class="fa-solid fa-shield-halved"></i> O software corre o risco de dar ban em jogos?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </summary>
-          <div class="faq-answer">
-            <p>Não. O GV3 Optimizer atua exclusivamente nas configurações do seu sistema operacional Windows. Ele não injeta arquivos nos jogos e é 100% seguro.</p>
+            Assim que você confirma o pagamento via PIX, uma nova key aleatória e única é gerada instantaneamente e enviada diretamente para a aba da sua Conta (Login).
           </div>
         </details>
       </div>
     </section>
 
     <section id="tab-login" class="tab-content">
-      
-      <div class="admin-box" id="loginFormBlock">
-        <div class="section-title" style="margin-bottom: 1.5rem;">
-          <h2 id="loginTitle">Entrar na Conta</h2>
-          <p id="loginSubtitle">Acesse sua conta ou painel administrativo</p>
+      <div id="authContainer" class="admin-box">
+        <h2 style="text-align:center; margin-bottom:1.5rem;" id="authTitle">Acessar Conta</h2>
+        
+        <div class="form-group">
+          <label for="username">Usuário / Email</label>
+          <input type="text" id="username" class="input-field" placeholder="Digite seu usuário">
         </div>
-        <form onsubmit="handleAuth(event)">
-          <div class="form-group" id="nameGroup" style="display: none;">
-            <label>Nome Completo</label>
-            <input type="text" id="authName" class="input-field" placeholder="Seu nome">
-          </div>
-          <div class="form-group">
-            <label>E-mail / Gmail</label>
-            <input type="email" id="authEmail" class="input-field" placeholder="seu@gmail.com" required>
-          </div>
-          <div class="form-group">
-            <label>Senha</label>
-            <input type="password" id="authPass" class="input-field" placeholder="Digite sua senha" required>
-          </div>
-          <p id="authError" style="color: #ef4444; font-size: 0.85rem; display: none; margin-bottom: 1rem;"></p>
-          
-          <button type="submit" class="btn-hero-primary" style="width: 100%;" id="btnAuthSubmit">Entrar</button>
-          
-          <p style="text-align: center; margin-top: 1.2rem; font-size: 0.9rem; color: var(--text-muted);">
-            <span id="toggleAuthText">Não tem uma conta?</span> 
-            <a href="#" onclick="toggleAuthMode(event)" style="color: var(--accent-purple); font-weight: 700; text-decoration: none;" id="toggleAuthLink">Criar Conta</a>
-          </p>
-        </form>
+
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" class="input-field" placeholder="Digite sua senha">
+        </div>
+
+        <button class="btn-hero-primary" style="width:100%;" onclick="fazerLogin()">Entrar</button>
       </div>
 
-      <div class="admin-panel" id="adminPanelBlock" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-          <h2><i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Painel do Administrador</h2>
-          <button onclick="logout()" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
-        </div>
-
-        <div class="admin-section">
-          <h3><i class="fa-solid fa-users-gear"></i> Gerenciar Usuários Cadastrados</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Lista de usuários registrados no sistema. Você pode remover contas a qualquer momento.</p>
-          <table class="user-table">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>E-mail</th>
-                <th>Status</th>
-                <th>Chave VIP</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="usersListBody">
-            </tbody>
-          </table>
-        </div>
-
-        <div class="admin-section">
-          <h3><i class="fa-solid fa-palette"></i> Personalizar Cores do Site</h3>
-          <div class="color-pickers">
-            <div class="color-picker-item">
-              <span>Cor Principal:</span>
-              <input type="color" id="pickerPurple" value="#8b5cf6" onchange="updateTheme()">
-            </div>
-            <div class="color-picker-item">
-              <span>Cor Secundária:</span>
-              <input type="color" id="pickerBlue" value="#2563eb" onchange="updateTheme()">
-            </div>
-            <div class="color-picker-item">
-              <span>Cor de Fundo:</span>
-              <input type="color" id="pickerBg" value="#05070a" onchange="updateTheme()">
-            </div>
-            <div class="color-picker-item">
-              <span>Cor dos Cards:</span>
-              <input type="color" id="pickerCardBg" value="#0f1420" onchange="updateTheme()">
-            </div>
-          </div>
-        </div>
-
-        <div class="admin-section">
-          <h3><i class="fa-solid fa-pen"></i> Alterar Textos do Início</h3>
-          <div class="form-group">
-            <label>Título do Hero</label>
-            <input type="text" id="editHeroTitle" class="input-field" value="Otimize seu PC com 1 clique.">
-          </div>
-          <div class="form-group">
-            <label>Descrição do Hero</label>
-            <textarea id="editHeroDesc" class="input-field" rows="3">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</textarea>
-          </div>
-          <button class="btn-hero-primary" onclick="saveTexts()">Salvar Alterações de Texto</button>
-        </div>
-
-        <div class="admin-section">
-          <h3><i class="fa-solid fa-user-plus"></i> Adicionar Integrante na Equipe</h3>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div class="form-group">
-              <label>Nome</label>
-              <input type="text" id="newMemberName" class="input-field" placeholder="Ex: Player1">
-            </div>
-            <div class="form-group">
-              <label>Cargo</label>
-              <input type="text" id="newMemberRole" class="input-field" placeholder="Ex: Moderador">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>URL da Foto (Avatar)</label>
-            <input type="text" id="newMemberImg" class="input-field" placeholder="https://link-da-imagem.png">
-          </div>
-          <div class="form-group">
-            <label>Descrição</label>
-            <input type="text" id="newMemberDesc" class="input-field" placeholder="Pequena descrição...">
-          </div>
-          <button class="btn-hero-primary" onclick="addTeamMember()">Adicionar à Equipe</button>
-        </div>
-      </div>
-
-      <div class="admin-panel" id="userPanelBlock" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-          <h2><i class="fa-solid fa-user-gear"></i> Minha Conta</h2>
-          <button onclick="logout()" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+      <div id="userProfile" class="admin-panel" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+          <h2>Perfil do Usuário</h2>
+          <button class="btn-danger" onclick="fazerLogout()">Sair</button>
         </div>
 
         <div class="admin-section">
           <h3>Informações da Conta</h3>
-          <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 1rem;">
-            <div style="width: 70px; height: 70px; border-radius: 50%; background: var(--accent-purple); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-              <i class="fa-solid fa-user"></i>
-            </div>
-            <div>
-              <h3 id="uDisplayName" style="margin: 0; color: #fff;">Nome do Usuário</h3>
-              <p id="uDisplayEmail" style="color: var(--text-muted); font-size: 0.9rem;">email@gmail.com</p>
-              <div style="margin-top: 8px;">
-                Status da Conta: <span id="uDisplayStatus" class="badge-user badge-free-status">GRÁTIS</span>
-              </div>
-            </div>
-          </div>
+          <p><strong>Usuário:</strong> <span id="profUser">---</span></p>
+          <p style="margin-top: 0.5rem;"><strong>Status:</strong> <span id="profStatus" class="badge-user badge-free-status">Sem Plano</span></p>
         </div>
 
         <div class="admin-section">
-          <h3><i class="fa-solid fa-key"></i> Minhas Chaves / Licenças Ativas</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">Sua chave de acesso ao GV3 Optimizer gerada após o pagamento:</p>
-          <div id="userKeyContainer">
-            <p style="color: var(--text-muted); font-style: italic; margin-top: 1rem;">Nenhuma chave ativa no momento. Adquira um plano para gerar sua chave Pix.</p>
-          </div>
+          <h3>Minhas Keys Adquiridas</h3>
+          <ul id="userKeysList" style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+            <li style="color: var(--text-muted);">Nenhuma key vinculada ainda.</li>
+          </ul>
         </div>
       </div>
-
     </section>
 
   </main>
+
+  <div id="pixModal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 style="margin-bottom:1rem; color:var(--text-main);">Pagamento via PIX</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Plano Selecionado: <strong id="modalPlanoNome" style="color:var(--accent-purple);">--</strong></p>
+      
+      <div style="background: #fff; padding: 15px; border-radius: 12px; display: inline-block; margin-bottom: 1rem;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=GV3OptimizerPixSimulacao" alt="QR Code Pix" style="display:block;">
+      </div>
+
+      <div class="form-group">
+        <input type="text" readonly value="00020126360014BR.GOV.BCB.PIX0114+5500000000000520400005303986540515.005802BR" class="input-field" style="text-align:center; font-size:0.75rem;">
+      </div>
+
+      <p style="font-size:0.8rem; color:var(--accent-green); margin-bottom: 1.5rem;"><i class="fa-solid fa-spinner fa-spin"></i> Aguardando confirmação do pagamento...</p>
+
+      <button class="btn-hero-primary" style="width:100%;" onclick="confirmarPagamentoPix()">Simular Pagamento Confirmado</button>
+      <button class="btn-hero-outline" style="width:100%; margin-top:8px;" onclick="fecharModalPix()">Cancelar</button>
+    </div>
+  </div>
 
   <footer>
     <div class="footer-bottom">
@@ -1044,296 +902,127 @@
   </footer>
 
   <script>
-    /* ==========================================
-       ESTADO GLOBAL & DADOS
-       ========================================== */
-    let isRegistering = false;
-    let selectedPlanForCheckout = null;
-
-    let users = JSON.parse(localStorage.getItem('gv3_users')) || [];
-    let activeUser = JSON.parse(localStorage.getItem('gv3_active_user')) || null;
-    let generatedKeysList = JSON.parse(localStorage.getItem('gv3_generated_keys')) || [];
-
-    let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
-      { name: "Svenom", role: "Fundador & Desenvolvedor", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Criador e desenvolvedor do GV3 Optimizer." }
-    ];
-
-    /* ==========================================
-       INICIALIZAÇÃO DA PÁGINA
-       ========================================== */
-    window.onload = function() {
-      renderTeam();
-      checkAuthStatus();
-    };
+    // SISTEMA DE CONTROLE DE KEYS E USUÁRIO LOGADO
+    let usuarioLogado = null;
+    let planoSelecionado = null;
+    let keysGeradas = new Set(); // Garante a unicidade de keys geradas
 
     function switchTab(tabId, event) {
-      if (event) event.preventDefault();
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
 
-      const targetTab = document.getElementById('tab-' + tabId);
-      if (targetTab) targetTab.classList.add('active');
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
 
-      const btns = document.querySelectorAll('.tab-btn');
-      btns.forEach(btn => {
-        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
-          btn.classList.add('active');
-        }
-      });
+      document.getElementById('tab-' + tabId).classList.add('active');
+      if(event) event.currentTarget.classList.add('active');
     }
 
-    /* ==========================================
-       AUTENTICAÇÃO & SISTEMA DE LOGIN
-       ========================================== */
-    function toggleAuthMode(e) {
-      e.preventDefault();
-      isRegistering = !isRegistering;
-      document.getElementById('nameGroup').style.display = isRegistering ? 'block' : 'none';
-      document.getElementById('loginTitle').innerText = isRegistering ? 'Criar Conta' : 'Entrar na Conta';
-      document.getElementById('loginSubtitle').innerText = isRegistering ? 'Cadastre-se para obter acesso' : 'Acesse sua conta ou painel administrativo';
-      document.getElementById('btnAuthSubmit').innerText = isRegistering ? 'Cadastrar' : 'Entrar';
-      document.getElementById('toggleAuthText').innerText = isRegistering ? 'Já tem uma conta?' : 'Não tem uma conta?';
-      document.getElementById('toggleAuthLink').innerText = isRegistering ? 'Entrar' : 'Criar Conta';
-      document.getElementById('authError').style.display = 'none';
-    }
+    function fazerLogin() {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
 
-    function handleAuth(e) {
-      e.preventDefault();
-      const email = document.getElementById('authEmail').value.trim();
-      const pass = document.getElementById('authPass').value.trim();
-      const name = document.getElementById('authName').value.trim();
-      const errEl = document.getElementById('authError');
-
-      errEl.style.display = 'none';
-
-      // Login Admin
-      if (!isRegistering && email === "admin@gmail.com" && pass === "admin") {
-        activeUser = { name: "Administrador", email: email, role: "admin" };
-        localStorage.setItem('gv3_active_user', JSON.stringify(activeUser));
-        checkAuthStatus();
+      if(!user || !pass) {
+        alert('Preencha os campos para logar!');
         return;
       }
 
-      if (isRegistering) {
-        if (!name) {
-          errEl.innerText = "Informe seu nome completo.";
-          errEl.style.display = 'block';
-          return;
-        }
-        if (users.some(u => u.email === email)) {
-          errEl.innerText = "Este e-mail já está registrado.";
-          errEl.style.display = 'block';
-          return;
-        }
+      usuarioLogado = {
+        nome: user,
+        keys: usuarioLogado ? usuarioLogado.keys : []
+      };
 
-        const newUser = { name, email, pass, status: "GRÁTIS", key: null };
-        users.push(newUser);
-        localStorage.setItem('gv3_users', JSON.stringify(users));
+      atualizarInterfacePerfil();
+    }
 
-        activeUser = newUser;
-        localStorage.setItem('gv3_active_user', JSON.stringify(activeUser));
-        checkAuthStatus();
-      } else {
-        const user = users.find(u => u.email === email && u.pass === pass);
-        if (user) {
-          activeUser = user;
-          localStorage.setItem('gv3_active_user', JSON.stringify(activeUser));
-          checkAuthStatus();
-        } else {
-          errEl.innerText = "E-mail ou senha incorretos!";
-          errEl.style.display = 'block';
-        }
+    function fazerLogout() {
+      usuarioLogado = null;
+      document.getElementById('authContainer').style.display = 'block';
+      document.getElementById('userProfile').style.display = 'none';
+      document.getElementById('navAccountText').innerText = 'Login';
+    }
+
+    function atualizarInterfacePerfil() {
+      if(!usuarioLogado) return;
+
+      document.getElementById('authContainer').style.display = 'none';
+      document.getElementById('userProfile').style.display = 'block';
+      document.getElementById('navAccountText').innerText = usuarioLogado.nome;
+      document.getElementById('profUser').innerText = usuarioLogado.nome;
+
+      const listContainer = document.getElementById('userKeysList');
+      if(usuarioLogado.keys.length > 0) {
+        document.getElementById('profStatus').className = 'badge-user badge-vip-status';
+        document.getElementById('profStatus').innerText = 'VIP / Ativo';
+
+        listContainer.innerHTML = '';
+        usuarioLogado.keys.forEach(k => {
+          const li = document.createElement('li');
+          li.style.background = 'rgba(255,255,255,0.03)';
+          li.style.padding = '10px 14px';
+          li.style.borderRadius = '8px';
+          li.style.border = '1px solid var(--card-border)';
+          li.style.fontFamily = 'monospace';
+          li.style.color = 'var(--accent-purple)';
+          li.innerHTML = `<i class="fa-solid fa-key"></i> <strong>${k.key}</strong> - <span style="color:var(--text-muted); font-size:0.85rem;">Plano: ${k.plano}</span>`;
+          listContainer.appendChild(li);
+        });
       }
     }
 
-    function checkAuthStatus() {
-      const loginBlock = document.getElementById('loginFormBlock');
-      const adminBlock = document.getElementById('adminPanelBlock');
-      const userBlock = document.getElementById('userPanelBlock');
-      const navText = document.getElementById('navAccountText');
-
-      if (!activeUser) {
-        loginBlock.style.display = 'block';
-        adminBlock.style.display = 'none';
-        userBlock.style.display = 'none';
-        navText.innerText = "Login";
-      } else if (activeUser.role === 'admin') {
-        loginBlock.style.display = 'none';
-        adminBlock.style.display = 'block';
-        userBlock.style.display = 'none';
-        navText.innerText = "Painel Admin";
-        renderAdminUsers();
-      } else {
-        loginBlock.style.display = 'none';
-        adminBlock.style.display = 'none';
-        userBlock.style.display = 'block';
-        navText.innerText = "Minha Conta";
-
-        // Atualizar perfil do usuário
-        document.getElementById('uDisplayName').innerText = activeUser.name;
-        document.getElementById('uDisplayEmail').innerText = activeUser.email;
-        const statusEl = document.getElementById('uDisplayStatus');
-        statusEl.innerText = activeUser.status || "GRÁTIS";
-        statusEl.className = activeUser.status === 'VIP' ? 'badge-user badge-vip-status' : 'badge-user badge-free-status';
-
-        const keyContainer = document.getElementById('userKeyContainer');
-        if (activeUser.key) {
-          keyContainer.innerHTML = `<div class="key-box">${activeUser.key}</div>`;
-        } else {
-          keyContainer.innerHTML = `<p style="color: var(--text-muted); font-style: italic; margin-top: 1rem;">Nenhuma chave ativa no momento. Adquira um plano para gerar sua chave Pix.</p>`;
-        }
-      }
-    }
-
-    function logout() {
-      activeUser = null;
-      localStorage.removeItem('gv3_active_user');
-      checkAuthStatus();
-    }
-
-    /* ==========================================
-       SISTEMA DE COMPRAS E GERAÇÃO DE KEYS ÚNICAS
-       ========================================== */
-    function initiateCheckout(planName, price) {
-      if (!activeUser) {
-        alert("Por favor, crie uma conta ou faça login para realizar uma compra.");
-        switchTab('login');
-        return;
-      }
-      
-      selectedPlanForCheckout = { name: planName, price: price };
-      document.getElementById('checkoutPlanTitle').innerText = `Pagamento do Plano ${planName} (R$ ${price})`;
-      document.getElementById('checkoutSection').style.display = 'block';
-      document.getElementById('checkoutSection').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function copyPixCode() {
-      const code = document.getElementById('pixCopiaColaText').innerText;
-      navigator.clipboard.writeText(code);
-      alert("Código Pix copiado para a área de transferência!");
-    }
-
-    function generateUniqueKey() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    // GERADOR DE KEYS ÚNICAS
+    function gerarKeyUnica() {
+      const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let key = '';
+      
       do {
-        let segment1 = '';
-        let segment2 = '';
-        let segment3 = '';
-        for (let i = 0; i < 4; i++) segment1 += chars.charAt(Math.floor(Math.random() * chars.length));
-        for (let i = 0; i < 4; i++) segment2 += chars.charAt(Math.floor(Math.random() * chars.length));
-        for (let i = 0; i < 4; i++) segment3 += chars.charAt(Math.floor(Math.random() * chars.length));
-        key = `GV3-${segment1}-${segment2}-${segment3}`;
-      } while (generatedKeysList.includes(key));
+        let blocos = [];
+        for(let i = 0; i < 4; i++) {
+          let bloco = '';
+          for(let j = 0; j < 4; j++) {
+            bloco += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+          }
+          blocos.push(bloco);
+        }
+        key = 'GV3-' + blocos.join('-');
+      } while (keysGeradas.has(key)); // Verifica se a key já existe para não repetir
 
-      generatedKeysList.push(key);
-      localStorage.setItem('gv3_generated_keys', JSON.stringify(generatedKeysList));
+      keysGeradas.add(key);
       return key;
     }
 
-    function confirmPaymentAndGenerateKey() {
-      if (!activeUser) return;
+    // FLUXO DE COMPRA COM PIX
+    function iniciarCompra(plano) {
+      if(!usuarioLogado) {
+        alert('Por favor, faça Login ou crie uma conta antes de efetuar a compra!');
+        switchTab('login');
+        return;
+      }
+      planoSelecionado = plano;
+      document.getElementById('modalPlanoNome').innerText = plano;
+      document.getElementById('pixModal').style.display = 'flex';
+    }
 
-      const newKey = generateUniqueKey();
+    function fecharModalPix() {
+      document.getElementById('pixModal').style.display = 'none';
+    }
 
-      // Atualizar no banco local
-      activeUser.status = "VIP";
-      activeUser.key = newKey;
-      localStorage.setItem('gv3_active_user', JSON.stringify(activeUser));
+    function confirmarPagamentoPix() {
+      if(!usuarioLogado) return;
 
-      // Atualizar lista de usuários
-      users = users.map(u => u.email === activeUser.email ? activeUser : u);
-      localStorage.setItem('gv3_users', JSON.stringify(users));
+      // Gera Key Única apenas DEPOIS da confirmação do pagamento
+      const novaKey = gerarKeyUnica();
+      
+      usuarioLogado.keys.push({
+        key: novaKey,
+        plano: planoSelecionado
+      });
 
-      document.getElementById('checkoutSection').style.display = 'none';
-      alert(`Pagamento confirmado com sucesso! Sua key foi criada e enviada para o seu perfil: ${newKey}`);
+      fecharModalPix();
+      alert(`Pagamento Confirmado! Sua Key (${novaKey}) foi adicionada com sucesso ao seu perfil.`);
+      
+      atualizarInterfacePerfil();
       switchTab('login');
-      checkAuthStatus();
-    }
-
-    /* ==========================================
-       PAINEL ADMINISTRATIVO E EQUIPE
-       ========================================== */
-    function renderAdminUsers() {
-      const tbody = document.getElementById('usersListBody');
-      tbody.innerHTML = '';
-
-      if (users.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="color: var(--text-muted);">Nenhum usuário cadastrado.</td></tr>`;
-        return;
-      }
-
-      users.forEach((u, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${u.name}</td>
-          <td>${u.email}</td>
-          <td><span class="badge-user ${u.status === 'VIP' ? 'badge-vip-status' : 'badge-free-status'}">${u.status || 'GRÁTIS'}</span></td>
-          <td style="font-family: monospace; font-size: 0.85rem;">${u.key || 'Sem Key'}</td>
-          <td><button onclick="deleteUser(${index})" class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem;">Remover</button></td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function deleteUser(index) {
-      users.splice(index, 1);
-      localStorage.setItem('gv3_users', JSON.stringify(users));
-      renderAdminUsers();
-    }
-
-    function updateTheme() {
-      const p = document.getElementById('pickerPurple').value;
-      const b = document.getElementById('pickerBlue').value;
-      const bg = document.getElementById('pickerBg').value;
-      const card = document.getElementById('pickerCardBg').value;
-
-      document.documentElement.style.setProperty('--accent-purple', p);
-      document.documentElement.style.setProperty('--accent-blue', b);
-      document.documentElement.style.setProperty('--bg-dark', bg);
-      document.documentElement.style.setProperty('--card-bg', card);
-    }
-
-    function saveTexts() {
-      const title = document.getElementById('editHeroTitle').value;
-      const desc = document.getElementById('editHeroDesc').value;
-
-      document.getElementById('hero-title').innerHTML = title;
-      document.getElementById('hero-desc-text').innerText = desc;
-      alert("Textos alterados com sucesso!");
-    }
-
-    function renderTeam() {
-      const container = document.getElementById('teamContainer');
-      container.innerHTML = '';
-      teamMembers.forEach(m => {
-        const card = document.createElement('div');
-        card.className = 'team-card';
-        card.innerHTML = `
-          <img src="${m.img}" class="team-avatar" alt="${m.name}">
-          <h3>${m.name}</h3>
-          <span class="team-role">${m.role}</span>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">${m.desc}</p>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function addTeamMember() {
-      const name = document.getElementById('newMemberName').value.trim();
-      const role = document.getElementById('newMemberRole').value.trim();
-      const img = document.getElementById('newMemberImg').value.trim();
-      const desc = document.getElementById('newMemberDesc').value.trim();
-
-      if (!name || !role) {
-        alert("Preencha ao menos Nome e Cargo.");
-        return;
-      }
-
-      teamMembers.push({ name, role, img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', desc });
-      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
-      renderTeam();
-      alert("Membro adicionado à equipe!");
     }
   </script>
 </body>
