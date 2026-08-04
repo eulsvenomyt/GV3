@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  
   <style>
     /* ==========================================
        1. VARIAVEIS E RESET
@@ -836,10 +839,9 @@
     <section id="tab-equipe" class="tab-content">
       <div class="section-title">
         <h2>Nossa Equipe</h2>
-        <p>Conhecem os responsáveis pelo desenvolvimento e suporte do GV3.</p>
+        <p>Conheçam os responsáveis pelo desenvolvimento e suporte do GV3.</p>
       </div>
-      <div class="team-grid" id="teamContainer">
-        </div>
+      <div class="team-grid" id="teamContainer"></div>
     </section>
 
     <section id="tab-faq" class="tab-content">
@@ -871,16 +873,28 @@
   </footer>
 
   <script>
-    // Sincronização e Gestão de Dados Global
+    // Configuração do Firebase Realtime Database
+    const firebaseConfig = {
+      databaseURL: "https://SEU-PROJETO-DEFAULT-RTDB.firebaseio.com/" // Cole sua URL do Firebase Realtime Database aqui se desejar nuvem real
+    };
+
+    // Inicialização segura
+    try {
+      if(!firebase.apps.length && firebaseConfig.databaseURL.includes("firebaseio")) {
+        firebase.initializeApp(firebaseConfig);
+      }
+    } catch(e) {}
+
+    // Dados Globais com sincronização local inteligente e persistente
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
 
-    // Default Team se não houver salvo
     let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
       { name: 'eulsvenom', role: 'Dono & Desenvolvedor', avatar: 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', email: 'dono@gv3.com' },
       { name: 'AdminExemplo', role: 'Administrador', avatar: 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', email: 'admin@gv3.com' }
     ];
 
     let keysList = JSON.parse(localStorage.getItem('gv3_keys')) || ['GV3-VIP-TESTE-2026'];
+    
     let registeredUsers = JSON.parse(localStorage.getItem('gv3_users')) || [
       { name: 'Dono Principal', email: 'dono@gv3.com', role: 'Dono', plan: 'Vitalício' },
       { name: 'Admin Teste', email: 'admin@gv3.com', role: 'Admin', plan: 'Grátis' }
@@ -891,7 +905,34 @@
       localStorage.setItem('gv3_keys', JSON.stringify(keysList));
       localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
       localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+
+      // Sincronização opcional com Firebase caso configurado
+      try {
+        if(typeof firebase !== 'undefined' && firebase.apps.length) {
+          firebase.database().ref('gv3_data').set({
+            users: registeredUsers,
+            team: teamMembers,
+            keys: keysList
+          });
+        }
+      } catch(e) {}
     }
+
+    // Carregar dados remotos do Firebase se houver
+    try {
+      if(typeof firebase !== 'undefined' && firebase.apps.length) {
+        firebase.database().ref('gv3_data').on('value', (snapshot) => {
+          const val = snapshot.val();
+          if(val) {
+            if(val.users) { registeredUsers = val.users; localStorage.setItem('gv3_users', JSON.stringify(registeredUsers)); }
+            if(val.team) { teamMembers = val.team; localStorage.setItem('gv3_team', JSON.stringify(teamMembers)); }
+            if(val.keys) { keysList = val.keys; localStorage.setItem('gv3_keys', JSON.stringify(keysList)); }
+            if(document.getElementById('tab-login').classList.contains('active')) renderAuthPanel();
+            if(document.getElementById('tab-equipe').classList.contains('active')) renderTeam();
+          }
+        });
+      }
+    } catch(e) {}
 
     // Gerenciador de Abas
     function switchTab(tabId, event) {
@@ -904,7 +945,6 @@
       if(event && event.currentTarget) {
         event.currentTarget.classList.add('active');
       } else {
-        // Encontrar botão correspondente
         document.querySelectorAll('.tab-btn').forEach(btn => {
           if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
             btn.classList.add('active');
@@ -922,10 +962,10 @@
       const container = document.getElementById('teamContainer');
       if(!container) return;
       container.innerHTML = '';
-      teamMembers.forEach((member, index) => {
+      teamMembers.forEach((member) => {
         container.innerHTML += `
           <div class="team-card">
-            <img src="${member.avatar}" alt="${member.name}" class="team-avatar">
+            <img src="${member.avatar || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png'}" alt="${member.name}" class="team-avatar">
             <h3>${member.name}</h3>
             <span class="team-role">${member.role}</span>
             <p style="color:var(--text-muted); font-size:0.85rem;">${member.email || ''}</p>
@@ -940,7 +980,6 @@
       if(!authArea) return;
 
       if(!currentUser) {
-        // Tela de Login / Registro Inicial
         authArea.innerHTML = `
           <div class="keyauth-box">
             <div class="ka-title">Acessar GV3</div>
@@ -951,7 +990,7 @@
             </div>
             <div class="form-group">
               <label>E-mail</label>
-              <input type="email" id="authEmail" class="ka-input" placeholder="seu@email.com">
+              <input type="email" id="authEmail" class="ka-input" placeholder="seu@email.com (use dono@gv3.com para Dono)">
             </div>
             <div class="ka-btn-row">
               <button class="ka-btn ka-btn-primary" onclick="handleAuth('login')">Entrar</button>
@@ -960,7 +999,6 @@
           </div>
         `;
       } else {
-        // Usuário logado -> Exibir painel conforme cargo
         document.getElementById('navAccountText').innerText = currentUser.name;
 
         if(currentUser.role === 'Dono') {
@@ -981,19 +1019,30 @@
         return;
       }
 
-      let existing = registeredUsers.find(u => u.email === email);
+      // Verificação específica para o Dono
+      let role = 'Membro';
+      if(email.toLowerCase() === 'dono@gv3.com') {
+        role = 'Dono';
+      }
+
+      let existing = registeredUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+      
       if(type === 'register') {
         if(existing) {
-          alert('Este e-mail já está cadastrado!');
+          alert('Este e-mail já está cadastrado! Tente entrar.');
           return;
         }
-        currentUser = { name, email, role: 'Membro', plan: 'Grátis' };
+        currentUser = { name, email, role: role, plan: role === 'Dono' ? 'Vitalício' : 'Grátis' };
         registeredUsers.push(currentUser);
       } else {
         if(existing) {
           currentUser = existing;
+          // Garante permissão de Dono caso logue com o e-mail master
+          if(email.toLowerCase() === 'dono@gv3.com') {
+            currentUser.role = 'Dono';
+          }
         } else {
-          currentUser = { name, email, role: 'Membro', plan: 'Grátis' };
+          currentUser = { name, email, role: role, plan: role === 'Dono' ? 'Vitalício' : 'Grátis' };
           registeredUsers.push(currentUser);
         }
       }
@@ -1072,7 +1121,7 @@
           </div>
 
           <div class="admin-section">
-            <h3>Adicionar / Gerenciar Integrantes da Equipe</h3>
+            <h3>Adicionar Integrante na Equipe</h3>
             <div class="form-group">
               <input type="text" id="teamName" class="input-field" placeholder="Nome do Integrante">
             </div>
@@ -1200,14 +1249,14 @@
       if(!tbody) return;
       tbody.innerHTML = '';
       registeredUsers.forEach((u, index) => {
-        let isDonoEmail = u.role === 'Dono';
+        let isDonoEmail = u.role === 'Dono' || u.email.toLowerCase() === 'dono@gv3.com';
         tbody.innerHTML += `
           <tr>
             <td>${u.name}</td>
             <td style="${isDonoEmail ? 'color: red; filter: blur(5px);' : ''}">${u.email}</td>
             <td><span class="badge-user badge-${u.role.toLowerCase()}">${u.role}</span></td>
             <td>
-              ${u.role !== 'Dono' ? `<button class="btn-danger" onclick="removeUser(${index})" style="padding:4px 8px; font-size:0.75rem;">Remover</button>` : 'Protegido'}
+              ${!isDonoEmail ? `<button class="btn-danger" onclick="removeUser(${index})" style="padding:4px 8px; font-size:0.75rem;">Remover</button>` : 'Protegido'}
             </td>
           </tr>
         `;
@@ -1219,7 +1268,7 @@
       if(!tbody) return;
       tbody.innerHTML = '';
       registeredUsers.forEach((u, index) => {
-        let isDonoEmail = u.role === 'Dono';
+        let isDonoEmail = u.role === 'Dono' || u.email.toLowerCase() === 'dono@gv3.com';
         tbody.innerHTML += `
           <tr>
             <td>${u.name}</td>
@@ -1234,7 +1283,7 @@
               </select>
             </td>
             <td>
-              <button class="btn-danger" onclick="removeUser(${index})" style="padding:4px 8px; font-size:0.75rem;">Remover</button>
+              ${!isDonoEmail ? `<button class="btn-danger" onclick="removeUser(${index})" style="padding:4px 8px; font-size:0.75rem;">Remover</button>` : 'Protegido'}
             </td>
           </tr>
         `;
@@ -1248,7 +1297,7 @@
     }
 
     function removeUser(index) {
-      if(registeredUsers[index].role === 'Dono') {
+      if(registeredUsers[index].role === 'Dono' || registeredUsers[index].email.toLowerCase() === 'dono@gv3.com') {
         alert('Não é permitido remover o Dono!');
         return;
       }
@@ -1299,13 +1348,9 @@
       localStorage.setItem('gv3_colors', JSON.stringify({ purple, blue }));
     }
 
-    window.addEventListener('storage', () => {
-      loadTexts();
-      teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || teamMembers;
-    });
-
     window.onload = function() {
       loadTexts();
+      renderTeam();
     }
   </script>
 </body>
