@@ -727,6 +727,100 @@
     grid-template-columns: 1fr 1fr !important; /* 2 colunas para seletores de cores */
     gap: 10px !important;
   }
+  /* ==========================================
+       MODAL FLUTUANTE DE PAGAMENTO (IMAGEM 15)
+       ========================================== */
+    .pix-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .pix-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .pix-modal-card {
+      background: #0b0f19;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 440px;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+      text-align: center;
+    }
+
+    .pix-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+
+    .pix-modal-close:hover { color: #fff; }
+
+    .pix-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .pix-price-tag {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent-purple);
+      margin: 0.5rem 0;
+    }
+
+    .pix-qr-box {
+      background: #ffffff;
+      width: 170px;
+      height: 170px;
+      padding: 10px;
+      border-radius: 14px;
+      margin: 1.2rem auto;
+    }
+
+    .pix-qr-box img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .coupon-container {
+      display: flex;
+      gap: 8px;
+      margin: 1.2rem 0;
+    }
+
+    .coupon-container input {
+      flex: 1;
+      text-transform: uppercase;
+    }
 
     /* ESTILO KEYAUTH (LOGIN E ATIVAÇÃO) */
     .keyauth-box {
@@ -871,58 +965,63 @@
       </div>
     </section>
 
-    <section id="tab-precos" class="tab-content">
+  <section id="tab-precos" class="tab-content">
       <div class="section-title">
         <h2>Planos e Preços</h2>
-        <p>Escolha o plano ideal para o seu perfil e destrave todo o potencial do seu setup.</p>
+        <p>Escolha o plano ideal para as suas necessidades de otimização.</p>
       </div>
+
       <div class="card-free">
         <div>
-          <h3 style="display:inline-flex; align-items:center;">Versão <span class="badge-free">Grátis</span></h3>
-          <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
-            Acesso ao painel básico, monitoramento de sistema em tempo real e limpeza manual simples.
-          </p>
+          <h3 style="font-size: 1.4rem; font-weight: 800;">Versão Free <span class="badge-free">GRÁTIS</span></h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">Recursos básicos para limpeza rápida do sistema.</p>
         </div>
-        <button class="btn-hero-outline" style="padding: 10px 20px;" onclick="window.open('https://github.com/eulsvenomyt/GV3-Gr-tis/releases', '_blank')">Baixar Grátis</button>
+        <button class="btn-hero-outline" onclick="switchTab('recursos')">Baixar Grátis</button>
       </div>
+
       <div class="pricing-grid">
         <div class="pricing-card">
-          <h3>Mensal</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Por apenas: R$ 7,42 / com cupom</p>
-          <div class="price">R$ 9,90 <span>/mês</span></div>
-          <button class="btn-plan btn-plan-outline" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Assinar Agora</button>
+          <h3>Plano Semanal</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Ideal para testes rápidos</p>
+          <div class="price">R$ 9,90 <span>/semana</span></div>
+          <button class="btn-plan btn-plan-outline" onclick="abrirModalPix('Semanal', 9.90)">Assinar Agora</button>
+          
           <div class="features-list">
             <ul>
-              <li>✓ Acesso completo ao app</li>
-              <li>✓ Game Mode + PC Boost</li>
-              <li>✓ Suporte no Discord</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Acesso a todos os Tweaks VIP</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Suporte prioritário via Discord</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Atualizações automáticas</li>
             </ul>
           </div>
         </div>
+
         <div class="pricing-card highlighted">
-          <div class="badge-top">⭐ MELHOR OFERTA</div>
-          <h3>Anual</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Economize 25% no plano anual</p>
-          <div class="price">R$ 29,90 <span>/ano</span></div>
-          <button class="btn-plan btn-plan-primary" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Assinar Agora</button>
+          <div class="badge-top">MAIS POPULAR</div>
+          <h3>Plano Mensal</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">O melhor custo-benefício</p>
+          <div class="price">R$ 19,90 <span>/mês</span></div>
+          <button class="btn-plan btn-plan-primary" onclick="abrirModalPix('Mensal', 19.90)">Assinar Agora</button>
+          
           <div class="features-list">
             <ul>
-              <li>✓ Todos os recursos do Mensal</li>
-              <li>✓ Prioridade nas atualizações</li>
-              <li>✓ Otimizações avançadas de kernel</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Acesso a todos os Tweaks VIP</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Otimização personalizada de Rede</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Suporte VIP 24/7</li>
             </ul>
           </div>
         </div>
+
         <div class="pricing-card">
-          <h3>Vitalício</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Acesso permanente sem mensalidade</p>
-          <div class="price">R$ 49,90 <span>vitalício</span></div>
-          <button class="btn-plan btn-plan-outline" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Assinar Agora</button>
+          <h3>Plano Vitalício</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Pagamento único e acesso para sempre</p>
+          <div class="price">R$ 99,90 <span>/único</span></div>
+          <button class="btn-plan btn-plan-outline" onclick="abrirModalPix('Vitalício', 99.90)">Assinar Agora</button>
+          
           <div class="features-list">
             <ul>
-              <li>✓ Acesso vitalício garantido</li>
-              <li>✓ Todas futuras versões inclusas</li>
-              <li>✓ Suporte VIP prioritário</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Acesso vitalício ilimitado</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Cargo exclusivo no Discord</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> Suporte direto dos Devs</li>
             </ul>
           </div>
         </div>
@@ -969,6 +1068,41 @@
       <div id="authArea"></div>
     </section>
   </main>
+
+  <div class="pix-modal-overlay" id="pixModalOverlay">
+    <div class="pix-modal-card">
+      <button class="pix-modal-close" onclick="fecharModalPix()">&times;</button>
+      
+      <div class="pix-header-badge">
+        <i class="fa-solid fa-bolt"></i> Pagamento Instantâneo PIX
+      </div>
+      
+      <h3 id="pixModalTitle" style="font-size: 1.3rem; font-weight: 800;">Assinatura do Plano</h3>
+      <div class="pix-price-tag" id="pixModalPrice">R$ 0,00</div>
+
+      <div class="coupon-container">
+        <input type="text" id="pixCouponInput" class="input-field" placeholder="Inserir Cupom">
+        <button class="btn-hero-primary" style="padding: 10px 16px; font-size: 0.85rem;" onclick="validarCupomPix()">Aplicar</button>
+      </div>
+      <p id="pixCouponMsg" style="font-size: 0.8rem; margin-top: -8px; margin-bottom: 10px; display: none;"></p>
+
+      <div class="pix-qr-box">
+        <img id="pixModalQrImg" src="" alt="QR Code PIX">
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">Código Copia e Cola:</p>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="pixModalCopyInput" class="input-field" readonly style="font-size: 0.8rem;">
+        <button class="btn-hero-primary" style="padding: 10px 14px; font-size: 0.85rem; white-space: nowrap;" onclick="copiarPixPayload()">
+          <i class="fa-regular fa-copy"></i> Copiar
+        </button>
+      </div>
+
+      <button class="btn-plan btn-plan-primary" style="margin-top: 1.2rem;" onclick="fecharModalPix()">
+        Já Realizei o Pagamento
+      </button>
+    </div>
+  </div>
 
   <footer>
     <div class="footer-bottom">
@@ -1733,6 +1867,97 @@
     window.saveTexts = function() {
       alert('Textos salvos com sucesso!');
     }
+    /* ==========================================
+       LÓGICA DO MODAL PIX & CONSULTA NO FIREBASE
+       ========================================== */
+    let precoOriginal = 0;
+    let porcentagemDesconto = 0;
+    const CHAVE_PIX_OFICIAL = "suachavepixaqui@email.com"; // Substitua pela sua Chave PIX
+
+    window.abrirModalPix = function(nomePlano, valor) {
+      precoOriginal = parseFloat(valor);
+      porcentagemDesconto = 0;
+      
+      document.getElementById('pixModalTitle').innerText = `Assinatura ${nomePlano}`;
+      document.getElementById('pixCouponInput').value = '';
+      document.getElementById('pixCouponMsg').style.display = 'none';
+
+      atualizarValoresEPayload();
+      document.getElementById('pixModalOverlay').classList.add('active');
+    };
+
+    window.fecharModalPix = function() {
+      document.getElementById('pixModalOverlay').classList.remove('active');
+    };
+
+    window.validarCupomPix = async function() {
+      const cupomDigitado = document.getElementById('pixCouponInput').value.trim().toUpperCase();
+      const msgEl = document.getElementById('pixCouponMsg');
+
+      if (!cupomDigitado) {
+        msgEl.style.color = '#ef4444';
+        msgEl.innerText = 'Digite um cupom.';
+        msgEl.style.display = 'block';
+        return;
+      }
+
+      msgEl.style.color = 'var(--text-muted)';
+      msgEl.innerText = 'Verificando...';
+      msgEl.style.display = 'block';
+
+      try {
+        // Consulta na coleção 'coupons' do Firebase Firestore
+        const docRef = doc(db, 'coupons', cupomDigitado);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const couponData = docSnap.data();
+          porcentagemDesconto = parseFloat(couponData.discount || 0);
+
+          msgEl.style.color = 'var(--accent-green)';
+          msgEl.innerText = `Cupom aplicado! ${porcentagemDesconto}% de desconto.`;
+        } else {
+          // Fallback para objeto local
+          if (typeof coupons !== 'undefined' && coupons[cupomDigitado]) {
+            porcentagemDesconto = parseFloat(coupons[cupomDigitado]);
+            msgEl.style.color = 'var(--accent-green)';
+            msgEl.innerText = `Cupom aplicado! ${porcentagemDesconto}% de desconto.`;
+          } else {
+            porcentagemDesconto = 0;
+            msgEl.style.color = '#ef4444';
+            msgEl.innerText = 'Cupom inválido ou expirado.';
+          }
+        }
+      } catch (err) {
+        console.error("Erro ao validar cupom no Firebase:", err);
+        porcentagemDesconto = 0;
+        msgEl.style.color = '#ef4444';
+        msgEl.innerText = 'Erro ao verificar cupom. Tente novamente.';
+      }
+
+      atualizarValoresEPayload();
+    };
+
+    function atualizarValoresEPayload() {
+      const valorFinal = precoOriginal * (1 - porcentagemDesconto / 100);
+      
+      document.getElementById('pixModalPrice').innerText = valorFinal.toLocaleString('pt-BR', { 
+        style: 'currency', 
+        currency: 'BRL' 
+      });
+
+      const payloadPix = `00020126360014BR.GOV.BCB.PIX0114${CHAVE_PIX_OFICIAL}5204000053039865405${valorFinal.toFixed(2)}5802BR5913GV3OPTIMIZER6009SAOPAULO62070503***6304`;
+      
+      document.getElementById('pixModalCopyInput').value = payloadPix;
+      document.getElementById('pixModalQrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=${encodeURIComponent(payloadPix)}`;
+    }
+
+    window.copiarPixPayload = function() {
+      const input = document.getElementById('pixModalCopyInput');
+      input.select();
+      navigator.clipboard.writeText(input.value);
+      alert('Código PIX Copia e Cola copiado com sucesso!');
+    };
   </script>
 </body>
 </html>
