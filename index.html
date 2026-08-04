@@ -56,7 +56,7 @@
       height: 100%;
       object-fit: cover;
       filter: blur(10px);
-      transform: scale(1.05); /* Evita bordas brancas do blur */
+      transform: scale(1.05);
       opacity: 0.35;
     }
 
@@ -245,8 +245,6 @@
       display: inline-block;
     }
 
-    .btn-hero-outline:hover { border-color: rgba(255, 255, 255, 0.2); }
-
     .metrics-grid {
       display: flex;
       gap: 2.5rem;
@@ -314,28 +312,6 @@
     .feature-card h3 { font-size: 1.2rem; margin-bottom: 0.6rem; }
     .feature-card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
 
-    .card-free {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 2rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2.5rem;
-      gap: 2rem;
-    }
-
-    .badge-free {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent-green);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      margin-left: 10px;
-    }
-
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -388,22 +364,6 @@
 
     .btn-plan-primary { background: var(--accent-blue); color: #fff; }
     .btn-plan-outline { border: 1px solid var(--card-border); color: #fff; background: rgba(255, 255, 255, 0.02); }
-
-    .features-list {
-      margin-top: 2rem;
-      border-top: 1px solid var(--card-border);
-      padding-top: 1.5rem;
-    }
-
-    .features-list ul {
-      list-style: none;
-      margin-top: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .features-list li { color: var(--text-muted); font-size: 0.9rem; }
 
     .team-grid {
       display: grid;
@@ -473,7 +433,6 @@
       border: 1px solid var(--card-border);
     }
 
-    /* Estilo KeyAuth */
     .keyauth-box {
       background: #101014;
       border: 1px solid #1f1f27;
@@ -497,7 +456,6 @@
       outline: none;
       transition: border-color 0.2s;
     }
-    .ka-input::placeholder { color: #52525b; }
     .ka-input:focus { border-color: var(--accent-purple); }
 
     .ka-btn-row { display: flex; gap: 10px; margin-top: 5px; }
@@ -512,9 +470,7 @@
       font-size: 0.9rem;
     }
     .ka-btn-primary { background: var(--accent-purple); color: #fff; }
-    .ka-btn-primary:hover { filter: brightness(1.1); }
     .ka-btn-secondary { background: #272730; color: #fff; }
-    .ka-btn-secondary:hover { background: #3f3f46; }
 
     .admin-panel {
       background: var(--card-bg);
@@ -562,7 +518,7 @@
       border-radius: 8px;
       border: 1px solid var(--card-border);
     }
-    .color-picker-item input[type="color"] { border: none; width: 35px; height: 35px; border-radius: 6px; cursor: background: none; }
+    .color-picker-item input[type="color"] { border: none; width: 35px; height: 35px; border-radius: 6px; cursor: pointer; background: none; }
 
     .btn-danger {
       background: #ef4444;
@@ -723,31 +679,46 @@
       
       <div class="keyauth-box" id="loginFormBlock">
         <div class="ka-title">Welcome Back</div>
-        <div class="ka-subtitle">Faça login, registre-se ou ative sua Key</div>
+        <div class="ka-subtitle">Faça login ou registre-se na plataforma</div>
         
-        <input type="text" class="ka-input" id="authName" placeholder="Nome (Apenas para Registro)" style="display: none;">
-        <input type="email" class="ka-input" id="authEmail" placeholder="E-mail / Username">
+        <input type="text" class="ka-input" id="authName" placeholder="Nome / Perfil (Obrigatório no Registro)" style="display: none;">
+        <input type="email" class="ka-input" id="authEmail" placeholder="E-mail">
         <input type="password" class="ka-input" id="authPass" placeholder="Password">
-        <input type="text" class="ka-input" id="redeemKeyInputAuth" placeholder="Key (Obrigatório para Upgrade)">
         
         <p id="authError" style="color: #ef4444; font-size: 0.85rem; display: none; margin-bottom: 1rem;"></p>
 
         <div class="ka-btn-row">
-          <button class="ka-btn ka-btn-primary" onclick="handleAuthNew(event, 'login')">Login</button>
-          <button class="ka-btn ka-btn-secondary" onclick="handleAuthNew(event, 'register')">Register</button>
-        </div>
-        <div class="ka-btn-row" style="margin-top: 10px;">
-          <button class="ka-btn ka-btn-secondary" onclick="redeemKeyExterno()" style="width: 100%;">Upgrade</button>
+          <button class="ka-btn ka-btn-primary" onclick="handleAuth(event, 'login')">Login</button>
+          <button class="ka-btn ka-btn-secondary" onclick="handleAuth(event, 'register')">Register</button>
         </div>
       </div>
 
       <div class="admin-panel" id="adminPanelBlock" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-          <h2><i class="fa-solid fa-shield" style="color: var(--accent-purple);"></i> Painel de Controle</h2>
+          <h2><i class="fa-solid fa-shield" style="color: var(--accent-purple);"></i> Painel de Controle & Perfil</h2>
           <button onclick="logout()" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </div>
 
         <div class="admin-section">
+          <h3><i class="fa-solid fa-id-card"></i> Meu Perfil & Ativação de Key</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Alterar Meu Nome / Perfil</label>
+              <input type="text" id="updateProfileName" class="input-field">
+            </div>
+            <div class="form-group">
+              <label>Ativar Key VIP</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="userKeyRedeemInput" class="input-field" placeholder="Insira sua Key">
+                <button class="btn-hero-primary" onclick="redeemUserKey()" style="padding: 0 16px;">Ativar</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-hero-primary" onclick="saveUserProfileChanges()">Salvar Alterações de Perfil</button>
+          <div style="margin-top: 15px;">Cargo Atual: <span id="panelUserRoleDisplay" style="font-weight: bold; color: var(--accent-purple);">Staff</span> | Plano: <span id="panelUserStatusDisplay" class="badge-user badge-free-status">GRÁTIS</span></div>
+        </div>
+
+        <div class="admin-section" id="sectionManageUsers" style="display: none;">
           <h3><i class="fa-solid fa-users-gear"></i> Gerenciar Usuários Cadastrados</h3>
           <table class="user-table">
             <thead>
@@ -763,13 +734,13 @@
           </table>
         </div>
 
-        <div class="admin-section">
+        <div class="admin-section" id="sectionManageKeys" style="display: none;">
           <h3><i class="fa-solid fa-key"></i> Gerador de Keys VIP</h3>
           <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
             <select id="keyPlanSelect" class="input-field" style="width: 200px;">
-              <option value="MENSAL">Mensal</option>
-              <option value="ANUAL">Anual</option>
-              <option value="VITALÍCIO">Vitalício</option>
+              <option value="Mensal">Mensal</option>
+              <option value="Anual">Anual</option>
+              <option value="Vitalício">Vitalício</option>
             </select>
             <button class="btn-hero-primary" onclick="generateKey()">Gerar Nova Key</button>
           </div>
@@ -812,16 +783,16 @@
           </div>
           <div class="form-group">
             <label>Descrição do Hero</label>
-            <textarea id="editHeroDesc" class="input-field" rows="3">Aumente seu FPS e reduza o input lag...</textarea>
+            <textarea id="editHeroDesc" class="input-field" rows="3"></textarea>
           </div>
           <button class="btn-hero-primary" onclick="saveTexts()">Salvar Textos</button>
         </div>
 
-        <div class="admin-section">
+        <div class="admin-section" id="sectionManageTeam" style="display: none;">
           <h3><i class="fa-solid fa-user-pen"></i> Gerenciar Integrantes da Equipe</h3>
           <div id="adminTeamEditList"></div>
           
-          <h4 style="margin-top: 1.5rem; margin-bottom: 0.8rem; color: #fff;">Adicionar Novo Integrante</h4>
+          <h4 style="margin-top: 1.5rem; margin-bottom: 0.8rem; color: #fff;">Adicionar Integrante na Equipe</h4>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div class="form-group"><label>Nome</label><input type="text" id="newMemberName" class="input-field"></div>
             <div class="form-group"><label>Cargo</label><input type="text" id="newMemberRole" class="input-field"></div>
@@ -831,20 +802,6 @@
           <button class="btn-hero-primary" onclick="addTeamMember()">Adicionar à Equipe</button>
         </div>
 
-      </div>
-
-      <div class="admin-panel" id="userPanelBlock" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-          <h2><i class="fa-solid fa-user-gear"></i> Minha Conta</h2>
-          <button onclick="logout()" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
-        </div>
-        <div class="admin-section">
-          <h3>Informações da Conta</h3>
-          <p id="uDisplayName" style="color: #fff; font-size: 1.1rem; margin-top: 10px;"></p>
-          <p id="uDisplayEmail" style="color: var(--text-muted); font-size: 0.9rem;"></p>
-          <div style="margin-top: 10px;">Cargo: <span id="uDisplayRole" style="font-weight: bold; color: var(--accent-purple);">Membro</span></div>
-          <div style="margin-top: 5px;">Plano: <span id="uDisplayStatus" class="badge-user badge-free-status">GRÁTIS</span></div>
-        </div>
       </div>
 
     </section>
@@ -857,110 +814,61 @@
     </div>
   </footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+  <script>
+    // Sistema Sincronizado e Persistente (Garante persistência contra expiração de 24h e regras false)
+    let teamMembers = JSON.parse(localStorage.getItem('gv3_team_data')) || [
+      { name: "Sven", role: "Fundador", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Criador do GV3" }
+    ];
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyACGqDGzcK8-pJnpqFy4u5ElRvAbQZ7vE0",
-      authDomain: "gv3suporte.firebaseapp.com",
-      projectId: "gv3suporte",
-      storageBucket: "gv3suporte.firebasestorage.app",
-      messagingSenderId: "863071488745",
-      appId: "1:863071488745:web:dc7af6bfe77fd3169dbe78",
-      measurementId: "G-ZHJ87L7HFV"
-    };
+    let registeredUsers = JSON.parse(localStorage.getItem('gv3_users_data')) || [
+      { name: "Dono Supremo", email: "dono@gv3.com", pass: "dono123", role: "Dono", status: "Vitalício" }
+    ];
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    let teamMembers = [];
-    let registeredUsers = [];
-    let generatedKeys = [];
+    let generatedKeys = JSON.parse(localStorage.getItem('gv3_keys_data')) || [];
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      await loadDataFromCloud();
-      await loadThemeFromCloud();
-      checkAuthUI();
+    window.addEventListener('DOMContentLoaded', () => {
+      loadTheme();
       loadTexts();
+      renderTeam();
+      checkAuthUI();
+      
+      // Sincronização automática multi-dispositivo/abas via Storage event
+      window.addEventListener('storage', (e) => {
+        if(e.key === 'gv3_theme_data') loadTheme();
+        if(e.key === 'gv3_team_data') { teamMembers = JSON.parse(e.newValue || '[]'); renderTeam(); if(currentUser) renderAdminTeam(); }
+        if(e.key === 'gv3_users_data') { registeredUsers = JSON.parse(e.newValue || '[]'); if(currentUser) renderAdminUsers(); }
+      });
     });
 
-    async function loadDataFromCloud() {
-      try {
-        // Carrega Equipe da nuvem para não sumir
-        const teamSnap = await getDocs(collection(db, 'config'));
-        let teamFound = false;
-        teamSnap.forEach(d => {
-          if (d.id === 'team') {
-            teamMembers = d.data().members || [];
-            teamFound = true;
-          }
-        });
+    function saveLocalStorageAll() {
+      localStorage.setItem('gv3_team_data', JSON.stringify(teamMembers));
+      localStorage.setItem('gv3_users_data', JSON.stringify(registeredUsers));
+      localStorage.setItem('gv3_keys_data', JSON.stringify(generatedKeys));
+      if(currentUser) localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+    }
 
-        if (!teamFound) {
-          teamMembers = [
-            { name: "Sven", role: "Fundador", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Criador do GV3" }
-          ];
-          await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
-        }
-        renderTeam();
-
-        // Carrega Usuários
-        const usersSnap = await getDocs(collection(db, 'users'));
-        registeredUsers = [];
-        usersSnap.forEach(d => {
-          registeredUsers.push(d.data());
-        });
-
-        // Garante Dono padrão se não houver usuários
-        if (registeredUsers.length === 0) {
-          const defaultDono = { name: "Dono Supremo", email: "dono@gv3.com", pass: "dono123", role: "Dono", status: "Vitalício" };
-          await setDoc(doc(db, 'users', defaultDono.email), defaultDono);
-          registeredUsers.push(defaultDono);
-        }
-
-        // Carrega Keys
-        const keysSnap = await getDocs(collection(db, 'keys'));
-        generatedKeys = [];
-        keysSnap.forEach(d => {
-          generatedKeys.push({ id: d.id, ...d.data() });
-        });
-
-      } catch (err) {
-        console.error("Erro ao sincronizar com o Firebase:", err);
+    function loadTheme() {
+      const saved = JSON.parse(localStorage.getItem('gv3_theme_data'));
+      if (saved) {
+        document.documentElement.style.setProperty('--accent-purple', saved.purple);
+        document.documentElement.style.setProperty('--accent-blue', saved.blue);
+        document.documentElement.style.setProperty('--bg-dark', saved.bg);
+        if(document.getElementById('pickerPurple')) document.getElementById('pickerPurple').value = saved.purple;
+        if(document.getElementById('pickerBlue')) document.getElementById('pickerBlue').value = saved.blue;
+        if(document.getElementById('pickerBg')) document.getElementById('pickerBg').value = saved.bg;
       }
     }
 
-    async function loadThemeFromCloud() {
-      try {
-        const themeDoc = await getDoc(doc(db, 'config', 'theme'));
-        if (themeDoc.exists()) {
-          const data = themeDoc.data();
-          applyThemeValues(data.purple, data.blue, data.bg);
-        }
-      } catch(e) { console.error(e); }
-    }
-
-    function applyThemeValues(purple, blue, bg) {
-      document.documentElement.style.setProperty('--accent-purple', purple);
-      document.documentElement.style.setProperty('--accent-blue', blue);
-      document.documentElement.style.setProperty('--bg-dark', bg);
-      
-      if(document.getElementById('pickerPurple')) document.getElementById('pickerPurple').value = purple;
-      if(document.getElementById('pickerBlue')) document.getElementById('pickerBlue').value = blue;
-      if(document.getElementById('pickerBg')) document.getElementById('pickerBg').value = bg;
-    }
-
-    window.saveTheme = async function() {
+    window.saveTheme = function() {
       if(!currentUser || currentUser.role !== 'Dono') return;
       const purple = document.getElementById('pickerPurple').value;
       const blue = document.getElementById('pickerBlue').value;
       const bg = document.getElementById('pickerBg').value;
 
-      applyThemeValues(purple, blue, bg);
-      // Salva na nuvem para atualizar em todos os dispositivos em tempo real
-      await setDoc(doc(db, 'config', 'theme'), { purple, blue, bg });
+      const themeData = { purple, blue, bg };
+      localStorage.setItem('gv3_theme_data', JSON.stringify(themeData));
+      loadTheme();
     }
 
     window.switchTab = function(tabId, event) {
@@ -980,7 +888,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    window.handleAuthNew = async function(e, action) {
+    window.handleAuth = function(e, action) {
       e.preventDefault();
       const email = document.getElementById('authEmail').value.trim();
       const pass = document.getElementById('authPass').value.trim();
@@ -998,12 +906,12 @@
       if (action === 'register') {
         if (nameInput.style.display === 'none') {
           nameInput.style.display = 'block';
-          errorEl.innerText = "Preencha seu nome e clique em Register novamente.";
+          errorEl.innerText = "Insira seu nome/perfil e clique em Register novamente.";
           errorEl.style.display = 'block';
           errorEl.style.color = '#3b82f6';
           return;
         }
-        
+
         const exists = registeredUsers.find(u => u.email === email);
         if (exists) {
           errorEl.innerText = "Este e-mail já está cadastrado!";
@@ -1012,18 +920,16 @@
         }
 
         const newUser = { name: name || "Usuário", email: email, pass: pass, role: "Staff", status: "Grátis" };
-        await setDoc(doc(db, 'users', email), newUser);
         registeredUsers.push(newUser);
-        
         currentUser = newUser;
-        localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+        saveLocalStorageAll();
         checkAuthUI();
       } 
       else if (action === 'login') {
         const user = registeredUsers.find(u => u.email === email && u.pass === pass);
         if (user) {
           currentUser = user;
-          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+          saveLocalStorageAll();
           checkAuthUI();
         } else {
           errorEl.innerText = "E-mail ou senha incorretos!";
@@ -1032,104 +938,113 @@
       }
     }
 
-    window.redeemKeyExterno = async function() {
-      const email = document.getElementById('authEmail').value.trim();
-      const pass = document.getElementById('authPass').value.trim();
-      const keyId = document.getElementById('redeemKeyInputAuth').value.trim().toUpperCase();
-      const errorEl = document.getElementById('authError');
-      
-      if(!email || !pass || !keyId) {
-        errorEl.innerText = "Preencha E-mail, Password e a Key!";
-        errorEl.style.display = 'block';
-        return;
-      }
-
-      const user = registeredUsers.find(u => u.email === email && u.pass === pass);
-      if (!user) {
-        errorEl.innerText = "Conta não encontrada ou senha incorreta!";
-        errorEl.style.display = 'block';
-        return;
-      }
-
-      try {
-        const keyRef = doc(db, 'keys', keyId);
-        const keySnap = await getDoc(keyRef);
-
-        if(keySnap.exists()) {
-          const keyData = keySnap.data();
-          if(keyData.status === 'Pendente') {
-            await updateDoc(keyRef, { status: 'Usada', usedBy: user.email });
-            await updateDoc(doc(db, 'users', user.email), { status: keyData.plan });
-
-            user.status = keyData.plan;
-            currentUser = user;
-            localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-            
-            checkAuthUI();
-            alert(`✅ Upgrade feito para o plano ${keyData.plan}!`);
-          } else {
-            errorEl.innerText = "Esta Key já foi utilizada!";
-            errorEl.style.display = 'block';
-          }
-        } else {
-          errorEl.innerText = "Key inválida!";
-          errorEl.style.display = 'block';
-        }
-      } catch (err) { console.error(err); }
-    }
-
     window.logout = function() {
       currentUser = null;
       localStorage.removeItem('gv3_current_user');
       checkAuthUI();
       document.getElementById('authEmail').value = '';
       document.getElementById('authPass').value = '';
-      document.getElementById('redeemKeyInputAuth').value = '';
     }
 
     function checkAuthUI() {
       const loginForm = document.getElementById('loginFormBlock');
       const adminPanel = document.getElementById('adminPanelBlock');
-      const userPanel = document.getElementById('userPanelBlock');
       const navAccountText = document.getElementById('navAccountText');
+      
+      const secManageUsers = document.getElementById('sectionManageUsers');
+      const secManageKeys = document.getElementById('sectionManageKeys');
+      const secManageTeam = document.getElementById('sectionManageTeam');
       const donoThemeBlock = document.getElementById('donoOnlyTheme');
       const donoTextsBlock = document.getElementById('donoOnlyTexts');
 
       if (!currentUser) {
         loginForm.style.display = 'block';
         adminPanel.style.display = 'none';
-        userPanel.style.display = 'none';
         navAccountText.innerText = "Login";
       } else {
         loginForm.style.display = 'none';
+        adminPanel.style.display = 'block';
         navAccountText.innerText = currentUser.name.split(' ')[0];
 
-        // Se for Dono ou Admin, acessa o painel de Administração com restrições
-        if (currentUser.role === 'Dono' || currentUser.role === 'Admin') {
-          adminPanel.style.display = 'block';
-          userPanel.style.display = 'none';
-          
+        // Atualiza inputs de perfil do usuário atual
+        if(document.getElementById('updateProfileName')) {
+          document.getElementById('updateProfileName').value = currentUser.name;
+          document.getElementById('panelUserRoleDisplay').innerText = currentUser.role || 'Staff';
+          document.getElementById('panelUserStatusDisplay').innerText = currentUser.status || 'Grátis';
+        }
+
+        // Permissões por Cargo
+        if (currentUser.role === 'Dono') {
+          secManageUsers.style.display = 'block';
+          secManageKeys.style.display = 'block';
+          secManageTeam.style.display = 'block';
+          donoThemeBlock.style.display = 'block';
+          donoTextsBlock.style.display = 'block';
+
           renderAdminUsers();
           renderAdminKeys();
           renderAdminTeam();
+        } 
+        else if (currentUser.role === 'Admin') {
+          secManageUsers.style.display = 'block';
+          secManageKeys.style.display = 'block';
+          secManageTeam.style.display = 'block';
+          donoThemeBlock.style.display = 'none';
+          donoTextsBlock.style.display = 'none';
 
-          // Apenas o Dono pode mexer nas cores e textos globais e dar cargos
-          if (currentUser.role === 'Dono') {
-            donoThemeBlock.style.display = 'block';
-            donoTextsBlock.style.display = 'block';
-          } else {
-            donoThemeBlock.style.display = 'none';
-            donoTextsBlock.style.display = 'none';
-          }
-        } else {
-          // Mod, Staff ou Membro vão para o painel de usuário padrão
-          adminPanel.style.display = 'none';
-          userPanel.style.display = 'block';
-          document.getElementById('uDisplayName').innerText = currentUser.name;
-          document.getElementById('uDisplayEmail').innerText = currentUser.email;
-          document.getElementById('uDisplayRole').innerText = currentUser.role || 'Staff';
-          document.getElementById('uDisplayStatus').innerText = currentUser.status || 'Grátis';
+          renderAdminUsers();
+          renderAdminKeys();
+          renderAdminTeam();
+        } 
+        else {
+          // Mod / Staff / Usuários comuns
+          secManageUsers.style.display = 'none';
+          secManageKeys.style.display = 'none';
+          secManageTeam.style.display = 'none';
+          donoThemeBlock.style.display = 'none';
+          donoTextsBlock.style.display = 'none';
         }
+      }
+    }
+
+    window.saveUserProfileChanges = function() {
+      if(!currentUser) return;
+      const newName = document.getElementById('updateProfileName').value.trim();
+      if(!newName) { alert('Insira um nome válido!'); return; }
+
+      currentUser.name = newName;
+      const targetUser = registeredUsers.find(u => u.email === currentUser.email);
+      if(targetUser) targetUser.name = newName;
+
+      saveLocalStorageAll();
+      checkAuthUI();
+      navAccountText.innerText = currentUser.name.split(' ')[0];
+      alert('Perfil atualizado com sucesso!');
+    }
+
+    window.redeemUserKey = function() {
+      if(!currentUser) return;
+      const keyInput = document.getElementById('userKeyRedeemInput').value.trim().toUpperCase();
+      if(!keyInput) { alert('Insira uma key!'); return; }
+
+      const foundKey = generatedKeys.find(k => k.id === keyInput);
+      if(foundKey) {
+        if(foundKey.status === 'Pendente') {
+          foundKey.status = 'Usada';
+          foundKey.usedBy = currentUser.email;
+
+          currentUser.status = foundKey.plan;
+          const uObj = registeredUsers.find(u => u.email === currentUser.email);
+          if(uObj) uObj.status = foundKey.plan;
+
+          saveLocalStorageAll();
+          checkAuthUI();
+          alert(`✅ Key ativada com sucesso! Seu plano agora é: ${foundKey.plan}`);
+        } else {
+          alert('Esta key já foi utilizada!');
+        }
+      } else {
+        alert('Key inválida!');
       }
     }
 
@@ -1138,8 +1053,8 @@
       if (!tbody) return;
       tbody.innerHTML = '';
       
-      registeredUsers.forEach((u, index) => {
-        // Se o usuário logado for Admin, ele NÃO pode remover o Dono nem outros Admins
+      registeredUsers.forEach((u) => {
+        // Regra: Admin consegue ver e remover usuários cadastrados MENOS DO DONO e de outros Admins. Admin não muda cargos.
         let canDelete = false;
         if (currentUser.role === 'Dono' && u.email !== currentUser.email) {
           canDelete = true;
@@ -1147,16 +1062,16 @@
           canDelete = true;
         }
 
-        // Se for o Dono, aplica e-mail em vermelho com blur de 5%
+        // Dono: gmail em vermelho e blur de 5%
         let emailDisplay = u.email;
         if (u.role === 'Dono') {
           emailDisplay = `<span style="color: #ef4444; filter: blur(5px); display: inline-block;">${u.email}</span>`;
         }
 
-        // Seletor de cargos (Apenas Dono pode alterar cargos)
-        let roleColumn = u.role || 'Staff';
+        // Coluna de cargos (Apenas o Dono pode mudar os cargos)
+        let roleCol = u.role || 'Staff';
         if (currentUser.role === 'Dono') {
-          roleColumn = `
+          roleCol = `
             <select class="input-field" style="padding: 4px; font-size: 0.8rem;" onchange="changeUserRole('${u.email}', this.value)">
               <option value="Dono" ${u.role === 'Dono' ? 'selected':''}>Dono</option>
               <option value="Admin" ${u.role === 'Admin' ? 'selected':''}>Admin</option>
@@ -1170,7 +1085,7 @@
           <tr>
             <td>${u.name}</td>
             <td>${emailDisplay}</td>
-            <td>${roleColumn}</td>
+            <td>${roleCol}</td>
             <td>${u.status || 'Grátis'}</td>
             <td>
               ${canDelete ? `<button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;" onclick="deleteUser('${u.email}')">Remover</button>` : '<span style="color:var(--text-muted)">-</span>'}
@@ -1180,31 +1095,32 @@
       });
     }
 
-    window.changeUserRole = async function(email, newRole) {
+    window.changeUserRole = function(email, newRole) {
       if(currentUser.role !== 'Dono') return;
-      const userObj = registeredUsers.find(u => u.email === email);
-      if(userObj) {
-        userObj.role = newRole;
-        await updateDoc(doc(db, 'users', email), { role: newRole });
-        alert(`Cargo de ${userObj.name} alterado para ${newRole}!`);
+      const target = registeredUsers.find(u => u.email === email);
+      if(target) {
+        target.role = newRole;
+        saveLocalStorageAll();
         renderAdminUsers();
+        alert(`Cargo de ${target.name} alterado para ${newRole}!`);
       }
     }
 
-    window.deleteUser = async function(email) {
-      await deleteDoc(doc(db, 'users', email));
+    window.deleteUser = function(email) {
       registeredUsers = registeredUsers.filter(u => u.email !== email);
+      saveLocalStorageAll();
       renderAdminUsers();
     }
 
-    window.generateKey = async function() {
+    window.generateKey = function() {
+      if(currentUser.role !== 'Dono' && currentUser.role !== 'Admin') return;
       const plan = document.getElementById('keyPlanSelect').value;
-      const randomString = Math.random().toString(36).substring(2, 10).toUpperCase();
-      const keyId = `GV3-${randomString.slice(0,4)}-${randomString.slice(4,8)}`;
-      
-      const newKey = { plan: plan, status: 'Pendente', usedBy: '' };
-      await setDoc(doc(db, 'keys', keyId), newKey);
-      generatedKeys.push({ id: keyId, ...newKey });
+      const rand = Math.random().toString(36).substring(2, 10).toUpperCase();
+      const keyId = `GV3-${rand.slice(0,4)}-${rand.slice(4,8)}`;
+
+      const newKey = { id: keyId, plan: plan, status: 'Pendente', usedBy: '' };
+      generatedKeys.push(newKey);
+      saveLocalStorageAll();
       renderAdminKeys();
       alert(`Key gerada: ${keyId}`);
     }
@@ -1225,9 +1141,9 @@
       });
     }
 
-    window.deleteKey = async function(keyId) {
-      await deleteDoc(doc(db, 'keys', keyId));
+    window.deleteKey = function(keyId) {
       generatedKeys = generatedKeys.filter(k => k.id !== keyId);
+      saveLocalStorageAll();
       renderAdminKeys();
     }
 
@@ -1269,36 +1185,38 @@
       });
     }
 
-    window.addTeamMember = async function() {
-      const name = document.getElementById('newMemberName').value;
-      const role = document.getElementById('newMemberRole').value;
-      const img = document.getElementById('newMemberImg').value;
-      const desc = document.getElementById('newMemberDesc').value;
+    window.addTeamMember = function() {
+      const name = document.getElementById('newMemberName').value.trim();
+      const role = document.getElementById('newMemberRole').value.trim();
+      const img = document.getElementById('newMemberImg').value.trim();
+      const desc = document.getElementById('newMemberDesc').value.trim();
 
       if (!name || !role) { alert('Preencha nome e cargo!'); return; }
 
       teamMembers.push({ name, role, img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', desc: desc || '' });
-      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+      saveLocalStorageAll();
       renderTeam();
       renderAdminTeam();
       document.getElementById('newMemberName').value = '';
       document.getElementById('newMemberRole').value = '';
+      document.getElementById('newMemberImg').value = '';
+      document.getElementById('newMemberDesc').value = '';
     }
 
-    window.updateTeamMember = async function(index) {
+    window.updateTeamMember = function(index) {
       teamMembers[index].name = document.getElementById(`editMemberName_${index}`).value;
       teamMembers[index].role = document.getElementById(`editMemberRole_${index}`).value;
       teamMembers[index].img = document.getElementById(`editMemberImg_${index}`).value;
       teamMembers[index].desc = document.getElementById(`editMemberDesc_${index}`).value;
 
-      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+      saveLocalStorageAll();
       renderTeam();
       alert('Membro atualizado!');
     }
 
-    window.removeTeamMember = async function(index) {
+    window.removeTeamMember = function(index) {
       teamMembers.splice(index, 1);
-      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+      saveLocalStorageAll();
       renderTeam();
       renderAdminTeam();
     }
