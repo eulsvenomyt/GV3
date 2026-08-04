@@ -10,8 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
-    /* ==========================================
-       1. VARIAVEIS E RESET
+   /* ==========================================
+       1. VARIÁVEIS E RESET
        ========================================== */
     :root {
       --bg-dark: #05070a;
@@ -74,7 +74,7 @@
     }
 
     /* ==========================================
-       2. NAVBAR & NAVEGAÇÃO DE ABAS
+       2. NAVBAR & NAVEGAÇÃO
        ========================================== */
     .navbar {
       display: flex;
@@ -526,104 +526,62 @@
 
     .form-group { margin-bottom: 1.2rem; }
 
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 0.4rem;
-    }
-
     .input-field {
       width: 100%;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(0, 0, 0, 0.3);
       border: 1px solid var(--card-border);
-      padding: 12px 14px;
+      color: var(--text-main);
+      padding: 12px 16px;
       border-radius: 10px;
-      color: #fff;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       outline: none;
     }
 
     .input-field:focus { border-color: var(--accent-purple); }
 
-    .color-pickers {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-    }
-
-    .color-picker-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--card-border);
-    }
-
-    .color-picker-item input[type="color"] {
-      border: none;
-      width: 35px;
-      height: 35px;
-      border-radius: 6px;
-      cursor: pointer;
-      background: none;
-    }
-
-    .btn-danger {
-      background: #ef4444;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .badge-user {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-    .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
-    .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
-    .badge-dono { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-    .badge-admin { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
-    .badge-mod { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
-    .badge-staff { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
-    .badge-membro { background: rgba(107, 114, 128, 0.2); color: #9ca3af; }
-
-    /* TABELA DE USUÁRIOS DO ADMIN */
     .user-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
     }
+
     .user-table th, .user-table td {
-      padding: 12px;
+      padding: 12px 16px;
       text-align: left;
       border-bottom: 1px solid var(--card-border);
-    }
-    .user-table th {
-      color: var(--text-muted);
       font-size: 0.85rem;
     }
 
-    /* ESTILOS DE EDIÇÃO DE EQUIPE */
-    .team-edit-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
+    .user-table th { color: var(--text-muted); font-weight: 600; }
+
+    .badge-user {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
     }
 
-    /* FOOTER */
+    .badge-dono { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    .badge-admin { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+    .badge-mod { background: rgba(37, 99, 235, 0.2); color: var(--accent-blue); }
+    .badge-membro { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+
+    .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+    .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.4); }
+
     footer {
-      background: rgba(5, 7, 10, 0.95);
-      border-top: 1px solid var(--card-border);
       padding: 3rem 8% 1.5rem 8%;
       margin-top: 4rem;
     }
@@ -635,99 +593,8 @@
       border-top: 1px solid var(--card-border);
       padding-top: 1.5rem;
     }
-    /* ==========================================\
-   AJUSTES RESPONSIVOS PARA TELEMÓVEL (MOBILE)
-   ========================================== */
 
-/* Regras aplicadas para ecrãs com largura de até 768px (Telemóveis e Tablets em pé) */
-@media (max-width: 768px) {
-  
-  /* 1. Ajuste da Barra de Navegação / Header */
-  .navbar {
-    padding: 0.8rem 1rem !important;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .nav-links {
-    gap: 0.5rem !important;
-    overflow-x: auto; /* Permite deslizar os botões do menu horizontalmente */
-    width: 100%;
-    padding-bottom: 5px;
-    margin-top: 8px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .nav-btn {
-    padding: 6px 12px !important;
-    font-size: 0.85rem !important;
-    white-space: nowrap; /* Evita que o texto quebre linhas */
-  }
-
-  /* 2. Banner Principal (Hero) */
-  .hero-section {
-    padding: 3rem 1rem 2rem 1rem !important;
-    text-align: center;
-  }
-
-  .hero-title {
-    font-size: 1.8rem !important; /* Diminui o título para não estourar a tela */
-    line-height: 1.2 !important;
-  }
-
-  .hero-subtitle {
-    font-size: 0.95rem !important;
-  }
-
-  .hero-buttons {
-    flex-direction: column !important; /* Botões um abaixo do outro */
-    width: 100%;
-    gap: 10px !important;
-  }
-
-  .hero-buttons button, .hero-buttons a {
-    width: 100% !important; /* Botões ocupam a largura toda */
-    text-align: center;
-  }
-
-  /* 3. Grelhas de Planos, Recursos e Equipa */
-  .plans-grid, 
-  .features-grid, 
-  .team-grid {
-    grid-template-columns: 1fr !important; /* Transforma 3 ou 4 colunas em 1 coluna única */
-    gap: 1.2rem !important;
-    padding: 0 0.5rem;
-  }
-
-  .plan-card, .feature-card, .team-card {
-    padding: 1.2rem !important;
-  }
-
-  /* 4. Formulários e Painel de Login/Admin */
-  .admin-box, .admin-panel {
-    padding: 1.2rem !important;
-    margin: 1rem auto !important;
-    width: 95% !important;
-  }
-
-  .input-field {
-    font-size: 1rem !important; /* Evita zoom automático em iOS ao clicar */
-    padding: 10px 12px !important;
-  }
-
-  /* 5. Tabelas Responsivas no Painel do Dono/Admin */
-  .user-table {
-    display: block;
-    overflow-x: auto; /* Adiciona scroll horizontal se a tabela for muito larga */
-    white-space: nowrap;
-  }
-
-  /* 6. Seletores de Cores no Painel do Dono */
-  .color-pickers {
-    grid-template-columns: 1fr 1fr !important; /* 2 colunas para seletores de cores */
-    gap: 10px !important;
-  }
-  /* ==========================================
+    /* ==========================================
        MODAL FLUTUANTE DE PAGAMENTO (IMAGEM 15)
        ========================================== */
     .pix-modal-overlay {
@@ -822,47 +689,14 @@
       text-transform: uppercase;
     }
 
-    /* ESTILO KEYAUTH (LOGIN E ATIVAÇÃO) */
-    .keyauth-box {
-      background: #101014;
-      border: 1px solid #1f1f27;
-      border-radius: 8px;
-      padding: 35px 30px;
-      max-width: 380px;
-      margin: 0 auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    /* AJUSTES RESPONSIVOS */
+    @media (max-width: 768px) {
+      .navbar { padding: 0.8rem 1rem !important; flex-wrap: wrap; justify-content: space-between; }
+      .hero { flex-direction: column; text-align: center; }
+      .hero-cta { justify-content: center; }
+      .metrics-grid { justify-content: center; }
+      .card-free { flex-direction: column; text-align: center; }
     }
-    .ka-title {
-      color: #fff;
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-    .ka-subtitle {
-      color: #71717a;
-      font-size: 0.9rem;
-      margin-bottom: 25px;
-    }
-    .ka-input {
-      width: 100%;
-      background: #18181c;
-      border: 1px solid #272730;
-      color: #fff;
-      padding: 14px 15px;
-      border-radius: 6px;
-      margin-bottom: 12px;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .ka-input::placeholder { color: #52525b; }
-    .ka-input:focus { border-color: var(--accent-purple); }
-    .ka-btn-row { display: flex; gap: 10px; margin-top: 5px; }
-    .ka-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
-    .ka-btn-primary { background: var(--accent-purple); color: #fff; }
-    .ka-btn-primary:hover { filter: brightness(1.1); }
-    .ka-btn-secondary { background: #272730; color: #fff; }
-    .ka-btn-secondary:hover { background: #3f3f46; }
   </style>
 </head>
 <body>
