@@ -11,7 +11,7 @@
   
   <style>
     /* ==========================================
-       1. VARIÁVEIS E RESET GLOBAL
+       1. VARIAVEIS E RESET
        ========================================== */
     :root {
       --bg-dark: #05070a;
@@ -43,6 +43,7 @@
       position: relative;
     }
 
+    /* BACKGROUND VIDEO */
     .bg-video-container {
       position: fixed;
       top: 0;
@@ -74,7 +75,7 @@
     }
 
     /* ==========================================
-       2. NAVEGAÇÃO / NAVBAR
+       2. NAVBAR & NAVEGAÇÃO DE ABAS
        ========================================== */
     .navbar {
       display: flex;
@@ -152,7 +153,7 @@
     .btn-discord:hover { color: #ffffff; }
 
     /* ==========================================
-       3. CONTEÚDO E LAYOUT
+       3. CONTEÚDO DAS ABAS
        ========================================== */
     .main-container {
       flex: 1;
@@ -175,7 +176,7 @@
     }
 
     /* ==========================================
-       4. HERO SECTION
+       4. HERO
        ========================================== */
     .hero {
       display: flex;
@@ -258,13 +259,59 @@
 
     .btn-hero-outline:hover { border-color: rgba(255, 255, 255, 0.2); }
 
+    .metrics-grid {
+      display: flex;
+      gap: 2.5rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 1.8rem;
+    }
+
+    .metric h3 { font-size: 1.6rem; color: var(--accent-purple); font-weight: 800; }
+    .metric p { color: var(--text-muted); font-size: 0.85rem; }
+
+    /* ==========================================
+       5. RECURSOS & PLANOS
+       ========================================== */
     .section-title { text-align: center; margin-bottom: 3rem; }
     .section-title h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
     .section-title p { color: var(--text-muted); font-size: 1rem; }
 
-    /* ==========================================
-       5. CARTÕES E PLANOS (IMAGEM 16)
-       ========================================== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(139, 92, 246, 0.4);
+      transform: translateY(-5px);
+    }
+
+    .f-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--accent-purple);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .feature-card h3 { font-size: 1.2rem; margin-bottom: 0.6rem; }
+    .feature-card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
+
     .card-free {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -338,10 +385,7 @@
     }
 
     .btn-plan-primary { background: var(--accent-blue); color: #fff; }
-    .btn-plan-primary:hover { background: #1d4ed8; }
-    
     .btn-plan-outline { border: 1px solid var(--card-border); color: #fff; background: rgba(255, 255, 255, 0.02); }
-    .btn-plan-outline:hover { background: rgba(255, 255, 255, 0.08); }
 
     .features-list {
       margin-top: 2rem;
@@ -357,10 +401,53 @@
       gap: 0.8rem;
     }
 
-    .features-list li { color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+    .features-list li { color: var(--text-muted); font-size: 0.9rem; }
 
     /* ==========================================
-       6. MODAL PIX FLUTUANTE (IMAGEM 15)
+       6. PAINEL ADMIN & FORMULÁRIOS
+       ========================================== */
+    .admin-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .input-field:focus { border-color: var(--accent-purple); }
+
+    /* ==========================================
+       7. MODAL FLUTUANTE DE PAGAMENTO (IMAGEM 15)
        ========================================== */
     .pix-modal-overlay {
       position: fixed;
@@ -429,13 +516,6 @@
       margin: 0.5rem 0;
     }
 
-    .pix-price-discount {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      text-decoration: line-through;
-      margin-right: 8px;
-    }
-
     .pix-qr-box {
       background: #ffffff;
       width: 170px;
@@ -443,9 +523,6 @@
       padding: 10px;
       border-radius: 14px;
       margin: 1.2rem auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .pix-qr-box img {
@@ -456,7 +533,7 @@
     .coupon-container {
       display: flex;
       gap: 8px;
-      margin: 1.2rem 0 0.5rem 0;
+      margin: 1.2rem 0;
     }
 
     .coupon-container input {
@@ -464,31 +541,15 @@
       text-transform: uppercase;
     }
 
-    .input-field {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      padding: 12px 14px;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .input-field:focus { border-color: var(--accent-purple); }
-
-    /* ==========================================
-       7. RESPONSIVIDADE
-       ========================================== */
+    /* RESPONSIVIDADE */
     @media (max-width: 768px) {
       .navbar { padding: 0.8rem 1rem !important; flex-wrap: wrap; }
       .nav-tabs { overflow-x: auto; width: 100%; margin-top: 8px; }
       .tab-btn { padding: 6px 12px !important; white-space: nowrap; }
       .hero { flex-direction: column !important; text-align: center; }
       .hero h1 { font-size: 2.2rem !important; }
-      .pricing-grid { grid-template-columns: 1fr !important; }
+      .pricing-grid, .features-grid { grid-template-columns: 1fr !important; }
       .card-free { flex-direction: column !important; text-align: center; }
-      .pix-modal-card { padding: 1.4rem !important; }
     }
   </style>
 </head>
@@ -513,12 +574,15 @@
       <button class="tab-btn" onclick="switchTab('tab-precos')">Planos & Preços</button>
       <button class="tab-btn" onclick="switchTab('tab-equipe')">Equipe</button>
       <button class="tab-btn" onclick="switchTab('tab-faq')">FAQ</button>
+      <button class="tab-btn" id="nav-login-btn" onclick="switchTab('tab-login')">Login / Registo</button>
+      <button class="tab-btn" id="nav-admin-btn" style="display:none;" onclick="switchTab('tab-admin')">Admin Panel</button>
     </div>
 
     <div class="nav-right">
       <a href="https://discord.gg/gv3" target="_blank" class="btn-discord">
         <i class="fa-brands fa-discord"></i> Discord
       </a>
+      <button id="user-logout-btn" class="btn-hero-outline" style="display:none; padding: 6px 12px; font-size: 0.8rem;" onclick="logoutUser()">Sair</button>
     </div>
   </nav>
 
@@ -537,6 +601,21 @@
             <button class="btn-hero-primary" onclick="switchTab('tab-precos')">Obter Agora</button>
             <button class="btn-hero-outline" onclick="switchTab('tab-recursos')">Ver Recursos</button>
           </div>
+
+          <div class="metrics-grid">
+            <div class="metric">
+              <h3>+40%</h3>
+              <p>Média de FPS</p>
+            </div>
+            <div class="metric">
+              <h3>-15ms</h3>
+              <p>Input Lag</p>
+            </div>
+            <div class="metric">
+              <h3>100%</h3>
+              <p>Seguro & Anticheat</p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -545,6 +624,24 @@
       <div class="section-title">
         <h2>Recursos Avançados</h2>
         <p>Tudo o que precisa para transformar o seu sistema numa máquina de alta performance.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="f-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <h3>Limpeza de RAM e CPU</h3>
+          <p>Otimização em tempo real para evitar engasgos em jogos pesados.</p>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <h3>Otimização de Rede</h3>
+          <p>Ajustes no protocolo TCP/IP para reduzir o ping e a perda de pacotes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon"><i class="fa-solid fa-sliders"></i></div>
+          <h3>Tweaks Personalizados</h3>
+          <p>Mais de 50 otimizações exclusivas para o sistema operacional Windows.</p>
+        </div>
       </div>
     </div>
 
@@ -614,12 +711,91 @@
     <div id="tab-equipe" class="tab-content">
       <div class="section-title">
         <h2>Nossa Equipe</h2>
+        <p>Os desenvolvedores por trás do projeto.</p>
       </div>
     </div>
 
     <div id="tab-faq" class="tab-content">
       <div class="section-title">
         <h2>Perguntas Frequentes</h2>
+      </div>
+    </div>
+
+    <div id="tab-login" class="tab-content">
+      <div style="max-width: 400px; margin: 0 auto;" class="admin-container">
+        <h2 style="text-align: center; margin-bottom: 1.5rem;" id="login-title">Acesse a sua Conta</h2>
+        
+        <div class="input-group">
+          <label>E-mail</label>
+          <input type="email" id="loginEmail" class="input-field" placeholder="seuemail@exemplo.com">
+        </div>
+
+        <div class="input-group">
+          <label>Palavra-passe</label>
+          <input type="password" id="loginPassword" class="input-field" placeholder="******">
+        </div>
+
+        <button class="btn-hero-primary" style="width: 100%; margin-top: 1rem;" onclick="handleAuthAction()">Entrar</button>
+        
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+          <span id="toggle-auth-text">Ainda não tem conta?</span> 
+          <a href="#" style="color: var(--accent-purple);" onclick="toggleAuthMode(); return false;" id="toggle-auth-link">Registar-se</a>
+        </p>
+      </div>
+    </div>
+
+    <div id="tab-admin" class="tab-content">
+      <div class="admin-container">
+        <h2>Painel Administrativo</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Gerencie o sistema, usuários, cupons de desconto e cores.</p>
+        
+        <div class="admin-grid">
+          <div style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--card-border);">
+            <h3><i class="fa-solid fa-ticket"></i> Gerar Cupom</h3>
+            
+            <div class="input-group" style="margin-top: 1rem;">
+              <label>Código do Cupom</label>
+              <input type="text" id="couponCode" class="input-field" placeholder="EX: PROMO20" style="text-transform: uppercase;">
+            </div>
+
+            <div class="input-group">
+              <label>Desconto (%)</label>
+              <input type="number" id="couponDiscount" class="input-field" placeholder="Ex: 20">
+            </div>
+
+            <button class="btn-hero-primary" style="width: 100%;" onclick="createCoupon()">Criar Cupom</button>
+
+            <h4 style="margin-top: 1.5rem; font-size: 0.9rem;">Cupons Ativos:</h4>
+            <ul id="admin-coupons-list" style="list-style: none; margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+              </ul>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--card-border);">
+            <h3><i class="fa-solid fa-palette"></i> Alterar Tema de Cores</h3>
+            
+            <div class="input-group" style="margin-top: 1rem;">
+              <label>Roxo Principal</label>
+              <input type="color" id="pickerPurple" value="#8b5cf6" style="width: 100%; height: 40px; border: none; cursor: pointer; background: transparent;">
+            </div>
+
+            <div class="input-group">
+              <label>Azul Destaque</label>
+              <input type="color" id="pickerBlue" value="#2563eb" style="width: 100%; height: 40px; border: none; cursor: pointer; background: transparent;">
+            </div>
+
+            <div class="input-group">
+              <label>Fundo Escuro</label>
+              <input type="color" id="pickerBg" value="#05070a" style="width: 100%; height: 40px; border: none; cursor: pointer; background: transparent;">
+            </div>
+
+            <div class="input-group">
+              <label>Fundo dos Cards</label>
+              <input type="color" id="pickerCardBg" value="#0f1420" style="width: 100%; height: 40px; border: none; cursor: pointer; background: transparent;">
+            </div>
+
+            <button class="btn-hero-outline" style="width: 100%; margin-top: 0.5rem;" onclick="updateTheme()">Salvar Tema no Firebase</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -634,17 +810,13 @@
       </div>
       
       <h3 id="pixModalTitle" style="font-size: 1.3rem; font-weight: 800;">Assinatura do Plano</h3>
-      
-      <div style="display: flex; align-items: center; justify-content: center;">
-        <span id="pixOldPrice" class="pix-price-discount" style="display: none;"></span>
-        <div class="pix-price-tag" id="pixModalPrice">R$ 0,00</div>
-      </div>
+      <div class="pix-price-tag" id="pixModalPrice">R$ 0,00</div>
 
       <div class="coupon-container">
         <input type="text" id="pixCouponInput" class="input-field" placeholder="Inserir Cupom">
         <button class="btn-hero-primary" style="padding: 10px 16px; font-size: 0.85rem;" onclick="validarCupomPix()">Aplicar</button>
       </div>
-      <p id="pixCouponMsg" style="font-size: 0.8rem; margin-bottom: 10px; display: none;"></p>
+      <p id="pixCouponMsg" style="font-size: 0.8rem; margin-top: -8px; margin-bottom: 10px; display: none;"></p>
 
       <div class="pix-qr-box">
         <img id="pixModalQrImg" src="" alt="QR Code PIX">
@@ -664,9 +836,28 @@
     </div>
   </div>
 
-  <script>
-    // TROCA DE ABAS
-    function switchTab(tabId) {
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, getDocs, collection, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDummyKeyReplaceWithYours",
+      authDomain: "gv3-optimizer.firebaseapp.com",
+      projectId: "gv3-optimizer",
+      storageBucket: "gv3-optimizer.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let isRegisterMode = false;
+
+    // GERENCIAMENTO DE ABAS
+    window.switchTab = function(tabId) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
@@ -677,16 +868,140 @@
         btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)
       );
       if (activeBtn) activeBtn.classList.add('active');
+    };
+
+    // AUTH / LOGIN / REGISTO
+    window.toggleAuthMode = function() {
+      isRegisterMode = !isRegisterMode;
+      document.getElementById('login-title').innerText = isRegisterMode ? 'Crie a sua Conta' : 'Acesse a sua Conta';
+      document.getElementById('toggle-auth-text').innerText = isRegisterMode ? 'Já tem uma conta?' : 'Ainda não tem conta?';
+      document.getElementById('toggle-auth-link').innerText = isRegisterMode ? 'Entrar' : 'Registar-se';
+    };
+
+    window.handleAuthAction = async function() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value.trim();
+
+      if(!email || !pass) return alert('Preencha todos os campos!');
+
+      try {
+        if(isRegisterMode) {
+          await createUserWithEmailAndPassword(auth, email, pass);
+          alert('Conta criada com sucesso!');
+        } else {
+          await signInWithEmailAndPassword(auth, email, pass);
+          alert('Login efetuado com sucesso!');
+        }
+        switchTab('tab-inicio');
+      } catch (err) {
+        alert('Erro na autenticação: ' + err.message);
+      }
+    };
+
+    window.logoutUser = function() {
+      signOut(auth).then(() => {
+        alert('Desconectado com sucesso.');
+        location.reload();
+      });
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      if(user) {
+        document.getElementById('nav-login-btn').style.display = 'none';
+        document.getElementById('user-logout-btn').style.display = 'inline-block';
+
+        // Verifica se é Admin no Firestore
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if(userDoc.exists() && userDoc.data().role === 'admin') {
+          document.getElementById('nav-admin-btn').style.display = 'inline-block';
+          loadAdminCoupons();
+        }
+      } else {
+        document.getElementById('nav-login-btn').style.display = 'inline-block';
+        document.getElementById('user-logout-btn').style.display = 'none';
+        document.getElementById('nav-admin-btn').style.display = 'none';
+      }
+    });
+
+    // GERADOR DE CUPONS (PAINEL ADMIN)
+    window.createCoupon = async function() {
+      const code = document.getElementById('couponCode').value.trim().toUpperCase();
+      const discount = parseFloat(document.getElementById('couponDiscount').value);
+
+      if(!code || isNaN(discount)) return alert('Digite um código e porcentagem válidos!');
+
+      await setDoc(doc(db, 'coupons', code), { discount, createdAt: new Date() });
+      alert(`Cupom ${code} de ${discount}% criado com sucesso!`);
+      document.getElementById('couponCode').value = '';
+      document.getElementById('couponDiscount').value = '';
+      loadAdminCoupons();
+    };
+
+    async function loadAdminCoupons() {
+      const listEl = document.getElementById('admin-coupons-list');
+      listEl.innerHTML = '';
+      const snap = await getDocs(collection(db, 'coupons'));
+      snap.forEach(docSnap => {
+        const data = docSnap.data();
+        listEl.innerHTML += `<li style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+          <span><strong>${docSnap.id}</strong> - ${data.discount}% OFF</span>
+          <button onclick="removeCoupon('${docSnap.id}')" style="background:none; border:none; color:#ef4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+        </li>`;
+      });
     }
 
+    window.removeCoupon = async function(code) {
+      if(confirm(`Deseja deletar o cupom ${code}?`)) {
+        await deleteDoc(doc(db, 'coupons', code));
+        loadAdminCoupons();
+      }
+    };
+
+    // TEMAS NO FIREBASE
+    window.updateTheme = async function() {
+      const purple = document.getElementById('pickerPurple').value;
+      const blue = document.getElementById('pickerBlue').value;
+      const bg = document.getElementById('pickerBg').value;
+      const cardBg = document.getElementById('pickerCardBg').value;
+
+      applyThemeValues(purple, blue, bg, cardBg);
+      await setDoc(doc(db, 'config', 'theme'), { purple, blue, bg, cardBg });
+      alert('Tema salvo e sincronizado!');
+    };
+
+    function applyThemeValues(purple, blue, bg, cardBg) {
+      const root = document.documentElement;
+      root.style.setProperty('--accent-purple', purple);
+      root.style.setProperty('--accent-blue', blue);
+      root.style.setProperty('--bg-dark', bg);
+      root.style.setProperty('--card-bg', hexToRgba(cardBg, 0.65));
+    }
+
+    function hexToRgba(hex, alpha) {
+      let c = hex.replace('#','');
+      if(c.length===3) c = c.split('').map(x => x+x).join('');
+      let num = parseInt(c,16);
+      return `rgba(${num>>16},${(num>>8)&255},${num&255},${alpha})`;
+    }
+
+    // Carregar tema salvo ao iniciar
+    (async () => {
+      try {
+        const themeSnap = await getDoc(doc(db, 'config', 'theme'));
+        if(themeSnap.exists()) {
+          const t = themeSnap.data();
+          applyThemeValues(t.purple, t.blue, t.bg, t.cardBg);
+        }
+      } catch(e) {}
+    })();
+
     /* ==========================================
-       LÓGICA DO MODAL PIX E GERADOR DE CUPOM
+       LÓGICA DA TELA FLUTUANTE PIX E BUSCA NO FIREBASE
        ========================================== */
     let precoOriginal = 0;
     let porcentagemDesconto = 0;
-    const CHAVE_PIX_OFICIAL = "suachavepixaqui@email.com"; // Configure aqui a sua chave PIX
+    const CHAVE_PIX_OFICIAL = "suachavepixaqui@email.com"; // Substitua com a sua chave PIX
 
-    // Abre o modal ao clicar em qualquer plano
     window.abrirModalPix = function(nomePlano, valor) {
       precoOriginal = parseFloat(valor);
       porcentagemDesconto = 0;
@@ -694,7 +1009,6 @@
       document.getElementById('pixModalTitle').innerText = `Assinatura ${nomePlano}`;
       document.getElementById('pixCouponInput').value = '';
       document.getElementById('pixCouponMsg').style.display = 'none';
-      document.getElementById('pixOldPrice').style.display = 'none';
 
       atualizarValoresEPayload();
       document.getElementById('pixModalOverlay').classList.add('active');
@@ -704,69 +1018,65 @@
       document.getElementById('pixModalOverlay').classList.remove('active');
     };
 
-    // Validação inteligente do cupom
-    window.validarCupomPix = function() {
+    // Validação com consulta DIRETA ao FIREBASE FIRESTORE
+    window.validarCupomPix = async function() {
       const cupomDigitado = document.getElementById('pixCouponInput').value.trim().toUpperCase();
       const msgEl = document.getElementById('pixCouponMsg');
 
-      let descontoEncontrado = 0;
-
-      // 1. Procura na lista de cupons globais do admin se existir
-      if (typeof coupons !== 'undefined' && coupons[cupomDigitado]) {
-        descontoEncontrado = coupons[cupomDigitado];
-      } 
-      // 2. Cupons pré-definidos de contingência
-      else if (cupomDigitado === 'GV3OFF') {
-        descontoEncontrado = 10;
-      } else if (cupomDigitado === 'VIP50') {
-        descontoEncontrado = 50;
+      if(!cupomDigitado) {
+        msgEl.style.color = '#ef4444';
+        msgEl.innerText = 'Digite um cupom.';
+        msgEl.style.display = 'block';
+        return;
       }
 
-      if (descontoEncontrado > 0) {
-        porcentagemDesconto = descontoEncontrado;
-        msgEl.style.color = 'var(--accent-green)';
-        msgEl.innerText = `Cupom aplicado! ${porcentagemDesconto}% de desconto.`;
-        msgEl.style.display = 'block';
-      } else {
+      try {
+        // Consulta o cupom no banco Firestore na coleção 'coupons'
+        const couponRef = doc(db, 'coupons', cupomDigitado);
+        const couponSnap = await getDoc(couponRef);
+
+        if(couponSnap.exists()) {
+          const couponData = couponSnap.data();
+          porcentagemDesconto = parseFloat(couponData.discount) || 0;
+          
+          msgEl.style.color = 'var(--accent-green)';
+          msgEl.innerText = `Cupom aplicado! ${porcentagemDesconto}% de desconto.`;
+          msgEl.style.display = 'block';
+        } else {
+          porcentagemDesconto = 0;
+          msgEl.style.color = '#ef4444';
+          msgEl.innerText = 'Cupom inválido ou expirado.';
+          msgEl.style.display = 'block';
+        }
+      } catch (err) {
         porcentagemDesconto = 0;
         msgEl.style.color = '#ef4444';
-        msgEl.innerText = 'Cupom inválido ou expirado.';
+        msgEl.innerText = 'Erro ao validar cupom.';
         msgEl.style.display = 'block';
       }
 
       atualizarValoresEPayload();
     };
 
-    // Recalcula o preço final, copia e cola e recria o QR Code
     function atualizarValoresEPayload() {
       const valorFinal = precoOriginal * (1 - porcentagemDesconto / 100);
-      const oldPriceEl = document.getElementById('pixOldPrice');
-
-      if (porcentagemDesconto > 0) {
-        oldPriceEl.innerText = precoOriginal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        oldPriceEl.style.display = 'inline-block';
-      } else {
-        oldPriceEl.style.display = 'none';
-      }
-
+      
       document.getElementById('pixModalPrice').innerText = valorFinal.toLocaleString('pt-BR', { 
         style: 'currency', 
         currency: 'BRL' 
       });
 
-      // Geração do Payload Padrão EMV PIX
       const payloadPix = `00020126360014BR.GOV.BCB.PIX0114${CHAVE_PIX_OFICIAL}5204000053039865405${valorFinal.toFixed(2)}5802BR5913GV3OPTIMIZER6009SAOPAULO62070503***6304`;
       
       document.getElementById('pixModalCopyInput').value = payloadPix;
       document.getElementById('pixModalQrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=${encodeURIComponent(payloadPix)}`;
     }
 
-    // Copia a chave Pix para a área de transferência
     window.copiarPixPayload = function() {
       const input = document.getElementById('pixModalCopyInput');
       input.select();
       navigator.clipboard.writeText(input.value);
-      alert('Código PIX Copia e Cola copiado para a área de transferência!');
+      alert('Código PIX Copia e Cola copiado com sucesso!');
     };
   </script>
 </body>
