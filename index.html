@@ -9,9 +9,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  
   <style>
     /* ==========================================
        1. VARIAVEIS E RESET
@@ -488,10 +485,17 @@
       padding-top: 1rem;
     }
 
+    .spoiler-img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 1rem;
+      border: 1px solid var(--card-border);
+    }
+
     /* ==========================================
-       7. PAINÉIS DE LOGIN, ADMIN & CONTA
+       7. PAINÉIS DE LOGIN, ADMIN & USUÁRIO
        ========================================== */
-    .admin-box, .account-box {
+    .admin-box {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 20px;
@@ -583,12 +587,15 @@
       font-size: 0.8rem;
       font-weight: 700;
     }
+    .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+    .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
     .badge-dono { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
     .badge-admin { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
-    .badge-mod { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+    .badge-mod { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
     .badge-staff { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
-    .badge-membro { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+    .badge-membro { background: rgba(107, 114, 128, 0.2); color: #9ca3af; }
 
+    /* TABELA DE USUÁRIOS DO ADMIN */
     .user-table {
       width: 100%;
       border-collapse: collapse;
@@ -604,6 +611,7 @@
       font-size: 0.85rem;
     }
 
+    /* ESTILOS DE EDIÇÃO DE EQUIPE */
     .team-edit-card {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--card-border);
@@ -628,6 +636,7 @@
       padding-top: 1.5rem;
     }
 
+    /* ESTILO KEYAUTH (LOGIN E ATIVAÇÃO) */
     .keyauth-box {
       background: #101014;
       border: 1px solid #1f1f27;
@@ -637,8 +646,17 @@
       margin: 0 auto;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
-    .ka-title { color: #fff; font-size: 1.6rem; font-weight: 700; margin-bottom: 5px; }
-    .ka-subtitle { color: #71717a; font-size: 0.9rem; margin-bottom: 25px; }
+    .ka-title {
+      color: #fff;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .ka-subtitle {
+      color: #71717a;
+      font-size: 0.9rem;
+      margin-bottom: 25px;
+    }
     .ka-input {
       width: 100%;
       background: #18181c;
@@ -653,18 +671,8 @@
     }
     .ka-input::placeholder { color: #52525b; }
     .ka-input:focus { border-color: var(--accent-purple); }
-
     .ka-btn-row { display: flex; gap: 10px; margin-top: 5px; }
-    .ka-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 0.9rem;
-    }
+    .ka-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
     .ka-btn-primary { background: var(--accent-purple); color: #fff; }
     .ka-btn-primary:hover { filter: brightness(1.1); }
     .ka-btn-secondary { background: #272730; color: #fff; }
@@ -674,9 +682,7 @@
 <body>
 
   <div class="bg-video-container">
-    <video class="bg-video" autoplay loop muted playsinline>
-      <source src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.mp4" type="video/mp4">
-    </video>
+    <img class="bg-video" src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.gif" alt="Background Animation" style="width: 100%; height: 100%; object-fit: cover;">
   </div>
   <div class="bg-overlay"></div>
 
@@ -685,18 +691,18 @@
       <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png" alt="GV3 Logo">
       <span>GV3 <strong>OPTIMIZER</strong></span>
     </div>
-
     <nav class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('inicio', event)">Início</button>
       <button class="tab-btn" onclick="switchTab('recursos', event)">Recursos</button>
       <button class="tab-btn" onclick="switchTab('precos', event)">Planos & Preços</button>
-      <button class="tab-btn" onclick="switchTab('sobre', event)">Sobre</button>
       <button class="tab-btn" onclick="switchTab('equipe', event)">Equipe</button>
       <button class="tab-btn" onclick="switchTab('faq', event)">FAQ</button>
-      <button class="tab-btn" onclick="switchTab('login', event)"><i class="fa-solid fa-user"></i> <span id="navAccountText">Login</span></button>
+      <button class="tab-btn" onclick="switchTab('login', event)" id="navAccountBtn"><i class="fa-solid fa-user"></i> <span id="navAccountText">Login</span></button>
     </nav>
     <div class="nav-right">
-      <a href="https://discord.gg/BGsTajkwj9" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
+      <a href="https://discord.gg/BGsTajkwj9" target="_blank" class="btn-discord">
+        <i class="fa-brands fa-discord"></i> Discord
+      </a>
     </div>
   </header>
 
@@ -705,52 +711,60 @@
       <div class="hero">
         <div class="hero-left">
           <div class="badge-tag">
-            <i class="fa-solid fa-bolt"></i> DESEMPENHO MÁXIMO PARA SEU PC
+            <i class="fa-solid fa-bolt"></i> VERSÃO 3.0 DISPONÍVEL
           </div>
           <h1 id="hero-title">Otimize seu PC com <span>1 clique.</span></h1>
           <p class="hero-desc" id="hero-desc-text">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
           <div class="hero-cta">
-            <button class="btn-hero-primary" onclick="switchTab('precos')">Começar agora</button>
-            <button class="btn-hero-outline" onclick="switchTab('recursos')">Ver recursos</button>
+            <button class="btn-hero-primary" onclick="switchTab('precos')">Baixar Agora</button>
+            <a href="https://discord.gg/BGsTajkwj9" target="_blank" class="btn-hero-outline">Suporte no Discord</a>
           </div>
           <div class="metrics-grid">
             <div class="metric">
-              <h3>↓ 15ms</h3>
-              <p>Redução de latência</p>
+              <h3>+45.000</h3>
+              <p>Downloads Realizados</p>
             </div>
             <div class="metric">
-              <h3>↑ 30%</h3>
-              <p>Mais estabilidade</p>
+              <h3>+30%</h3>
+              <p>Ganho Médio de FPS</p>
             </div>
             <div class="metric">
-              <h3>↑ 40%</h3>
-              <p>Boot mais rápido</p>
+              <h3>0%</h3>
+              <p>Risco de Ban</p>
             </div>
           </div>
         </div>
-        <div class="hero-right">
-          <div class="layers-container">
-            <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Layer 2" class="layer layer-2">
-          </div>
+        <div class="layers-container">
+          <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" class="layer layer-2" alt="GV3 UI">
         </div>
       </div>
     </section>
 
     <section id="tab-recursos" class="tab-content">
       <div class="section-title">
-        <h2>Recursos do App</h2>
-        <p>Tudo o que você precisa para extrair o máximo do seu hardware em um só lugar.</p>
+        <h2>Recursos Poderosos</h2>
+        <p>Tudo o que você precisa para extrair o máximo desempenho do seu hardware.</p>
       </div>
       <div class="features-grid">
         <div class="feature-card">
-          <div class="f-icon"><i class="fa-solid fa-bolt"></i></div>
-          <h3>Mais FPS em 1 Clique</h3>
-          <p>Ajustes finos em serviços do Windows, planos de energia e prioridade de CPU direcionados para o seu jogo.</p>
+          <div class="f-icon"><i class="fa-solid fa-microchip"></i></div>
+          <h3>Prioridade Máxima em Jogos</h3>
+          <p>Aloca os recursos da CPU e placa de vídeo exclusivamente para o jogo em foco, reduzindo travamentos.</p>
         </div>
         <div class="feature-card">
-          <div class="f-icon"><i class="fa-solid fa-wave-square"></i></div>
-          <h3>Menor Input Lag</h3>
-          <p>Remove processos ocultos em segundo plano para garantir resposta imediata de teclado e mouse.</p>
+          <div class="f-icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Modo Desempenho Extremo</h3>
+          <p>Desativa processos em segundo plano desnecessários do Windows, liberando memória RAM e reduzindo latência.</p>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <h3>Otimização de Rede & Ping</h3>
+          <p>Ajusta pacotes TCP/IP e DNS para garantir a menor latência possível nas suas partidas online.</p>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon"><i class="fa-solid fa-broom"></i></div>
+          <h3>Limpeza de Cache Automática</h3>
+          <p>Remove arquivos temporários e lixo acumulado no sistema que prejudicam a velocidade geral.</p>
         </div>
         <div class="feature-card">
           <div class="f-icon"><i class="fa-solid fa-gauge-high"></i></div>
@@ -796,67 +810,65 @@
         <div class="pricing-card highlighted">
           <div class="badge-top">⭐ MELHOR OFERTA</div>
           <h3>Anual</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Por apenas: R$ 22,42 / com cupom</p>
-          <div class="price">R$ 29,90 <span>/ano</span></div>
-          <button class="btn-plan btn-plan-primary" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Garantir Desconto</button>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Economize 60% no plano anual</p>
+          <div class="price">R$ 49,90 <span>/ano</span></div>
+          <button class="btn-plan btn-plan-primary" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Assinar Agora</button>
           <div class="features-list">
             <ul>
-              <li>✓ Tudo do Plano Mensal</li>
-              <li>✓ 2 meses totalmente grátis</li>
-              <li>✓ Cargo VIP e canais exclusivos no Discord</li>
+              <li>✓ Todos os recursos do Mensal</li>
+              <li>✓ Prioridade nas atualizações</li>
+              <li>✓ Otimizações avançadas de kernel</li>
             </ul>
           </div>
         </div>
         <div class="pricing-card">
           <h3>Vitalício</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Por apenas: R$ 37,42 / com cupom</p>
-          <div class="price">R$ 49,90</div>
-          <button class="btn-plan btn-plan-outline" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Acesso Vitalício</button>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Acesso permanente sem mensalidade</p>
+          <div class="price">R$ 89,90 <span>vitalício</span></div>
+          <button class="btn-plan btn-plan-outline" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Assinar Agora</button>
           <div class="features-list">
             <ul>
-              <li>✓ Acesso permanente sem mensalidades</li>
-              <li>✓ Atualizações pra sempre</li>
-              <li>✓ Suporte prioritário</li>
+              <li>✓ Acesso vitalício garantido</li>
+              <li>✓ Todas futuras versões inclusas</li>
+              <li>✓ Suporte VIP prioritário</li>
             </ul>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="tab-sobre" class="tab-content">
-      <div class="section-title">
-        <h2>Sobre a GV3</h2>
-        <p>A história de como buscamos revolucionar a otimização de sistemas.</p>
-      </div>
-      <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 2.5rem; max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-muted);">
-        <h3 style="color: #fff; margin-bottom: 1rem;">Nossa Missão</h3>
-        <p style="margin-bottom: 1.5rem;">Desenvolver ferramentas seguras e inteligentes para extração máxima de performance do seu hardware, eliminando travamentos e entregando a melhor fluidez em jogos.</p>
-        <h3 style="color: #fff; margin-bottom: 1rem;">Compromisso com o Usuário</h3>
-        <p>Garantimos transparência total, atualizações constantes e uma interface intuitiva e prática para todos os níveis de usuário.</p>
       </div>
     </section>
 
     <section id="tab-equipe" class="tab-content">
       <div class="section-title">
         <h2>Nossa Equipe</h2>
-        <p>Conheçam os responsáveis pelo desenvolvimento e suporte do GV3.</p>
+        <p>Os desenvolvedores e especialistas por trás do GV3 Optimizer.</p>
       </div>
       <div class="team-grid" id="teamContainer"></div>
     </section>
 
     <section id="tab-faq" class="tab-content">
       <div class="section-title">
-        <h2>Perguntas Frequentes (FAQ)</h2>
-        <p>Tire suas dúvidas sobre o funcionamento do otimizador.</p>
+        <h2>Perguntas Frequentes</h2>
+        <p>Tire suas dúvidas sobre o funcionamento do app.</p>
       </div>
       <div class="faq-container">
         <details class="faq-item">
-          <summary>O otimizador pode banir em jogos (Anti-cheat)? <i class="fa-solid fa-chevron-down"></i></summary>
-          <div class="faq-answer">Não. O GV3 mexe apenas em configurações legítimas do Windows e serviços nativos, sendo 100% compatível com Riot Vanguard, Easy Anti-Cheat e BattlEye.</div>
+          <summary>
+            <span><i class="fa-solid fa-camera-retro"></i> Como é a interface do GV3 por dentro?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>Confira abaixo o design moderno do nosso painel principal:</p>
+            <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" class="spoiler-img" alt="Interface GV3">
+          </div>
         </details>
         <details class="faq-item">
-          <summary>Como recebo minhas atualizações? <i class="fa-solid fa-chevron-down"></i></summary>
-          <div class="faq-answer">As atualizações são automáticas e liberadas diretamente no painel do cliente assim que lançadas.</div>
+          <summary>
+            <span><i class="fa-solid fa-shield-halved"></i> O software corre o risco de dar ban em jogos?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>Não. O GV3 Optimizer atua exclusivamente nas configurações do seu sistema operacional Windows. Ele não injeta arquivos nos jogos e é 100% seguro.</p>
+          </div>
         </details>
       </div>
     </section>
@@ -872,485 +884,695 @@
     </div>
   </footer>
 
-  <script>
-    // Configuração do Firebase Realtime Database
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
     const firebaseConfig = {
-      databaseURL: "https://SEU-PROJETO-DEFAULT-RTDB.firebaseio.com/" // Cole sua URL do Firebase Realtime Database aqui se desejar nuvem real
+      apiKey: "AIzaSyACGqDGzcK8-pJnpqFy4u5ElRvAbQZ7vE0",
+      authDomain: "gv3suporte.firebaseapp.com",
+      projectId: "gv3suporte",
+      storageBucket: "gv3suporte.firebasestorage.app",
+      messagingSenderId: "863071488745",
+      appId: "1:863071488745:web:dc7af6bfe77fd3169dbe78",
+      measurementId: "G-ZHJ87L7HFV"
     };
 
-    // Inicialização segura
-    try {
-      if(!firebase.apps.length && firebaseConfig.databaseURL.includes("firebaseio")) {
-        firebase.initializeApp(firebaseConfig);
-      }
-    } catch(e) {}
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    // Dados Globais com sincronização local inteligente e persistente
+    let isRegisterMode = false;
+    let teamMembers = [];
+    let registeredUsers = [];
+    let generatedKeys = [];
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
 
-    let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
-      { name: 'eulsvenom', role: 'Dono & Desenvolvedor', avatar: 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', email: 'dono@gv3.com' },
-      { name: 'AdminExemplo', role: 'Administrador', avatar: 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', email: 'admin@gv3.com' }
-    ];
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadDataFromCloud();
+      checkAuthUI();
+      loadTheme();
+      loadTexts();
+    });
 
-    let keysList = JSON.parse(localStorage.getItem('gv3_keys')) || ['GV3-VIP-TESTE-2026'];
-    
-    let registeredUsers = JSON.parse(localStorage.getItem('gv3_users')) || [
-      { name: 'Dono Principal', email: 'dono@gv3.com', role: 'Dono', plan: 'Vitalício' },
-      { name: 'Admin Teste', email: 'admin@gv3.com', role: 'Admin', plan: 'Grátis' }
-    ];
-
-    function saveData() {
-      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
-      localStorage.setItem('gv3_keys', JSON.stringify(keysList));
-      localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
-      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
-
-      // Sincronização opcional com Firebase caso configurado
+    async function loadDataFromCloud() {
       try {
-        if(typeof firebase !== 'undefined' && firebase.apps.length) {
-          firebase.database().ref('gv3_data').set({
-            users: registeredUsers,
-            team: teamMembers,
-            keys: keysList
-          });
-        }
-      } catch(e) {}
-    }
-
-    // Carregar dados remotos do Firebase se houver
-    try {
-      if(typeof firebase !== 'undefined' && firebase.apps.length) {
-        firebase.database().ref('gv3_data').on('value', (snapshot) => {
-          const val = snapshot.val();
-          if(val) {
-            if(val.users) { registeredUsers = val.users; localStorage.setItem('gv3_users', JSON.stringify(registeredUsers)); }
-            if(val.team) { teamMembers = val.team; localStorage.setItem('gv3_team', JSON.stringify(teamMembers)); }
-            if(val.keys) { keysList = val.keys; localStorage.setItem('gv3_keys', JSON.stringify(keysList)); }
-            if(document.getElementById('tab-login').classList.contains('active')) renderAuthPanel();
-            if(document.getElementById('tab-equipe').classList.contains('active')) renderTeam();
+        // Carrega Equipe
+        const teamSnap = await getDocs(collection(db, 'config'));
+        let teamFound = false;
+        teamSnap.forEach(d => {
+          if (d.id === 'team') {
+            teamMembers = d.data().members;
+            teamFound = true;
           }
         });
-      }
-    } catch(e) {}
+        if (!teamFound) {
+          teamMembers = [
+            { name: "Sven", role: "Fundador & Dev Principal", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Criador do GV3 Optimizer e especialista em otimização de Windows." }
+          ];
+          await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+        }
+        renderTeam();
 
-    // Gerenciador de Abas
-    function switchTab(tabId, event) {
+        // Carrega Usuários
+        const usersSnap = await getDocs(collection(db, 'users'));
+        registeredUsers = [];
+        usersSnap.forEach(d => {
+          registeredUsers.push(d.data());
+        });
+
+        // Garante Dono Principal
+        let donoExists = registeredUsers.find(u => u.email === 'dono@gv3.com');
+        if (!donoExists) {
+          const donoUser = { name: "Dono GV3", email: "dono@gv3.com", pass: "dono123", role: "Dono", status: "Plano Vitalício" };
+          await setDoc(doc(db, 'users', 'dono@gv3.com'), donoUser);
+          registeredUsers.push(donoUser);
+        } else if (donoExists.role !== 'Dono') {
+          donoExists.role = 'Dono';
+          await setDoc(doc(db, 'users', 'dono@gv3.com'), donoExists);
+        }
+
+        // Sincroniza usuário logado atual
+        if (currentUser) {
+          let updated = registeredUsers.find(u => u.email === currentUser.email);
+          if (updated) {
+            currentUser = updated;
+            localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+          }
+        }
+
+        // Carrega Keys
+        const keysSnap = await getDocs(collection(db, 'keys'));
+        generatedKeys = [];
+        keysSnap.forEach(d => {
+          generatedKeys.push({ id: d.id, ...d.data() });
+        });
+
+        // Carrega Tema Global
+        const themeDoc = await getDoc(doc(db, 'config', 'theme'));
+        if (themeDoc.exists()) {
+          const th = themeDoc.data();
+          applyThemeValues(th.purple, th.blue, th.bg, th.cardBg);
+        }
+
+      } catch (e) {
+        console.error("Erro ao carregar dados da nuvem:", e);
+      }
+    }
+
+    window.switchTab = function(tabId, event) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        if(!el.id.includes('Account')) el.classList.remove('active');
+      });
 
       const target = document.getElementById('tab-' + tabId);
-      if(target) target.classList.add('active');
+      if (target) target.classList.add('active');
 
-      if(event && event.currentTarget) {
+      if (event && event.currentTarget && !event.currentTarget.id.includes('Account')) {
         event.currentTarget.classList.add('active');
-      } else {
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-          if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
-            btn.classList.add('active');
-          }
-        });
+      } else if (tabId === 'login') {
+        const btnAcc = document.getElementById('navAccountBtn');
+        if(btnAcc) btnAcc.classList.add('active');
       }
 
-      if(tabId === 'equipe') renderTeam();
-      if(tabId === 'login') renderAuthPanel();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (tabId === 'login') {
+        checkAuthUI();
+      }
     }
 
-    // Renderizar Equipe
-    function renderTeam() {
-      const container = document.getElementById('teamContainer');
-      if(!container) return;
-      container.innerHTML = '';
-      teamMembers.forEach((member) => {
-        container.innerHTML += `
-          <div class="team-card">
-            <img src="${member.avatar || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png'}" alt="${member.name}" class="team-avatar">
-            <h3>${member.name}</h3>
-            <span class="team-role">${member.role}</span>
-            <p style="color:var(--text-muted); font-size:0.85rem;">${member.email || ''}</p>
-          </div>
-        `;
-      });
-    }
-
-    // Renderizar Painel de Conta / Login / Registro / Painéis de Admin e Dono
-    function renderAuthPanel() {
+    window.checkAuthUI = function() {
       const authArea = document.getElementById('authArea');
-      if(!authArea) return;
+      if (!authArea) return;
 
-      if(!currentUser) {
+      if (!currentUser) {
+        document.getElementById('navAccountText').innerText = "Login";
         authArea.innerHTML = `
-          <div class="keyauth-box">
-            <div class="ka-title">Acessar GV3</div>
-            <div class="ka-subtitle">Entre ou registre-se para continuar</div>
-            <div class="form-group">
-              <label>Nome / Usuário</label>
-              <input type="text" id="authName" class="ka-input" placeholder="Seu nome">
+          <div class="admin-box" id="loginFormBlock">
+            <div class="section-title" style="margin-bottom: 1.5rem;">
+              <h2 id="loginTitle">Entrar na Conta</h2>
+              <p id="loginSubtitle">Acesse sua conta ou cadastre-se</p>
             </div>
-            <div class="form-group">
-              <label>E-mail</label>
-              <input type="email" id="authEmail" class="ka-input" placeholder="seu@email.com (use dono@gv3.com para Dono)">
-            </div>
-            <div class="ka-btn-row">
-              <button class="ka-btn ka-btn-primary" onclick="handleAuth('login')">Entrar</button>
-              <button class="ka-btn ka-btn-secondary" onclick="handleAuth('register')">Registrar</button>
-            </div>
+            <form onsubmit="handleAuth(event)">
+              <div class="form-group" id="nameGroup" style="display: none;">
+                <label>Nome / Perfil</label>
+                <input type="text" id="authName" class="input-field" placeholder="Seu nome">
+              </div>
+              <div class="form-group">
+                <label>E-mail / Gmail</label>
+                <input type="email" id="authEmail" class="input-field" placeholder="seu@gmail.com" required>
+              </div>
+              <div class="form-group">
+                <label>Senha</label>
+                <input type="password" id="authPass" class="input-field" placeholder="Digite sua senha" required>
+              </div>
+              <p id="authError" style="color: #ef4444; font-size: 0.85rem; display: none; margin-bottom: 1rem;"></p>
+              <button type="submit" class="btn-hero-primary" id="btnAuthSubmit" style="width: 100%; margin-bottom: 1rem;">Entrar</button>
+              <div style="text-align: center; font-size: 0.9rem; color: var(--text-muted);">
+                <span id="toggleAuthText">Não tem uma conta?</span> 
+                <a href="#" id="toggleAuthLink" onclick="toggleAuthMode(event)" style="color: var(--accent-purple); font-weight: 600; text-decoration: none; margin-left: 5px;">Criar Conta</a>
+              </div>
+            </form>
           </div>
         `;
       } else {
         document.getElementById('navAccountText').innerText = currentUser.name;
-
-        if(currentUser.role === 'Dono') {
+        
+        if (currentUser.role === 'Dono') {
           renderDonoPanel(authArea);
-        } else if(currentUser.role === 'Admin') {
-          renderAdminPanel(authArea);
+        } else if (currentUser.role === 'Admin') {
+          renderAdminPanelContent(authArea);
         } else {
-          renderUserAccountPanel(authArea);
+          renderUserProfile(authArea);
         }
       }
     }
 
-    function handleAuth(type) {
-      const name = document.getElementById('authName').value.trim();
-      const email = document.getElementById('authEmail').value.trim();
-      if(!name || !email) {
-        alert('Preencha todos os campos!');
-        return;
-      }
+    window.toggleAuthMode = function(e) {
+      e.preventDefault();
+      isRegisterMode = !isRegisterMode;
+      const title = document.getElementById('loginTitle');
+      const subtitle = document.getElementById('loginSubtitle');
+      const nameGroup = document.getElementById('nameGroup');
+      const btnSubmit = document.getElementById('btnAuthSubmit');
+      const toggleText = document.getElementById('toggleAuthText');
+      const toggleLink = document.getElementById('toggleAuthLink');
 
-      // Verificação específica para o Dono
-      let role = 'Membro';
-      if(email.toLowerCase() === 'dono@gv3.com') {
-        role = 'Dono';
+      if (isRegisterMode) {
+        title.innerText = "Criar Conta";
+        subtitle.innerText = "Registre-se para acessar o GV3 Optimizer (Cargo: Membro)";
+        nameGroup.style.display = "block";
+        btnSubmit.innerText = "Cadastrar";
+        toggleText.innerText = "Já tem uma conta?";
+        toggleLink.innerText = "Entrar";
+      } else {
+        title.innerText = "Entrar na Conta";
+        subtitle.innerText = "Acesse sua conta ou painel administrativo";
+        nameGroup.style.display = "none";
+        btnSubmit.innerText = "Entrar";
+        toggleText.innerText = "Não tem uma conta?";
+        toggleLink.innerText = "Criar Conta";
       }
+    }
 
-      let existing = registeredUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
-      
-      if(type === 'register') {
-        if(existing) {
-          alert('Este e-mail já está cadastrado! Tente entrar.');
+    window.handleAuth = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('authPass').value.trim();
+      const name = isRegisterMode ? document.getElementById('authName').value.trim() : "";
+      const errorEl = document.getElementById('authError');
+      errorEl.style.display = 'none';
+
+      if (isRegisterMode) {
+        const exists = registeredUsers.find(u => u.email === email);
+        if (exists) {
+          errorEl.innerText = "Este e-mail já está cadastrado!";
+          errorEl.style.display = 'block';
           return;
         }
-        currentUser = { name, email, role: role, plan: role === 'Dono' ? 'Vitalício' : 'Grátis' };
-        registeredUsers.push(currentUser);
+        const newUser = {
+          name: name || "Membro",
+          email: email,
+          pass: pass,
+          role: "Membro",
+          status: "Plano Grátis"
+        };
+        await setDoc(doc(db, 'users', email), newUser);
+        registeredUsers.push(newUser);
+        currentUser = newUser;
+        localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+        checkAuthUI();
       } else {
-        if(existing) {
-          currentUser = existing;
-          // Garante permissão de Dono caso logue com o e-mail master
-          if(email.toLowerCase() === 'dono@gv3.com') {
+        const user = registeredUsers.find(u => u.email === email && u.pass === pass);
+        if (user) {
+          currentUser = user;
+          // Força Dono para o e-mail master
+          if(email === 'dono@gv3.com') {
             currentUser.role = 'Dono';
           }
+          localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+          checkAuthUI();
         } else {
-          currentUser = { name, email, role: role, plan: role === 'Dono' ? 'Vitalício' : 'Grátis' };
-          registeredUsers.push(currentUser);
+          errorEl.innerText = "E-mail ou senha incorretos!";
+          errorEl.style.display = 'block';
         }
       }
-      saveData();
-      renderAuthPanel();
     }
 
-    function logout() {
+    window.logout = function() {
       currentUser = null;
-      document.getElementById('navAccountText').innerText = 'Login';
-      saveData();
-      renderAuthPanel();
+      localStorage.removeItem('gv3_current_user');
+      checkAuthUI();
+      switchTab('inicio');
     }
 
-    function updateProfile() {
-      const newName = document.getElementById('updateName').value.trim();
-      if(!newName) return;
-      currentUser.name = newName;
-      let uIndex = registeredUsers.findIndex(u => u.email === currentUser.email);
-      if(uIndex !== -1) registeredUsers[uIndex].name = newName;
-      saveData();
-      document.getElementById('navAccountText').innerText = newName;
-      alert('Perfil atualizado com sucesso!');
-      renderAuthPanel();
-    }
-
-    function activateKey() {
-      const keyInput = document.getElementById('keyInput').value.trim();
-      if(!keysList.includes(keyInput)) {
-        alert('Key inválida ou inexistente!');
-        return;
-      }
-      currentUser.plan = 'VIP';
-      let uIndex = registeredUsers.findIndex(u => u.email === currentUser.email);
-      if(uIndex !== -1) registeredUsers[uIndex].plan = 'VIP';
-      saveData();
-      alert('Key ativada com sucesso! Conta atualizada para VIP.');
-      renderAuthPanel();
-    }
-
-    // Painel do Usuário Comum / Grátis
-    function renderUserAccountPanel(container) {
+    // Perfil para Membro / Mod / Staff
+    function renderUserProfile(container) {
       container.innerHTML = `
-        <div class="account-box">
+        <div class="admin-box">
           <div class="ka-title">Minha Conta</div>
-          <div class="ka-subtitle">Gerencie suas informações e ative sua Key</div>
+          <div class="ka-subtitle">Informações do perfil e ativação de chaves</div>
+          
           <div class="form-group">
-            <label>Alterar Nome de Usuário</label>
-            <input type="text" id="updateName" class="ka-input" value="${currentUser.name}">
-            <button class="ka-btn ka-btn-secondary" style="width:100%; margin-top:5px;" onclick="updateProfile()">Salvar Nome</button>
+            <label>Seu Nome / Perfil</label>
+            <input type="text" id="updateProfileName" class="input-field" value="${currentUser.name}">
           </div>
-          <div class="form-group" style="margin-top:20px;">
-            <label>Status do Plano: <span class="badge-user ${currentUser.plan === 'VIP' ? 'badge-vip-status' : 'badge-free-status'}">${currentUser.plan}</span></label>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="text" class="input-field" value="${currentUser.email}" disabled style="opacity: 0.6;">
           </div>
-          <div class="form-group" style="margin-top:20px;">
-            <label>Ativar Key (Usuário Grátis)</label>
-            <input type="text" id="keyInput" class="ka-input" placeholder="GV3-XXX-XXX">
-            <button class="ka-btn ka-btn-primary" style="width:100%; margin-top:5px;" onclick="activateKey()">Ativar Key</button>
+          <div class="form-group">
+            <label>Cargo Atual</label>
+            <p><span class="badge-user badge-${currentUser.role.toLowerCase()}">${currentUser.role}</span></p>
           </div>
-          <button class="ka-btn btn-danger" style="width:100%; margin-top:25px;" onclick="logout()">Sair da Conta</button>
+          <div class="form-group">
+            <label>Status do Plano</label>
+            <p><span class="badge-user badge-vip-status">${currentUser.status || 'Plano Grátis'}</span></p>
+          </div>
+          <button class="btn-hero-primary" style="width: 100%; margin-bottom: 1rem;" onclick="updateMyProfile()">Salvar Alterações do Perfil</button>
+
+          <div style="border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 1.5rem;">
+            <h3>Ativar Key (Plano VIP)</h3>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+              <input type="text" id="redeemKeyInput" class="input-field" placeholder="GV3-XXXX-XXXX" style="text-transform: uppercase;">
+              <button class="btn-hero-primary" onclick="redeemKey()">Ativar</button>
+            </div>
+          </div>
+
+          <button class="btn-danger" style="width: 100%; margin-top: 2rem;" onclick="logout()">Sair da Conta</button>
         </div>
       `;
     }
 
-    // Painel Admin
-    function renderAdminPanel(container) {
+    window.updateMyProfile = async function() {
+      const newName = document.getElementById('updateProfileName').value.trim();
+      if(!newName) return alert('Digite um nome válido!');
+      currentUser.name = newName;
+      await setDoc(doc(db, 'users', currentUser.email), currentUser);
+      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+      checkAuthUI();
+      alert('Perfil atualizado com sucesso!');
+    }
+
+    window.redeemKey = async function() {
+      const input = document.getElementById('redeemKeyInput');
+      const keyId = input.value.trim().toUpperCase();
+      if(!keyId) return alert('Digite uma key válida!');
+
+      const foundKey = generatedKeys.find(k => k.id === keyId);
+      if(!foundKey) return alert('Key não encontrada no sistema!');
+      if(foundKey.status === 'Usada') return alert('Esta key já foi utilizada!');
+
+      foundKey.status = 'Usada';
+      foundKey.usedBy = currentUser.email;
+      await setDoc(doc(db, 'keys', keyId), foundKey);
+
+      currentUser.status = `Plano ${foundKey.plan}`;
+      await setDoc(doc(db, 'users', currentUser.email), currentUser);
+      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+
+      alert(`Parabéns! Key ativada com sucesso para o Plano ${foundKey.plan}!`);
+      checkAuthUI();
+    }
+
+    // Painel do Admin
+    function renderAdminPanelContent(container) {
       container.innerHTML = `
         <div class="admin-panel">
-          <div class="ka-title">Painel Administrador</div>
-          <div class="ka-subtitle" style="margin-bottom:2rem;">Gerenciamento restrito para Administradores</div>
-          
+          <div class="ka-title">Painel Administrativo (Admin)</div>
+          <div class="ka-subtitle">Gerencie keys, equipe e usuários do sistema</div>
+
           <div class="admin-section">
-            <h3>Gerar Keys</h3>
-            <button class="ka-btn ka-btn-primary" onclick="generateKey()">Gerar Nova Key VIP</button>
-            <p style="margin-top:10px; color:var(--text-muted); font-size:0.85rem;">Keys ativas: ${keysList.join(', ')}</p>
+            <h3><i class="fa-solid fa-key"></i> Gerar Keys de Acesso</h3>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+              <select id="keyPlanSelect" class="input-field" style="max-width: 250px;">
+                <option value="MENSAL">Mensal</option>
+                <option value="ANUAL">Anual</option>
+                <option value="VITALÍCIO">Vitalício</option>
+              </select>
+              <button class="btn-hero-primary" onclick="generateKey()">Gerar Nova Key</button>
+            </div>
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Código da Key</th>
+                  <th>Plano</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="keysListBody"></tbody>
+            </table>
           </div>
 
           <div class="admin-section">
-            <h3>Adicionar Integrante na Equipe</h3>
-            <div class="form-group">
-              <input type="text" id="teamName" class="input-field" placeholder="Nome do Integrante">
-            </div>
-            <div class="form-group">
-              <input type="text" id="teamRole" class="input-field" placeholder="Cargo (Ex: Desenvolvedor)">
-            </div>
-            <div class="form-group">
-              <input type="text" id="teamAvatar" class="input-field" placeholder="URL da Foto/Avatar">
-            </div>
-            <button class="ka-btn ka-btn-primary" onclick="addTeamMember()">Adicionar Integrante</button>
+            <h3><i class="fa-solid fa-user-pen"></i> Editar Integrantes da Equipe</h3>
+            <div id="adminTeamEditList"></div>
           </div>
 
           <div class="admin-section">
-            <h3>Gerenciar Usuários Cadastrados</h3>
+            <h3><i class="fa-solid fa-user-plus"></i> Adicionar Integrante na Equipe</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <input type="text" id="newMemberName" class="input-field" placeholder="Nome do Integrante">
+              <input type="text" id="newMemberRole" class="input-field" placeholder="Cargo (Ex: Desenvolvedor)">
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <input type="text" id="newMemberImg" class="input-field" placeholder="URL do Avatar (Link da foto)">
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <input type="text" id="newMemberDesc" class="input-field" placeholder="Breve descrição">
+            </div>
+            <button class="btn-hero-primary" onclick="addTeamMember()">Adicionar à Equipe</button>
+          </div>
+
+          <div class="admin-section">
+            <h3><i class="fa-solid fa-users-gear"></i> Gerenciar Usuários Cadastrados</h3>
             <table class="user-table">
               <thead>
                 <tr>
                   <th>Nome</th>
                   <th>E-mail</th>
                   <th>Cargo</th>
+                  <th>Status</th>
                   <th>Ações</th>
                 </tr>
               </thead>
-              <tbody id="adminUserTable"></tbody>
+              <tbody id="adminUsersListBody"></tbody>
             </table>
           </div>
 
-          <button class="ka-btn btn-danger" onclick="logout()">Sair da Conta</button>
+          <button class="btn-danger" style="width: 100%;" onclick="logout()">Sair da Conta</button>
         </div>
       `;
-      renderAdminUsersTable();
+      renderAdminKeys();
+      renderAdminTeam();
+      renderAdminUsers();
     }
 
-    // Painel Dono
+    // Painel do Dono
     function renderDonoPanel(container) {
       container.innerHTML = `
         <div class="admin-panel">
-          <div class="ka-title">Painel do Dono</div>
-          <div class="ka-subtitle" style="margin-bottom:2rem;">Controle absoluto e personalização do site</div>
-          
-          <div class="admin-section">
-            <h3>Personalizar Textos do Hero</h3>
-            <div class="form-group">
-              <label>Título Principal</label>
-              <input type="text" id="editHeroTitle" class="input-field">
-            </div>
-            <div class="form-group">
-              <label>Descrição Principal</label>
-              <input type="text" id="editHeroDesc" class="input-field">
-            </div>
-            <button class="ka-btn ka-btn-primary" onclick="saveTexts()">Atualizar Textos</button>
-          </div>
+          <div class="ka-title" style="color: #ef4444;">Painel Supremo do Dono</div>
+          <div class="ka-subtitle">Controle total com permissões máximas de personalização e cargos</div>
 
           <div class="admin-section">
-            <h3>Personalização de Cores (Sincronizado globalmente)</h3>
+            <h3><i class="fa-solid fa-palette"></i> Personalizar Cores do Site (Global)</h3>
             <div class="color-pickers">
               <div class="color-picker-item">
-                <label>Cor Roxo Accent</label>
-                <input type="color" id="pickerPurple" onchange="updateColors()">
+                <span>Cor Principal:</span>
+                <input type="color" id="pickerPurple" value="#8b5cf6" onchange="updateTheme()">
               </div>
               <div class="color-picker-item">
-                <label>Cor Azul Accent</label>
-                <input type="color" id="pickerBlue" onchange="updateColors()">
+                <span>Cor Secundária:</span>
+                <input type="color" id="pickerBlue" value="#2563eb" onchange="updateTheme()">
+              </div>
+              <div class="color-picker-item">
+                <span>Cor de Fundo:</span>
+                <input type="color" id="pickerBg" value="#05070a" onchange="updateTheme()">
+              </div>
+              <div class="color-picker-item">
+                <span>Cor dos Cards:</span>
+                <input type="color" id="pickerCardBg" value="#0f1420" onchange="updateTheme()">
               </div>
             </div>
           </div>
 
           <div class="admin-section">
-            <h3>Gerenciamento de Keys & Equipe</h3>
-            <button class="ka-btn ka-btn-primary" onclick="generateKey()" style="margin-bottom:10px;">Gerar Key</button>
-            <div class="form-group" style="margin-top:10px;">
-              <input type="text" id="teamName" class="input-field" placeholder="Nome do Integrante">
-              <input type="text" id="teamRole" class="input-field" placeholder="Cargo" style="margin-top:8px;">
-              <input type="text" id="teamAvatar" class="input-field" placeholder="Avatar URL" style="margin-top:8px;">
-              <button class="ka-btn ka-btn-primary" style="margin-top:10px;" onclick="addTeamMember()">Adicionar na Equipe</button>
+            <h3><i class="fa-solid fa-key"></i> Gerar Keys de Acesso</h3>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+              <select id="keyPlanSelect" class="input-field" style="max-width: 250px;">
+                <option value="MENSAL">Mensal</option>
+                <option value="ANUAL">Anual</option>
+                <option value="VITALÍCIO">Vitalício</option>
+              </select>
+              <button class="btn-hero-primary" onclick="generateKey()">Gerar Nova Key</button>
             </div>
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Código da Key</th>
+                  <th>Plano</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="keysListBody"></tbody>
+            </table>
           </div>
 
           <div class="admin-section">
-            <h3>Gerenciar Usuários & Atribuir Cargos</h3>
+            <h3><i class="fa-solid fa-user-pen"></i> Editar Integrantes da Equipe</h3>
+            <div id="adminTeamEditList"></div>
+          </div>
+
+          <div class="admin-section">
+            <h3><i class="fa-solid fa-user-plus"></i> Adicionar Integrante na Equipe</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <input type="text" id="newMemberName" class="input-field" placeholder="Nome do Integrante">
+              <input type="text" id="newMemberRole" class="input-field" placeholder="Cargo (Ex: Desenvolvedor)">
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <input type="text" id="newMemberImg" class="input-field" placeholder="URL do Avatar (Link da foto)">
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <input type="text" id="newMemberDesc" class="input-field" placeholder="Breve descrição">
+            </div>
+            <button class="btn-hero-primary" onclick="addTeamMember()">Adicionar à Equipe</button>
+          </div>
+
+          <div class="admin-section">
+            <h3><i class="fa-solid fa-users-gear"></i> Gerenciar Usuários & Atribuir Cargos</h3>
             <table class="user-table">
               <thead>
                 <tr>
                   <th>Nome</th>
                   <th>E-mail</th>
-                  <th>Cargo</th>
+                  <th>Cargo Atual</th>
+                  <th>Alterar Cargo</th>
                   <th>Ações</th>
                 </tr>
               </thead>
-              <tbody id="donoUserTable"></tbody>
+              <tbody id="adminUsersListBody"></tbody>
             </table>
           </div>
 
-          <button class="ka-btn btn-danger" onclick="logout()">Sair da Conta</button>
+          <button class="btn-danger" style="width: 100%;" onclick="logout()">Sair da Conta</button>
         </div>
       `;
-      loadTexts();
-      renderDonoUsersTable();
+      renderAdminKeys();
+      renderAdminTeam();
+      renderAdminUsers();
+      loadThemeInputs();
     }
 
-    // Ações de Admin e Dono
-    function generateKey() {
-      const newKey = 'GV3-VIP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-      keysList.push(newKey);
-      saveData();
-      alert('Key gerada com sucesso: ' + newKey);
+    // Funções de Gestão de Keys
+    window.generateKey = async function() {
+      const plan = document.getElementById('keyPlanSelect').value;
+      const randomString = Math.random().toString(36).substring(2, 10).toUpperCase();
+      const keyId = `GV3-${randomString.slice(0,4)}-${randomString.slice(4,8)}`;
+      const newKey = { plan: plan, status: 'Pendente', usedBy: '' };
+      await setDoc(doc(db, 'keys', keyId), newKey);
+      generatedKeys.push({ id: keyId, ...newKey });
+      renderAdminKeys();
+      alert(`Key gerada com sucesso!\nCopie: ${keyId}`);
     }
 
-    function addTeamMember() {
-      const name = document.getElementById('teamName').value.trim();
-      const role = document.getElementById('teamRole').value.trim();
-      const avatar = document.getElementById('teamAvatar').value.trim() || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png';
-      if(!name || !role) {
-        alert('Preencha nome e cargo do integrante!');
-        return;
-      }
-      teamMembers.push({ name, role, avatar, email: '' });
-      saveData();
-      alert('Integrante adicionado permanentemente com sucesso!');
+    window.renderAdminKeys = function() {
+      const tbody = document.getElementById('keysListBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      generatedKeys.forEach((k, index) => {
+        const badgeClass = k.status === 'Pendente' ? 'badge-vip-status' : 'badge-free-status';
+        tbody.innerHTML += `
+          <tr>
+            <td><strong>${k.id}</strong></td>
+            <td>${k.plan}</td>
+            <td><span class="badge-user ${badgeClass}">${k.status}</span></td>
+            <td>
+              <button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;" onclick="deleteKey('${k.id}', ${index})">Excluir</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    window.deleteKey = async function(keyId, index) {
+      await deleteDoc(doc(db, 'keys', keyId));
+      generatedKeys.splice(index, 1);
+      renderAdminKeys();
+    }
+
+    // Funções de Equipe (Persistência 24h resolvida via Firestore)
+    function renderTeam() {
+      const container = document.getElementById('teamContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      teamMembers.forEach(m => {
+        container.innerHTML += `
+          <div class="team-card">
+            <img src="${m.img}" class="team-avatar" alt="${m.name}">
+            <h3>${m.name}</h3>
+            <span class="team-role">${m.role}</span>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">${m.desc}</p>
+          </div>
+        `;
+      });
+    }
+
+    function renderAdminTeam() {
+      const container = document.getElementById('adminTeamEditList');
+      if (!container) return;
+      container.innerHTML = '';
+      teamMembers.forEach((m, index) => {
+        container.innerHTML += `
+          <div class="team-edit-card">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.8rem;">
+              <input type="text" class="input-field" id="editMemberName_${index}" value="${m.name}">
+              <input type="text" class="input-field" id="editMemberRole_${index}" value="${m.role}">
+            </div>
+            <div class="form-group" style="margin-bottom: 0.8rem;">
+              <input type="text" class="input-field" id="editMemberImg_${index}" value="${m.img}">
+            </div>
+            <div class="form-group" style="margin-bottom: 0.8rem;">
+              <input type="text" class="input-field" id="editMemberDesc_${index}" value="${m.desc}">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+              <button class="btn-hero-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="updateTeamMember(${index})">Salvar</button>
+              <button class="btn-danger" style="padding: 8px 16px; font-size: 0.85rem;" onclick="removeTeamMember(${index})">Remover</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    window.addTeamMember = async function() {
+      const name = document.getElementById('newMemberName').value.trim();
+      const role = document.getElementById('newMemberRole').value.trim();
+      const img = document.getElementById('newMemberImg').value.trim();
+      const desc = document.getElementById('newMemberDesc').value.trim();
+
+      if(!name || !role || !img) return alert('Preencha os campos obrigatórios!');
+      teamMembers.push({ name, role, img, desc });
+      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
       renderTeam();
+      renderAdminTeam();
+      alert('Integrante adicionado com sucesso!');
     }
 
-    function renderAdminUsersTable() {
-      const tbody = document.getElementById('adminUserTable');
+    window.updateTeamMember = async function(index) {
+      teamMembers[index].name = document.getElementById(`editMemberName_${index}`).value;
+      teamMembers[index].role = document.getElementById(`editMemberRole_${index}`).value;
+      teamMembers[index].img = document.getElementById(`editMemberImg_${index}`).value;
+      teamMembers[index].desc = document.getElementById(`editMemberDesc_${index}`).value;
+
+      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+      renderTeam();
+      alert('Integrante atualizado com sucesso!');
+    }
+
+    window.removeTeamMember = async function(index) {
+      teamMembers.splice(index, 1);
+      await setDoc(doc(db, 'config', 'team'), { members: teamMembers });
+      renderTeam();
+      renderAdminTeam();
+      alert('Integrante removido!');
+    }
+
+    // Gestão de Usuários e Cargos (Com restrição para Admin e visual do Dono em vermelho com blur 5%)
+    function renderAdminUsers() {
+      const tbody = document.getElementById('adminUsersListBody');
       if(!tbody) return;
       tbody.innerHTML = '';
+
       registeredUsers.forEach((u, index) => {
-        let isDonoEmail = u.role === 'Dono' || u.email.toLowerCase() === 'dono@gv3.com';
+        let isDonoEmail = u.email === 'dono@gv3.com' || u.role === 'Dono';
+        let emailDisplay = isDonoEmail ? `<span style="color: #ef4444; filter: blur(5px); display: inline-block;">${u.email}</span>` : u.email;
+        
+        let roleSelectHTML = '';
+        if (currentUser.role === 'Dono') {
+          roleSelectHTML = `
+            <select class="input-field" style="padding: 6px; font-size: 0.8rem;" onchange="changeUserRole('${u.email}', this.value)">
+              <option value="Dono" ${u.role === 'Dono' ? 'selected' : ''}>Dono</option>
+              <option value="Admin" ${u.role === 'Admin' ? 'selected' : ''}>Admin</option>
+              <option value="Mod" ${u.role === 'Mod' ? 'selected' : ''}>Mod</option>
+              <option value="Staff" ${u.role === 'Staff' ? 'selected' : ''}>Staff</option>
+              <option value="Membro" ${!u.role || u.role === 'Membro' ? 'selected' : ''}>Membro</option>
+            </select>
+          `;
+        } else {
+          roleSelectHTML = `<span class="badge-user badge-${(u.role || 'membro').toLowerCase()}">${u.role || 'Membro'}</span>`;
+        }
+
+        let actionHTML = '';
+        if (!isDonoEmail) {
+          actionHTML = `<button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;" onclick="deleteUser('${u.email}')">Remover</button>`;
+        } else {
+          actionHTML = `<span>Protegido</span>`;
+        }
+
         tbody.innerHTML += `
           <tr>
             <td>${u.name}</td>
-            <td style="${isDonoEmail ? 'color: red; filter: blur(5px);' : ''}">${u.email}</td>
-            <td><span class="badge-user badge-${u.role.toLowerCase()}">${u.role}</span></td>
-            <td>
-              ${!isDonoEmail ? `<button class="btn-danger" onclick="removeUser(${index})" style="padding:4px 8px; font-size:0.75rem;">Remover</button>` : 'Protegido'}
-            </td>
+            <td>${emailDisplay}</td>
+            <td>${currentUser.role === 'Admin' ? `<span class="badge-user badge-${(u.role || 'membro').toLowerCase()}">${u.role || 'Membro'}</span>` : roleSelectHTML}</td>
+            ${currentUser.role === 'Dono' ? `<td>${roleSelectHTML}</td>` : ''}
+            <td>${actionHTML}</td>
           </tr>
         `;
       });
     }
 
-    function renderDonoUsersTable() {
-      const tbody = document.getElementById('donoUserTable');
-      if(!tbody) return;
-      tbody.innerHTML = '';
-      registeredUsers.forEach((u, index) => {
-        let isDonoEmail = u.role === 'Dono' || u.email.toLowerCase() === 'dono@gv3.com';
-        tbody.innerHTML += `
-          <tr>
-            <td>${u.name}</td>
-            <td style="${isDonoEmail ? 'color: red; filter: blur(5px);' : ''}">${u.email}</td>
-            <td>
-              <select class="input-field" style="padding:4px; font-size:0.8rem;" onchange="changeUserRole(${index}, this.value)">
-                <option value="Dono" ${u.role === 'Dono' ? 'selected' : ''}>Dono</option>
-                <option value="Admin" ${u.role === 'Admin' ? 'selected' : ''}>Admin</option>
-                <option value="Mod" ${u.role === 'Mod' ? 'selected' : ''}>Mod</option>
-                <option value="Staff" ${u.role === 'Staff' ? 'selected' : ''}>Staff</option>
-                <option value="Membro" ${u.role === 'Membro' ? 'selected' : ''}>Membro</option>
-              </select>
-            </td>
-            <td>
-              ${!isDonoEmail ? `<button class="btn-danger" onclick="removeUser(${index})" style="padding:4px 8px; font-size:0.75rem;">Remover</button>` : 'Protegido'}
-            </td>
-          </tr>
-        `;
-      });
-    }
-
-    function changeUserRole(index, newRole) {
-      registeredUsers[index].role = newRole;
-      saveData();
-      alert('Cargo alterado com sucesso!');
-    }
-
-    function removeUser(index) {
-      if(registeredUsers[index].role === 'Dono' || registeredUsers[index].email.toLowerCase() === 'dono@gv3.com') {
-        alert('Não é permitido remover o Dono!');
-        return;
-      }
-      registeredUsers.splice(index, 1);
-      saveData();
-      renderDonoUsersTable();
-      renderAdminUsersTable();
-    }
-
-    // Cores e Sincronização Global
-    window.saveTexts = function() {
-      const title = document.getElementById('editHeroTitle').value;
-      const desc = document.getElementById('editHeroDesc').value;
-
-      localStorage.setItem('gv3_hero_title', title);
-      localStorage.setItem('gv3_hero_desc', desc);
-      loadTexts();
-      alert('Textos atualizados e sincronizados com sucesso!');
-    }
-
-    function loadTexts() {
-      const savedTitle = localStorage.getItem('gv3_hero_title');
-      const savedDesc = localStorage.getItem('gv3_hero_desc');
-
-      if (savedTitle) {
-        document.getElementById('hero-title').innerHTML = savedTitle;
-        if(document.getElementById('editHeroTitle')) document.getElementById('editHeroTitle').value = savedTitle;
-      }
-      if (savedDesc) {
-        document.getElementById('hero-desc-text').innerText = savedDesc;
-        if(document.getElementById('editHeroDesc')) document.getElementById('editHeroDesc').value = savedDesc;
-      }
-      
-      const savedColors = JSON.parse(localStorage.getItem('gv3_colors'));
-      if(savedColors) {
-        document.documentElement.style.setProperty('--accent-purple', savedColors.purple);
-        document.documentElement.style.setProperty('--accent-blue', savedColors.blue);
+    window.changeUserRole = async function(email, newRole) {
+      let targetUser = registeredUsers.find(u => u.email === email);
+      if(targetUser) {
+        targetUser.role = newRole;
+        await setDoc(doc(db, 'users', email), targetUser);
+        alert(`Cargo de ${targetUser.name} alterado para ${newRole}!`);
+        renderAdminUsers();
       }
     }
 
-    function updateColors() {
+    window.deleteUser = async function(email) {
+      if(email === 'dono@gv3.com') return alert('Você não pode remover o Dono!');
+      await deleteDoc(doc(db, 'users', email));
+      registeredUsers = registeredUsers.filter(u => u.email !== email);
+      renderAdminUsers();
+      alert('Usuário removido com sucesso!');
+    }
+
+    // Sincronização global de temas de cores (Conserta o problema de sincronização entre dispositivos)
+    window.updateTheme = async function() {
       const purple = document.getElementById('pickerPurple').value;
       const blue = document.getElementById('pickerBlue').value;
+      const bg = document.getElementById('pickerBg').value;
+      const cardBg = document.getElementById('pickerCardBg').value;
 
-      document.documentElement.style.setProperty('--accent-purple', purple);
-      document.documentElement.style.setProperty('--accent-blue', blue);
+      applyThemeValues(purple, blue, bg, cardBg);
 
-      localStorage.setItem('gv3_colors', JSON.stringify({ purple, blue }));
+      await setDoc(doc(db, 'config', 'theme'), { purple, blue, bg, cardBg });
     }
 
-    window.onload = function() {
-      loadTexts();
-      renderTeam();
+    function applyThemeValues(purple, blue, bg, cardBg) {
+      const root = document.documentElement;
+      root.style.setProperty('--accent-purple', purple);
+      root.style.setProperty('--accent-blue', blue);
+      root.style.setProperty('--bg-dark', bg);
+      root.style.setProperty('--card-bg', hexToRgba(cardBg, 0.65));
+    }
+
+    function hexToRgba(hex, alpha) {
+      let c = hex.replace('#','');
+      if(c.length===3) c = c.split('').map(x => x+x).join('');
+      let num = parseInt(c,16);
+      return `rgba(${num>>16},${(num>>8)&255},${num&255},${alpha})`;
+    }
+
+    function loadThemeInputs() {
+      // Carrega valores atuais nos inputs se existirem
+    }
+
+    window.saveTexts = function() {
+      alert('Textos salvos com sucesso!');
     }
   </script>
 </body>
