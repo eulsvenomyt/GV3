@@ -10,6 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
+    /* ==========================================
+       1. VARIAVEIS E RESET
+       ========================================== */
     :root {
       --bg-dark: #05070a;
       --card-bg: rgba(15, 20, 32, 0.65);
@@ -40,7 +43,6 @@
       position: relative;
     }
 
-    /* Fundo com GIF do GitHub e Blur de 10% */
     .bg-video-container {
       position: fixed;
       top: 0;
@@ -49,15 +51,15 @@
       height: 100%;
       z-index: -2;
       overflow: hidden;
+      filter: blur(10px);
+      transform: scale(1.05);
     }
 
-    .bg-gif {
+    .bg-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: blur(10px);
-      transform: scale(1.05);
-      opacity: 0.35;
+      opacity: 0.25;
     }
 
     .bg-overlay {
@@ -71,6 +73,9 @@
       pointer-events: none;
     }
 
+    /* ==========================================
+       2. NAVBAR & NAVEGAÇÃO DE ABAS
+       ========================================== */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -146,6 +151,9 @@
 
     .btn-discord:hover { color: #ffffff; }
 
+    /* ==========================================
+       3. CONTEÚDO DAS ABAS
+       ========================================== */
     .main-container {
       flex: 1;
       padding: 3rem 8%;
@@ -166,6 +174,9 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ==========================================
+       4. HERO
+       ========================================== */
     .hero {
       display: flex;
       align-items: center;
@@ -245,6 +256,8 @@
       display: inline-block;
     }
 
+    .btn-hero-outline:hover { border-color: rgba(255, 255, 255, 0.2); }
+
     .metrics-grid {
       display: flex;
       gap: 2.5rem;
@@ -267,11 +280,15 @@
       border-radius: 16px;
       border: 1px solid var(--card-border);
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transition: transform 0.3s;
       object-fit: cover;
     }
 
     .layer-2 { top: 25px; left: 25px; z-index: 2; opacity: 0.75; }
 
+    /* ==========================================
+       5. RECURSOS & PLANOS
+       ========================================== */
     .section-title { text-align: center; margin-bottom: 3rem; }
     .section-title h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
     .section-title p { color: var(--text-muted); font-size: 1rem; }
@@ -311,6 +328,28 @@
 
     .feature-card h3 { font-size: 1.2rem; margin-bottom: 0.6rem; }
     .feature-card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
+
+    .card-free {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      gap: 2rem;
+    }
+
+    .badge-free {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-left: 10px;
+    }
 
     .pricing-grid {
       display: grid;
@@ -365,6 +404,25 @@
     .btn-plan-primary { background: var(--accent-blue); color: #fff; }
     .btn-plan-outline { border: 1px solid var(--card-border); color: #fff; background: rgba(255, 255, 255, 0.02); }
 
+    .features-list {
+      margin-top: 2rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 1.5rem;
+    }
+
+    .features-list ul {
+      list-style: none;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .features-list li { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* ==========================================
+       6. EQUIPE & FAQ
+       ========================================== */
     .team-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -379,6 +437,7 @@
       border-radius: 20px;
       padding: 2.5rem 2rem;
       text-align: center;
+      position: relative;
     }
 
     .team-avatar {
@@ -426,11 +485,144 @@
       padding-top: 1rem;
     }
 
-    .spoiler-img {
-      width: 100%;
-      border-radius: 10px;
-      margin-top: 1rem;
+    /* ==========================================
+       7. PAINÉIS DE LOGIN, ADMIN & CONTA
+       ========================================== */
+    .admin-box, .account-box {
+      background: var(--card-bg);
       border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .admin-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .admin-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .admin-section h3 {
+      color: var(--accent-purple);
+      margin-bottom: 1rem;
+    }
+
+    .form-group { margin-bottom: 1.2rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .input-field:focus { border-color: var(--accent-purple); }
+
+    .color-pickers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .color-picker-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .color-picker-item input[type="color"] {
+      border: none;
+      width: 35px;
+      height: 35px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: none;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .badge-user {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-dono { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    .badge-admin { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+    .badge-mod { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+    .badge-staff { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+    .badge-membro { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .user-table th, .user-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .user-table th {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .team-edit-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: rgba(5, 7, 10, 0.95);
+      border-top: 1px solid var(--card-border);
+      padding: 3rem 8% 1.5rem 8%;
+      margin-top: 4rem;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 1.5rem;
     }
 
     .keyauth-box {
@@ -456,6 +648,7 @@
       outline: none;
       transition: border-color 0.2s;
     }
+    .ka-input::placeholder { color: #52525b; }
     .ka-input:focus { border-color: var(--accent-purple); }
 
     .ka-btn-row { display: flex; gap: 10px; margin-top: 5px; }
@@ -470,95 +663,17 @@
       font-size: 0.9rem;
     }
     .ka-btn-primary { background: var(--accent-purple); color: #fff; }
+    .ka-btn-primary:hover { filter: brightness(1.1); }
     .ka-btn-secondary { background: #272730; color: #fff; }
-
-    .admin-panel {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .admin-section {
-      margin-bottom: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--card-border);
-    }
-
-    .admin-section h3 { color: var(--accent-purple); margin-bottom: 1rem; }
-    .form-group { margin-bottom: 1.2rem; }
-    .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; }
-
-    .input-field {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      padding: 12px 14px;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 0.95rem;
-      outline: none;
-    }
-    .input-field:focus { border-color: var(--accent-purple); }
-
-    .color-pickers {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-    }
-
-    .color-picker-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--card-border);
-    }
-    .color-picker-item input[type="color"] { border: none; width: 35px; height: 35px; border-radius: 6px; cursor: pointer; background: none; }
-
-    .btn-danger {
-      background: #ef4444;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .badge-user { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
-    .badge-free-status { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
-    .badge-vip-status { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
-
-    .user-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    .user-table th, .user-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--card-border); }
-    .user-table th { color: var(--text-muted); font-size: 0.85rem; }
-
-    .team-edit-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    footer {
-      background: rgba(5, 7, 10, 0.95);
-      border-top: 1px solid var(--card-border);
-      padding: 3rem 8% 1.5rem 8%;
-      margin-top: 4rem;
-    }
-    .footer-bottom { text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; }
+    .ka-btn-secondary:hover { background: #3f3f46; }
   </style>
 </head>
 <body>
 
   <div class="bg-video-container">
-    <img class="bg-gif" src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.gif" alt="Background Animation">
+    <video class="bg-video" autoplay loop muted playsinline>
+      <source src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/0801.mp4" type="video/mp4">
+    </video>
   </div>
   <div class="bg-overlay"></div>
 
@@ -577,14 +692,12 @@
       <button class="tab-btn" onclick="switchTab('faq', event)">FAQ</button>
       <button class="tab-btn" onclick="switchTab('login', event)"><i class="fa-solid fa-user"></i> <span id="navAccountText">Login</span></button>
     </nav>
-
     <div class="nav-right">
-      <a href="https://discord.com/oauth2/authorize?client_id=1533577220344250408&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.gg%2FBGsTajkwj9&scope=identify+email" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
+      <a href="https://discord.gg/BGsTajkwj9" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
     </div>
   </header>
 
   <main class="main-container">
-
     <section id="tab-inicio" class="tab-content active">
       <div class="hero">
         <div class="hero-left">
@@ -593,19 +706,25 @@
           </div>
           <h1 id="hero-title">Otimize seu PC com <span>1 clique.</span></h1>
           <p class="hero-desc" id="hero-desc-text">Aumente seu FPS e reduza o input lag com otimizações inteligentes, automáticas e 100% reversíveis. Sem comandos, sem risco.</p>
-          
           <div class="hero-cta">
             <button class="btn-hero-primary" onclick="switchTab('precos')">Começar agora</button>
             <button class="btn-hero-outline" onclick="switchTab('recursos')">Ver recursos</button>
           </div>
-
           <div class="metrics-grid">
-            <div class="metric"><h3>↓ 15ms</h3><p>Redução de latência</p></div>
-            <div class="metric"><h3>↑ 30%</h3><p>Mais estabilidade</p></div>
-            <div class="metric"><h3>↑ 40%</h3><p>Boot mais rápido</p></div>
+            <div class="metric">
+              <h3>↓ 15ms</h3>
+              <p>Redução de latência</p>
+            </div>
+            <div class="metric">
+              <h3>↑ 30%</h3>
+              <p>Mais estabilidade</p>
+            </div>
+            <div class="metric">
+              <h3>↑ 40%</h3>
+              <p>Boot mais rápido</p>
+            </div>
           </div>
         </div>
-
         <div class="hero-right">
           <div class="layers-container">
             <img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg2.png" alt="Layer 2" class="layer layer-2">
@@ -623,12 +742,22 @@
         <div class="feature-card">
           <div class="f-icon"><i class="fa-solid fa-bolt"></i></div>
           <h3>Mais FPS em 1 Clique</h3>
-          <p>Ajustes finos em serviços do Windows e prioridade de CPU direcionados para o seu jogo.</p>
+          <p>Ajustes finos em serviços do Windows, planos de energia e prioridade de CPU direcionados para o seu jogo.</p>
         </div>
         <div class="feature-card">
           <div class="f-icon"><i class="fa-solid fa-wave-square"></i></div>
           <h3>Menor Input Lag</h3>
-          <p>Remove processos ocultos em segundo plano para garantir resposta imediata.</p>
+          <p>Remove processos ocultos em segundo plano para garantir resposta imediata de teclado e mouse.</p>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <h3>FPS Estável & Sem Stuttering</h3>
+          <p>Elimina quedas bruscas de quadros e travamentos no meio de trocas de tiro ou momentos decisivos.</p>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3>100% Seguro & Reversível</h3>
+          <p>Sem códigos perigosos. Todos os tweaks são testados e possuem ponto de restauração instantâneo.</p>
         </div>
       </div>
     </section>
@@ -636,176 +765,103 @@
     <section id="tab-precos" class="tab-content">
       <div class="section-title">
         <h2>Planos e Preços</h2>
-        <p>Escolha o plano ideal para o seu perfil.</p>
+        <p>Escolha o plano ideal para o seu perfil e destrave todo o potencial do seu setup.</p>
+      </div>
+      <div class="card-free">
+        <div>
+          <h3 style="display:inline-flex; align-items:center;">Versão <span class="badge-free">Grátis</span></h3>
+          <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
+            Acesso ao painel básico, monitoramento de sistema em tempo real e limpeza manual simples.
+          </p>
+        </div>
+        <button class="btn-hero-outline" style="padding: 10px 20px;" onclick="window.open('https://github.com/eulsvenomyt/GV3-Gr-tis/releases', '_blank')">Baixar Grátis</button>
       </div>
       <div class="pricing-grid">
         <div class="pricing-card">
           <h3>Mensal</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Por apenas: R$ 7,42 / com cupom</p>
           <div class="price">R$ 9,90 <span>/mês</span></div>
-          <button class="btn-plan btn-plan-outline" onclick="switchTab('login')">Assinar Agora</button>
+          <button class="btn-plan btn-plan-outline" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Assinar Agora</button>
+          <div class="features-list">
+            <ul>
+              <li>✓ Acesso completo ao app</li>
+              <li>✓ Game Mode + PC Boost</li>
+              <li>✓ Suporte no Discord</li>
+            </ul>
+          </div>
         </div>
         <div class="pricing-card highlighted">
           <div class="badge-top">⭐ MELHOR OFERTA</div>
           <h3>Anual</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Por apenas: R$ 22,42 / com cupom</p>
           <div class="price">R$ 29,90 <span>/ano</span></div>
-          <button class="btn-plan btn-plan-primary" onclick="switchTab('login')">Garantir Desconto</button>
+          <button class="btn-plan btn-plan-primary" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Garantir Desconto</button>
+          <div class="features-list">
+            <ul>
+              <li>✓ Tudo do Plano Mensal</li>
+              <li>✓ 2 meses totalmente grátis</li>
+              <li>✓ Cargo VIP e canais exclusivos no Discord</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pricing-card">
+          <h3>Vitalício</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Por apenas: R$ 37,42 / com cupom</p>
+          <div class="price">R$ 49,90</div>
+          <button class="btn-plan btn-plan-outline" onclick="window.open('https://discord.gg/BGsTajkwj9', '_blank')">Acesso Vitalício</button>
+          <div class="features-list">
+            <ul>
+              <li>✓ Acesso permanente sem mensalidades</li>
+              <li>✓ Atualizações pra sempre</li>
+              <li>✓ Suporte prioritário</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="tab-sobre" class="tab-content">
-      <div class="section-title"><h2>Sobre a GV3</h2></div>
+      <div class="section-title">
+        <h2>Sobre a GV3</h2>
+        <p>A história de como buscamos revolucionar a otimização de sistemas.</p>
+      </div>
       <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 2.5rem; max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-muted);">
-        <p>A GV3 nasceu para entregar soluções reais para jogadores que sofrem com travamentos.</p>
+        <h3 style="color: #fff; margin-bottom: 1rem;">Nossa Missão</h3>
+        <p style="margin-bottom: 1.5rem;">Desenvolver ferramentas seguras e inteligentes para extração máxima de performance do seu hardware, eliminando travamentos e entregando a melhor fluidez em jogos.</p>
+        <h3 style="color: #fff; margin-bottom: 1rem;">Compromisso com o Usuário</h3>
+        <p>Garantimos transparência total, atualizações constantes e uma interface intuitiva e prática para todos os níveis de usuário.</p>
       </div>
     </section>
 
     <section id="tab-equipe" class="tab-content">
-      <div class="section-title"><h2>Nossa Equipe</h2></div>
-      <div class="team-grid" id="teamContainer"></div>
+      <div class="section-title">
+        <h2>Nossa Equipe</h2>
+        <p>Conhecem os responsáveis pelo desenvolvimento e suporte do GV3.</p>
+      </div>
+      <div class="team-grid" id="teamContainer">
+        </div>
     </section>
 
     <section id="tab-faq" class="tab-content">
-      <div class="section-title"><h2>FAQ</h2></div>
+      <div class="section-title">
+        <h2>Perguntas Frequentes (FAQ)</h2>
+        <p>Tire suas dúvidas sobre o funcionamento do otimizador.</p>
+      </div>
       <div class="faq-container">
         <details class="faq-item">
-          <summary><span>Como é a interface?</span><i class="fa-solid fa-chevron-down"></i></summary>
-          <div class="faq-answer"><img src="https://raw.githubusercontent.com/eulsvenomyt/GV3/main/pcmg.png" class="spoiler-img"></div>
+          <summary>O otimizador pode banir em jogos (Anti-cheat)? <i class="fa-solid fa-chevron-down"></i></summary>
+          <div class="faq-answer">Não. O GV3 mexe apenas em configurações legítimas do Windows e serviços nativos, sendo 100% compatível com Riot Vanguard, Easy Anti-Cheat e BattlEye.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Como recebo minhas atualizações? <i class="fa-solid fa-chevron-down"></i></summary>
+          <div class="faq-answer">As atualizações são automáticas e liberadas diretamente no painel do cliente assim que lançadas.</div>
         </details>
       </div>
     </section>
 
     <section id="tab-login" class="tab-content">
-      
-      <div class="keyauth-box" id="loginFormBlock">
-        <div class="ka-title">Welcome Back</div>
-        <div class="ka-subtitle">Faça login ou registre-se na plataforma</div>
-        
-        <input type="text" class="ka-input" id="authName" placeholder="Nome / Perfil (Obrigatório no Registro)" style="display: none;">
-        <input type="email" class="ka-input" id="authEmail" placeholder="E-mail">
-        <input type="password" class="ka-input" id="authPass" placeholder="Password">
-        
-        <p id="authError" style="color: #ef4444; font-size: 0.85rem; display: none; margin-bottom: 1rem;"></p>
-
-        <div class="ka-btn-row">
-          <button class="ka-btn ka-btn-primary" onclick="handleAuth(event, 'login')">Login</button>
-          <button class="ka-btn ka-btn-secondary" onclick="handleAuth(event, 'register')">Register</button>
-        </div>
-      </div>
-
-      <div class="admin-panel" id="adminPanelBlock" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-          <h2><i class="fa-solid fa-shield" style="color: var(--accent-purple);"></i> Painel de Controle & Perfil</h2>
-          <button onclick="logout()" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
-        </div>
-
-        <div class="admin-section">
-          <h3><i class="fa-solid fa-id-card"></i> Meu Perfil & Ativação de Key</h3>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-            <div class="form-group">
-              <label>Alterar Meu Nome / Perfil</label>
-              <input type="text" id="updateProfileName" class="input-field">
-            </div>
-            <div class="form-group">
-              <label>Ativar Key VIP</label>
-              <div style="display: flex; gap: 8px;">
-                <input type="text" id="userKeyRedeemInput" class="input-field" placeholder="Insira sua Key">
-                <button class="btn-hero-primary" onclick="redeemUserKey()" style="padding: 0 16px;">Ativar</button>
-              </div>
-            </div>
-          </div>
-          <button class="btn-hero-primary" onclick="saveUserProfileChanges()">Salvar Alterações de Perfil</button>
-          <div style="margin-top: 15px;">Cargo Atual: <span id="panelUserRoleDisplay" style="font-weight: bold; color: var(--accent-purple);">Staff</span> | Plano: <span id="panelUserStatusDisplay" class="badge-user badge-free-status">GRÁTIS</span></div>
-        </div>
-
-        <div class="admin-section" id="sectionManageUsers" style="display: none;">
-          <h3><i class="fa-solid fa-users-gear"></i> Gerenciar Usuários Cadastrados</h3>
-          <table class="user-table">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>E-mail</th>
-                <th>Cargo</th>
-                <th>Plano</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="usersListBody"></tbody>
-          </table>
-        </div>
-
-        <div class="admin-section" id="sectionManageKeys" style="display: none;">
-          <h3><i class="fa-solid fa-key"></i> Gerador de Keys VIP</h3>
-          <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-            <select id="keyPlanSelect" class="input-field" style="width: 200px;">
-              <option value="Mensal">Mensal</option>
-              <option value="Anual">Anual</option>
-              <option value="Vitalício">Vitalício</option>
-            </select>
-            <button class="btn-hero-primary" onclick="generateKey()">Gerar Nova Key</button>
-          </div>
-          <table class="user-table">
-            <thead>
-              <tr>
-                <th>Código da Key</th>
-                <th>Plano</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="keysListBody"></tbody>
-          </table>
-        </div>
-
-        <div class="admin-section" id="donoOnlyTheme" style="display: none;">
-          <h3><i class="fa-solid fa-palette"></i> Personalizar Cores do Site (Global)</h3>
-          <div class="color-pickers">
-            <div class="color-picker-item">
-              <span>Cor Principal:</span>
-              <input type="color" id="pickerPurple" value="#8b5cf6" onchange="saveTheme()">
-            </div>
-            <div class="color-picker-item">
-              <span>Cor Secundária:</span>
-              <input type="color" id="pickerBlue" value="#2563eb" onchange="saveTheme()">
-            </div>
-            <div class="color-picker-item">
-              <span>Cor de Fundo:</span>
-              <input type="color" id="pickerBg" value="#05070a" onchange="saveTheme()">
-            </div>
-          </div>
-        </div>
-
-        <div class="admin-section" id="donoOnlyTexts" style="display: none;">
-          <h3><i class="fa-solid fa-pen"></i> Alterar Textos do Início</h3>
-          <div class="form-group">
-            <label>Título do Hero</label>
-            <input type="text" id="editHeroTitle" class="input-field" value="Otimize seu PC com 1 clique.">
-          </div>
-          <div class="form-group">
-            <label>Descrição do Hero</label>
-            <textarea id="editHeroDesc" class="input-field" rows="3"></textarea>
-          </div>
-          <button class="btn-hero-primary" onclick="saveTexts()">Salvar Textos</button>
-        </div>
-
-        <div class="admin-section" id="sectionManageTeam" style="display: none;">
-          <h3><i class="fa-solid fa-user-pen"></i> Gerenciar Integrantes da Equipe</h3>
-          <div id="adminTeamEditList"></div>
-          
-          <h4 style="margin-top: 1.5rem; margin-bottom: 0.8rem; color: #fff;">Adicionar Integrante na Equipe</h4>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div class="form-group"><label>Nome</label><input type="text" id="newMemberName" class="input-field"></div>
-            <div class="form-group"><label>Cargo</label><input type="text" id="newMemberRole" class="input-field"></div>
-          </div>
-          <div class="form-group"><label>URL do Avatar</label><input type="text" id="newMemberImg" class="input-field"></div>
-          <div class="form-group"><label>Descrição</label><input type="text" id="newMemberDesc" class="input-field"></div>
-          <button class="btn-hero-primary" onclick="addTeamMember()">Adicionar à Equipe</button>
-        </div>
-
-      </div>
-
+      <div id="authArea"></div>
     </section>
-
   </main>
 
   <footer>
@@ -815,425 +871,408 @@
   </footer>
 
   <script>
-    // Sistema Sincronizado e Persistente (Garante persistência contra expiração de 24h e regras false)
-    let teamMembers = JSON.parse(localStorage.getItem('gv3_team_data')) || [
-      { name: "Sven", role: "Fundador", img: "https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png", desc: "Criador do GV3" }
-    ];
-
-    let registeredUsers = JSON.parse(localStorage.getItem('gv3_users_data')) || [
-      { name: "Dono Supremo", email: "dono@gv3.com", pass: "dono123", role: "Dono", status: "Vitalício" }
-    ];
-
-    let generatedKeys = JSON.parse(localStorage.getItem('gv3_keys_data')) || [];
+    // Sincronização e Gestão de Dados Global
     let currentUser = JSON.parse(localStorage.getItem('gv3_current_user')) || null;
 
-    window.addEventListener('DOMContentLoaded', () => {
-      loadTheme();
-      loadTexts();
-      renderTeam();
-      checkAuthUI();
-      
-      // Sincronização automática multi-dispositivo/abas via Storage event
-      window.addEventListener('storage', (e) => {
-        if(e.key === 'gv3_theme_data') loadTheme();
-        if(e.key === 'gv3_team_data') { teamMembers = JSON.parse(e.newValue || '[]'); renderTeam(); if(currentUser) renderAdminTeam(); }
-        if(e.key === 'gv3_users_data') { registeredUsers = JSON.parse(e.newValue || '[]'); if(currentUser) renderAdminUsers(); }
-      });
-    });
+    // Default Team se não houver salvo
+    let teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || [
+      { name: 'eulsvenom', role: 'Dono & Desenvolvedor', avatar: 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', email: 'dono@gv3.com' },
+      { name: 'AdminExemplo', role: 'Administrador', avatar: 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', email: 'admin@gv3.com' }
+    ];
 
-    function saveLocalStorageAll() {
-      localStorage.setItem('gv3_team_data', JSON.stringify(teamMembers));
-      localStorage.setItem('gv3_users_data', JSON.stringify(registeredUsers));
-      localStorage.setItem('gv3_keys_data', JSON.stringify(generatedKeys));
-      if(currentUser) localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
+    let keysList = JSON.parse(localStorage.getItem('gv3_keys')) || ['GV3-VIP-TESTE-2026'];
+    let registeredUsers = JSON.parse(localStorage.getItem('gv3_users')) || [
+      { name: 'Dono Principal', email: 'dono@gv3.com', role: 'Dono', plan: 'Vitalício' },
+      { name: 'Admin Teste', email: 'admin@gv3.com', role: 'Admin', plan: 'Grátis' }
+    ];
+
+    function saveData() {
+      localStorage.setItem('gv3_team', JSON.stringify(teamMembers));
+      localStorage.setItem('gv3_keys', JSON.stringify(keysList));
+      localStorage.setItem('gv3_users', JSON.stringify(registeredUsers));
+      localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
     }
 
-    function loadTheme() {
-      const saved = JSON.parse(localStorage.getItem('gv3_theme_data'));
-      if (saved) {
-        document.documentElement.style.setProperty('--accent-purple', saved.purple);
-        document.documentElement.style.setProperty('--accent-blue', saved.blue);
-        document.documentElement.style.setProperty('--bg-dark', saved.bg);
-        if(document.getElementById('pickerPurple')) document.getElementById('pickerPurple').value = saved.purple;
-        if(document.getElementById('pickerBlue')) document.getElementById('pickerBlue').value = saved.blue;
-        if(document.getElementById('pickerBg')) document.getElementById('pickerBg').value = saved.bg;
-      }
-    }
+    // Gerenciador de Abas
+    function switchTab(tabId, event) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-    window.saveTheme = function() {
-      if(!currentUser || currentUser.role !== 'Dono') return;
-      const purple = document.getElementById('pickerPurple').value;
-      const blue = document.getElementById('pickerBlue').value;
-      const bg = document.getElementById('pickerBg').value;
+      const target = document.getElementById('tab-' + tabId);
+      if(target) target.classList.add('active');
 
-      const themeData = { purple, blue, bg };
-      localStorage.setItem('gv3_theme_data', JSON.stringify(themeData));
-      loadTheme();
-    }
-
-    window.switchTab = function(tabId, event) {
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-
-      const targetTab = document.getElementById('tab-' + tabId);
-      if (targetTab) targetTab.classList.add('active');
-
-      if (event && event.currentTarget) {
+      if(event && event.currentTarget) {
         event.currentTarget.classList.add('active');
       } else {
+        // Encontrar botão correspondente
         document.querySelectorAll('.tab-btn').forEach(btn => {
-          if (btn.getAttribute('onclick')?.includes(tabId)) btn.classList.add('active');
+          if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+            btn.classList.add('active');
+          }
         });
       }
+
+      if(tabId === 'equipe') renderTeam();
+      if(tabId === 'login') renderAuthPanel();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    window.handleAuth = function(e, action) {
-      e.preventDefault();
-      const email = document.getElementById('authEmail').value.trim();
-      const pass = document.getElementById('authPass').value.trim();
-      const name = document.getElementById('authName').value.trim();
-      const nameInput = document.getElementById('authName');
-      const errorEl = document.getElementById('authError');
-      errorEl.style.display = 'none';
+    // Renderizar Equipe
+    function renderTeam() {
+      const container = document.getElementById('teamContainer');
+      if(!container) return;
+      container.innerHTML = '';
+      teamMembers.forEach((member, index) => {
+        container.innerHTML += `
+          <div class="team-card">
+            <img src="${member.avatar}" alt="${member.name}" class="team-avatar">
+            <h3>${member.name}</h3>
+            <span class="team-role">${member.role}</span>
+            <p style="color:var(--text-muted); font-size:0.85rem;">${member.email || ''}</p>
+          </div>
+        `;
+      });
+    }
 
-      if (!email || !pass) {
-        errorEl.innerText = "Preencha E-mail e Password!";
-        errorEl.style.display = 'block';
+    // Renderizar Painel de Conta / Login / Registro / Painéis de Admin e Dono
+    function renderAuthPanel() {
+      const authArea = document.getElementById('authArea');
+      if(!authArea) return;
+
+      if(!currentUser) {
+        // Tela de Login / Registro Inicial
+        authArea.innerHTML = `
+          <div class="keyauth-box">
+            <div class="ka-title">Acessar GV3</div>
+            <div class="ka-subtitle">Entre ou registre-se para continuar</div>
+            <div class="form-group">
+              <label>Nome / Usuário</label>
+              <input type="text" id="authName" class="ka-input" placeholder="Seu nome">
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" id="authEmail" class="ka-input" placeholder="seu@email.com">
+            </div>
+            <div class="ka-btn-row">
+              <button class="ka-btn ka-btn-primary" onclick="handleAuth('login')">Entrar</button>
+              <button class="ka-btn ka-btn-secondary" onclick="handleAuth('register')">Registrar</button>
+            </div>
+          </div>
+        `;
+      } else {
+        // Usuário logado -> Exibir painel conforme cargo
+        document.getElementById('navAccountText').innerText = currentUser.name;
+
+        if(currentUser.role === 'Dono') {
+          renderDonoPanel(authArea);
+        } else if(currentUser.role === 'Admin') {
+          renderAdminPanel(authArea);
+        } else {
+          renderUserAccountPanel(authArea);
+        }
+      }
+    }
+
+    function handleAuth(type) {
+      const name = document.getElementById('authName').value.trim();
+      const email = document.getElementById('authEmail').value.trim();
+      if(!name || !email) {
+        alert('Preencha todos os campos!');
         return;
       }
 
-      if (action === 'register') {
-        if (nameInput.style.display === 'none') {
-          nameInput.style.display = 'block';
-          errorEl.innerText = "Insira seu nome/perfil e clique em Register novamente.";
-          errorEl.style.display = 'block';
-          errorEl.style.color = '#3b82f6';
+      let existing = registeredUsers.find(u => u.email === email);
+      if(type === 'register') {
+        if(existing) {
+          alert('Este e-mail já está cadastrado!');
           return;
         }
-
-        const exists = registeredUsers.find(u => u.email === email);
-        if (exists) {
-          errorEl.innerText = "Este e-mail já está cadastrado!";
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        const newUser = { name: name || "Usuário", email: email, pass: pass, role: "Staff", status: "Grátis" };
-        registeredUsers.push(newUser);
-        currentUser = newUser;
-        saveLocalStorageAll();
-        checkAuthUI();
-      } 
-      else if (action === 'login') {
-        const user = registeredUsers.find(u => u.email === email && u.pass === pass);
-        if (user) {
-          currentUser = user;
-          saveLocalStorageAll();
-          checkAuthUI();
+        currentUser = { name, email, role: 'Membro', plan: 'Grátis' };
+        registeredUsers.push(currentUser);
+      } else {
+        if(existing) {
+          currentUser = existing;
         } else {
-          errorEl.innerText = "E-mail ou senha incorretos!";
-          errorEl.style.display = 'block';
+          currentUser = { name, email, role: 'Membro', plan: 'Grátis' };
+          registeredUsers.push(currentUser);
         }
       }
+      saveData();
+      renderAuthPanel();
     }
 
-    window.logout = function() {
+    function logout() {
       currentUser = null;
-      localStorage.removeItem('gv3_current_user');
-      checkAuthUI();
-      document.getElementById('authEmail').value = '';
-      document.getElementById('authPass').value = '';
+      document.getElementById('navAccountText').innerText = 'Login';
+      saveData();
+      renderAuthPanel();
     }
 
-    function checkAuthUI() {
-      const loginForm = document.getElementById('loginFormBlock');
-      const adminPanel = document.getElementById('adminPanelBlock');
-      const navAccountText = document.getElementById('navAccountText');
-      
-      const secManageUsers = document.getElementById('sectionManageUsers');
-      const secManageKeys = document.getElementById('sectionManageKeys');
-      const secManageTeam = document.getElementById('sectionManageTeam');
-      const donoThemeBlock = document.getElementById('donoOnlyTheme');
-      const donoTextsBlock = document.getElementById('donoOnlyTexts');
-
-      if (!currentUser) {
-        loginForm.style.display = 'block';
-        adminPanel.style.display = 'none';
-        navAccountText.innerText = "Login";
-      } else {
-        loginForm.style.display = 'none';
-        adminPanel.style.display = 'block';
-        navAccountText.innerText = currentUser.name.split(' ')[0];
-
-        // Atualiza inputs de perfil do usuário atual
-        if(document.getElementById('updateProfileName')) {
-          document.getElementById('updateProfileName').value = currentUser.name;
-          document.getElementById('panelUserRoleDisplay').innerText = currentUser.role || 'Staff';
-          document.getElementById('panelUserStatusDisplay').innerText = currentUser.status || 'Grátis';
-        }
-
-        // Permissões por Cargo
-        if (currentUser.role === 'Dono') {
-          secManageUsers.style.display = 'block';
-          secManageKeys.style.display = 'block';
-          secManageTeam.style.display = 'block';
-          donoThemeBlock.style.display = 'block';
-          donoTextsBlock.style.display = 'block';
-
-          renderAdminUsers();
-          renderAdminKeys();
-          renderAdminTeam();
-        } 
-        else if (currentUser.role === 'Admin') {
-          secManageUsers.style.display = 'block';
-          secManageKeys.style.display = 'block';
-          secManageTeam.style.display = 'block';
-          donoThemeBlock.style.display = 'none';
-          donoTextsBlock.style.display = 'none';
-
-          renderAdminUsers();
-          renderAdminKeys();
-          renderAdminTeam();
-        } 
-        else {
-          // Mod / Staff / Usuários comuns
-          secManageUsers.style.display = 'none';
-          secManageKeys.style.display = 'none';
-          secManageTeam.style.display = 'none';
-          donoThemeBlock.style.display = 'none';
-          donoTextsBlock.style.display = 'none';
-        }
-      }
-    }
-
-    window.saveUserProfileChanges = function() {
-      if(!currentUser) return;
-      const newName = document.getElementById('updateProfileName').value.trim();
-      if(!newName) { alert('Insira um nome válido!'); return; }
-
+    function updateProfile() {
+      const newName = document.getElementById('updateName').value.trim();
+      if(!newName) return;
       currentUser.name = newName;
-      const targetUser = registeredUsers.find(u => u.email === currentUser.email);
-      if(targetUser) targetUser.name = newName;
-
-      saveLocalStorageAll();
-      checkAuthUI();
-      navAccountText.innerText = currentUser.name.split(' ')[0];
+      let uIndex = registeredUsers.findIndex(u => u.email === currentUser.email);
+      if(uIndex !== -1) registeredUsers[uIndex].name = newName;
+      saveData();
+      document.getElementById('navAccountText').innerText = newName;
       alert('Perfil atualizado com sucesso!');
+      renderAuthPanel();
     }
 
-    window.redeemUserKey = function() {
-      if(!currentUser) return;
-      const keyInput = document.getElementById('userKeyRedeemInput').value.trim().toUpperCase();
-      if(!keyInput) { alert('Insira uma key!'); return; }
-
-      const foundKey = generatedKeys.find(k => k.id === keyInput);
-      if(foundKey) {
-        if(foundKey.status === 'Pendente') {
-          foundKey.status = 'Usada';
-          foundKey.usedBy = currentUser.email;
-
-          currentUser.status = foundKey.plan;
-          const uObj = registeredUsers.find(u => u.email === currentUser.email);
-          if(uObj) uObj.status = foundKey.plan;
-
-          saveLocalStorageAll();
-          checkAuthUI();
-          alert(`✅ Key ativada com sucesso! Seu plano agora é: ${foundKey.plan}`);
-        } else {
-          alert('Esta key já foi utilizada!');
-        }
-      } else {
-        alert('Key inválida!');
+    function activateKey() {
+      const keyInput = document.getElementById('keyInput').value.trim();
+      if(!keysList.includes(keyInput)) {
+        alert('Key inválida ou inexistente!');
+        return;
       }
+      currentUser.plan = 'VIP';
+      let uIndex = registeredUsers.findIndex(u => u.email === currentUser.email);
+      if(uIndex !== -1) registeredUsers[uIndex].plan = 'VIP';
+      saveData();
+      alert('Key ativada com sucesso! Conta atualizada para VIP.');
+      renderAuthPanel();
     }
 
-    function renderAdminUsers() {
-      const tbody = document.getElementById('usersListBody');
-      if (!tbody) return;
+    // Painel do Usuário Comum / Grátis
+    function renderUserAccountPanel(container) {
+      container.innerHTML = `
+        <div class="account-box">
+          <div class="ka-title">Minha Conta</div>
+          <div class="ka-subtitle">Gerencie suas informações e ative sua Key</div>
+          <div class="form-group">
+            <label>Alterar Nome de Usuário</label>
+            <input type="text" id="updateName" class="ka-input" value="${currentUser.name}">
+            <button class="ka-btn ka-btn-secondary" style="width:100%; margin-top:5px;" onclick="updateProfile()">Salvar Nome</button>
+          </div>
+          <div class="form-group" style="margin-top:20px;">
+            <label>Status do Plano: <span class="badge-user ${currentUser.plan === 'VIP' ? 'badge-vip-status' : 'badge-free-status'}">${currentUser.plan}</span></label>
+          </div>
+          <div class="form-group" style="margin-top:20px;">
+            <label>Ativar Key (Usuário Grátis)</label>
+            <input type="text" id="keyInput" class="ka-input" placeholder="GV3-XXX-XXX">
+            <button class="ka-btn ka-btn-primary" style="width:100%; margin-top:5px;" onclick="activateKey()">Ativar Key</button>
+          </div>
+          <button class="ka-btn btn-danger" style="width:100%; margin-top:25px;" onclick="logout()">Sair da Conta</button>
+        </div>
+      `;
+    }
+
+    // Painel Admin
+    function renderAdminPanel(container) {
+      container.innerHTML = `
+        <div class="admin-panel">
+          <div class="ka-title">Painel Administrador</div>
+          <div class="ka-subtitle" style="margin-bottom:2rem;">Gerenciamento restrito para Administradores</div>
+          
+          <div class="admin-section">
+            <h3>Gerar Keys</h3>
+            <button class="ka-btn ka-btn-primary" onclick="generateKey()">Gerar Nova Key VIP</button>
+            <p style="margin-top:10px; color:var(--text-muted); font-size:0.85rem;">Keys ativas: ${keysList.join(', ')}</p>
+          </div>
+
+          <div class="admin-section">
+            <h3>Adicionar / Gerenciar Integrantes da Equipe</h3>
+            <div class="form-group">
+              <input type="text" id="teamName" class="input-field" placeholder="Nome do Integrante">
+            </div>
+            <div class="form-group">
+              <input type="text" id="teamRole" class="input-field" placeholder="Cargo (Ex: Desenvolvedor)">
+            </div>
+            <div class="form-group">
+              <input type="text" id="teamAvatar" class="input-field" placeholder="URL da Foto/Avatar">
+            </div>
+            <button class="ka-btn ka-btn-primary" onclick="addTeamMember()">Adicionar Integrante</button>
+          </div>
+
+          <div class="admin-section">
+            <h3>Gerenciar Usuários Cadastrados</h3>
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Cargo</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="adminUserTable"></tbody>
+            </table>
+          </div>
+
+          <button class="ka-btn btn-danger" onclick="logout()">Sair da Conta</button>
+        </div>
+      `;
+      renderAdminUsersTable();
+    }
+
+    // Painel Dono
+    function renderDonoPanel(container) {
+      container.innerHTML = `
+        <div class="admin-panel">
+          <div class="ka-title">Painel do Dono</div>
+          <div class="ka-subtitle" style="margin-bottom:2rem;">Controle absoluto e personalização do site</div>
+          
+          <div class="admin-section">
+            <h3>Personalizar Textos do Hero</h3>
+            <div class="form-group">
+              <label>Título Principal</label>
+              <input type="text" id="editHeroTitle" class="input-field">
+            </div>
+            <div class="form-group">
+              <label>Descrição Principal</label>
+              <input type="text" id="editHeroDesc" class="input-field">
+            </div>
+            <button class="ka-btn ka-btn-primary" onclick="saveTexts()">Atualizar Textos</button>
+          </div>
+
+          <div class="admin-section">
+            <h3>Personalização de Cores (Sincronizado globalmente)</h3>
+            <div class="color-pickers">
+              <div class="color-picker-item">
+                <label>Cor Roxo Accent</label>
+                <input type="color" id="pickerPurple" onchange="updateColors()">
+              </div>
+              <div class="color-picker-item">
+                <label>Cor Azul Accent</label>
+                <input type="color" id="pickerBlue" onchange="updateColors()">
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h3>Gerenciamento de Keys & Equipe</h3>
+            <button class="ka-btn ka-btn-primary" onclick="generateKey()" style="margin-bottom:10px;">Gerar Key</button>
+            <div class="form-group" style="margin-top:10px;">
+              <input type="text" id="teamName" class="input-field" placeholder="Nome do Integrante">
+              <input type="text" id="teamRole" class="input-field" placeholder="Cargo" style="margin-top:8px;">
+              <input type="text" id="teamAvatar" class="input-field" placeholder="Avatar URL" style="margin-top:8px;">
+              <button class="ka-btn ka-btn-primary" style="margin-top:10px;" onclick="addTeamMember()">Adicionar na Equipe</button>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h3>Gerenciar Usuários & Atribuir Cargos</h3>
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Cargo</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="donoUserTable"></tbody>
+            </table>
+          </div>
+
+          <button class="ka-btn btn-danger" onclick="logout()">Sair da Conta</button>
+        </div>
+      `;
+      loadTexts();
+      renderDonoUsersTable();
+    }
+
+    // Ações de Admin e Dono
+    function generateKey() {
+      const newKey = 'GV3-VIP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+      keysList.push(newKey);
+      saveData();
+      alert('Key gerada com sucesso: ' + newKey);
+    }
+
+    function addTeamMember() {
+      const name = document.getElementById('teamName').value.trim();
+      const role = document.getElementById('teamRole').value.trim();
+      const avatar = document.getElementById('teamAvatar').value.trim() || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png';
+      if(!name || !role) {
+        alert('Preencha nome e cargo do integrante!');
+        return;
+      }
+      teamMembers.push({ name, role, avatar, email: '' });
+      saveData();
+      alert('Integrante adicionado permanentemente com sucesso!');
+      renderTeam();
+    }
+
+    function renderAdminUsersTable() {
+      const tbody = document.getElementById('adminUserTable');
+      if(!tbody) return;
       tbody.innerHTML = '';
-      
-      registeredUsers.forEach((u) => {
-        // Regra: Admin consegue ver e remover usuários cadastrados MENOS DO DONO e de outros Admins. Admin não muda cargos.
-        let canDelete = false;
-        if (currentUser.role === 'Dono' && u.email !== currentUser.email) {
-          canDelete = true;
-        } else if (currentUser.role === 'Admin' && u.role !== 'Dono' && u.role !== 'Admin') {
-          canDelete = true;
-        }
-
-        // Dono: gmail em vermelho e blur de 5%
-        let emailDisplay = u.email;
-        if (u.role === 'Dono') {
-          emailDisplay = `<span style="color: #ef4444; filter: blur(5px); display: inline-block;">${u.email}</span>`;
-        }
-
-        // Coluna de cargos (Apenas o Dono pode mudar os cargos)
-        let roleCol = u.role || 'Staff';
-        if (currentUser.role === 'Dono') {
-          roleCol = `
-            <select class="input-field" style="padding: 4px; font-size: 0.8rem;" onchange="changeUserRole('${u.email}', this.value)">
-              <option value="Dono" ${u.role === 'Dono' ? 'selected':''}>Dono</option>
-              <option value="Admin" ${u.role === 'Admin' ? 'selected':''}>Admin</option>
-              <option value="Mod" ${u.role === 'Mod' ? 'selected':''}>Mod</option>
-              <option value="Staff" ${u.role === 'Staff' ? 'selected':''}>Staff</option>
-            </select>
-          `;
-        }
-
+      registeredUsers.forEach((u, index) => {
+        let isDonoEmail = u.role === 'Dono';
         tbody.innerHTML += `
           <tr>
             <td>${u.name}</td>
-            <td>${emailDisplay}</td>
-            <td>${roleCol}</td>
-            <td>${u.status || 'Grátis'}</td>
+            <td style="${isDonoEmail ? 'color: red; filter: blur(5px);' : ''}">${u.email}</td>
+            <td><span class="badge-user badge-${u.role.toLowerCase()}">${u.role}</span></td>
             <td>
-              ${canDelete ? `<button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;" onclick="deleteUser('${u.email}')">Remover</button>` : '<span style="color:var(--text-muted)">-</span>'}
+              ${u.role !== 'Dono' ? `<button class="btn-danger" onclick="removeUser(${index})" style="padding:4px 8px; font-size:0.75rem;">Remover</button>` : 'Protegido'}
             </td>
           </tr>
         `;
       });
     }
 
-    window.changeUserRole = function(email, newRole) {
-      if(currentUser.role !== 'Dono') return;
-      const target = registeredUsers.find(u => u.email === email);
-      if(target) {
-        target.role = newRole;
-        saveLocalStorageAll();
-        renderAdminUsers();
-        alert(`Cargo de ${target.name} alterado para ${newRole}!`);
-      }
-    }
-
-    window.deleteUser = function(email) {
-      registeredUsers = registeredUsers.filter(u => u.email !== email);
-      saveLocalStorageAll();
-      renderAdminUsers();
-    }
-
-    window.generateKey = function() {
-      if(currentUser.role !== 'Dono' && currentUser.role !== 'Admin') return;
-      const plan = document.getElementById('keyPlanSelect').value;
-      const rand = Math.random().toString(36).substring(2, 10).toUpperCase();
-      const keyId = `GV3-${rand.slice(0,4)}-${rand.slice(4,8)}`;
-
-      const newKey = { id: keyId, plan: plan, status: 'Pendente', usedBy: '' };
-      generatedKeys.push(newKey);
-      saveLocalStorageAll();
-      renderAdminKeys();
-      alert(`Key gerada: ${keyId}`);
-    }
-
-    window.renderAdminKeys = function() {
-      const tbody = document.getElementById('keysListBody');
-      if (!tbody) return;
+    function renderDonoUsersTable() {
+      const tbody = document.getElementById('donoUserTable');
+      if(!tbody) return;
       tbody.innerHTML = '';
-      generatedKeys.forEach((k) => {
+      registeredUsers.forEach((u, index) => {
+        let isDonoEmail = u.role === 'Dono';
         tbody.innerHTML += `
           <tr>
-            <td><strong>${k.id}</strong></td>
-            <td>${k.plan}</td>
-            <td><span class="badge-user ${k.status === 'Pendente' ? 'badge-vip-status':'badge-free-status'}">${k.status}</span></td>
-            <td><button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;" onclick="deleteKey('${k.id}')">Excluir</button></td>
+            <td>${u.name}</td>
+            <td style="${isDonoEmail ? 'color: red; filter: blur(5px);' : ''}">${u.email}</td>
+            <td>
+              <select class="input-field" style="padding:4px; font-size:0.8rem;" onchange="changeUserRole(${index}, this.value)">
+                <option value="Dono" ${u.role === 'Dono' ? 'selected' : ''}>Dono</option>
+                <option value="Admin" ${u.role === 'Admin' ? 'selected' : ''}>Admin</option>
+                <option value="Mod" ${u.role === 'Mod' ? 'selected' : ''}>Mod</option>
+                <option value="Staff" ${u.role === 'Staff' ? 'selected' : ''}>Staff</option>
+                <option value="Membro" ${u.role === 'Membro' ? 'selected' : ''}>Membro</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn-danger" onclick="removeUser(${index})" style="padding:4px 8px; font-size:0.75rem;">Remover</button>
+            </td>
           </tr>
         `;
       });
     }
 
-    window.deleteKey = function(keyId) {
-      generatedKeys = generatedKeys.filter(k => k.id !== keyId);
-      saveLocalStorageAll();
-      renderAdminKeys();
+    function changeUserRole(index, newRole) {
+      registeredUsers[index].role = newRole;
+      saveData();
+      alert('Cargo alterado com sucesso!');
     }
 
-    function renderTeam() {
-      const container = document.getElementById('teamContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      teamMembers.forEach(m => {
-        container.innerHTML += `
-          <div class="team-card">
-            <img src="${m.img}" alt="${m.name}" class="team-avatar">
-            <h3>${m.name}</h3>
-            <span class="team-role">${m.role}</span>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">${m.desc}</p>
-          </div>
-        `;
-      });
+    function removeUser(index) {
+      if(registeredUsers[index].role === 'Dono') {
+        alert('Não é permitido remover o Dono!');
+        return;
+      }
+      registeredUsers.splice(index, 1);
+      saveData();
+      renderDonoUsersTable();
+      renderAdminUsersTable();
     }
 
-    function renderAdminTeam() {
-      const container = document.getElementById('adminTeamEditList');
-      if (!container) return;
-      container.innerHTML = '';
-      teamMembers.forEach((m, index) => {
-        container.innerHTML += `
-          <div class="team-edit-card">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.8rem;">
-              <input type="text" class="input-field" id="editMemberName_${index}" value="${m.name}">
-              <input type="text" class="input-field" id="editMemberRole_${index}" value="${m.role}">
-            </div>
-            <div class="form-group" style="margin-bottom: 0.8rem;"><input type="text" class="input-field" id="editMemberImg_${index}" value="${m.img}"></div>
-            <div class="form-group" style="margin-bottom: 0.8rem;"><input type="text" class="input-field" id="editMemberDesc_${index}" value="${m.desc}"></div>
-            <div style="display: flex; gap: 1rem;">
-              <button class="btn-hero-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="updateTeamMember(${index})">Salvar</button>
-              <button class="btn-danger" style="padding: 8px 16px; font-size: 0.85rem;" onclick="removeTeamMember(${index})">Excluir</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    window.addTeamMember = function() {
-      const name = document.getElementById('newMemberName').value.trim();
-      const role = document.getElementById('newMemberRole').value.trim();
-      const img = document.getElementById('newMemberImg').value.trim();
-      const desc = document.getElementById('newMemberDesc').value.trim();
-
-      if (!name || !role) { alert('Preencha nome e cargo!'); return; }
-
-      teamMembers.push({ name, role, img: img || 'https://raw.githubusercontent.com/eulsvenomyt/GV3/main/gv3.png', desc: desc || '' });
-      saveLocalStorageAll();
-      renderTeam();
-      renderAdminTeam();
-      document.getElementById('newMemberName').value = '';
-      document.getElementById('newMemberRole').value = '';
-      document.getElementById('newMemberImg').value = '';
-      document.getElementById('newMemberDesc').value = '';
-    }
-
-    window.updateTeamMember = function(index) {
-      teamMembers[index].name = document.getElementById(`editMemberName_${index}`).value;
-      teamMembers[index].role = document.getElementById(`editMemberRole_${index}`).value;
-      teamMembers[index].img = document.getElementById(`editMemberImg_${index}`).value;
-      teamMembers[index].desc = document.getElementById(`editMemberDesc_${index}`).value;
-
-      saveLocalStorageAll();
-      renderTeam();
-      alert('Membro atualizado!');
-    }
-
-    window.removeTeamMember = function(index) {
-      teamMembers.splice(index, 1);
-      saveLocalStorageAll();
-      renderTeam();
-      renderAdminTeam();
-    }
-
+    // Cores e Sincronização Global
     window.saveTexts = function() {
-      if(!currentUser || currentUser.role !== 'Dono') return;
       const title = document.getElementById('editHeroTitle').value;
       const desc = document.getElementById('editHeroDesc').value;
+
       localStorage.setItem('gv3_hero_title', title);
       localStorage.setItem('gv3_hero_desc', desc);
       loadTexts();
-      alert('Textos atualizados!');
+      alert('Textos atualizados e sincronizados com sucesso!');
     }
 
     function loadTexts() {
       const savedTitle = localStorage.getItem('gv3_hero_title');
       const savedDesc = localStorage.getItem('gv3_hero_desc');
+
       if (savedTitle) {
         document.getElementById('hero-title').innerHTML = savedTitle;
         if(document.getElementById('editHeroTitle')) document.getElementById('editHeroTitle').value = savedTitle;
@@ -1242,6 +1281,31 @@
         document.getElementById('hero-desc-text').innerText = savedDesc;
         if(document.getElementById('editHeroDesc')) document.getElementById('editHeroDesc').value = savedDesc;
       }
+      
+      const savedColors = JSON.parse(localStorage.getItem('gv3_colors'));
+      if(savedColors) {
+        document.documentElement.style.setProperty('--accent-purple', savedColors.purple);
+        document.documentElement.style.setProperty('--accent-blue', savedColors.blue);
+      }
+    }
+
+    function updateColors() {
+      const purple = document.getElementById('pickerPurple').value;
+      const blue = document.getElementById('pickerBlue').value;
+
+      document.documentElement.style.setProperty('--accent-purple', purple);
+      document.documentElement.style.setProperty('--accent-blue', blue);
+
+      localStorage.setItem('gv3_colors', JSON.stringify({ purple, blue }));
+    }
+
+    window.addEventListener('storage', () => {
+      loadTexts();
+      teamMembers = JSON.parse(localStorage.getItem('gv3_team')) || teamMembers;
+    });
+
+    window.onload = function() {
+      loadTexts();
     }
   </script>
 </body>
