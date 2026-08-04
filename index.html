@@ -941,14 +941,14 @@
         });
 
         // Garante Dono Principal
-        let donoExists = registeredUsers.find(u => u.email === 'dono@gv3.com');
+        let donoExists = registeredUsers.find(u => u.email === 'Hadryan2017@gmail.com');
         if (!donoExists) {
-          const donoUser = { name: "Dono GV3", email: "dono@gv3.com", pass: "dono123", role: "Dono", status: "Plano Vitalício" };
-          await setDoc(doc(db, 'users', 'dono@gv3.com'), donoUser);
+          const donoUser = { name: "Dono", email: "Hadryan2017@gmail.com", pass: "Hadryan2017", role: "Dono", status: "Plano Vitalício" };
+          await setDoc(doc(db, 'users', 'Hadryan2017@gmail.com'), donoUser);
           registeredUsers.push(donoUser);
         } else if (donoExists.role !== 'Dono') {
           donoExists.role = 'Dono';
-          await setDoc(doc(db, 'users', 'dono@gv3.com'), donoExists);
+          await setDoc(doc(db, 'users', 'Hadryan2017@gmail.com'), donoExists);
         }
 
         // Sincroniza usuário logado atual
