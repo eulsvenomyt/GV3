@@ -635,6 +635,98 @@
       border-top: 1px solid var(--card-border);
       padding-top: 1.5rem;
     }
+    /* ==========================================\
+   AJUSTES RESPONSIVOS PARA TELEMÓVEL (MOBILE)
+   ========================================== */
+
+/* Regras aplicadas para ecrãs com largura de até 768px (Telemóveis e Tablets em pé) */
+@media (max-width: 768px) {
+  
+  /* 1. Ajuste da Barra de Navegação / Header */
+  .navbar {
+    padding: 0.8rem 1rem !important;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .nav-links {
+    gap: 0.5rem !important;
+    overflow-x: auto; /* Permite deslizar os botões do menu horizontalmente */
+    width: 100%;
+    padding-bottom: 5px;
+    margin-top: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-btn {
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap; /* Evita que o texto quebre linhas */
+  }
+
+  /* 2. Banner Principal (Hero) */
+  .hero-section {
+    padding: 3rem 1rem 2rem 1rem !important;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 1.8rem !important; /* Diminui o título para não estourar a tela */
+    line-height: 1.2 !important;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem !important;
+  }
+
+  .hero-buttons {
+    flex-direction: column !important; /* Botões um abaixo do outro */
+    width: 100%;
+    gap: 10px !important;
+  }
+
+  .hero-buttons button, .hero-buttons a {
+    width: 100% !important; /* Botões ocupam a largura toda */
+    text-align: center;
+  }
+
+  /* 3. Grelhas de Planos, Recursos e Equipa */
+  .plans-grid, 
+  .features-grid, 
+  .team-grid {
+    grid-template-columns: 1fr !important; /* Transforma 3 ou 4 colunas em 1 coluna única */
+    gap: 1.2rem !important;
+    padding: 0 0.5rem;
+  }
+
+  .plan-card, .feature-card, .team-card {
+    padding: 1.2rem !important;
+  }
+
+  /* 4. Formulários e Painel de Login/Admin */
+  .admin-box, .admin-panel {
+    padding: 1.2rem !important;
+    margin: 1rem auto !important;
+    width: 95% !important;
+  }
+
+  .input-field {
+    font-size: 1rem !important; /* Evita zoom automático em iOS ao clicar */
+    padding: 10px 12px !important;
+  }
+
+  /* 5. Tabelas Responsivas no Painel do Dono/Admin */
+  .user-table {
+    display: block;
+    overflow-x: auto; /* Adiciona scroll horizontal se a tabela for muito larga */
+    white-space: nowrap;
+  }
+
+  /* 6. Seletores de Cores no Painel do Dono */
+  .color-pickers {
+    grid-template-columns: 1fr 1fr !important; /* 2 colunas para seletores de cores */
+    gap: 10px !important;
+  }
 
     /* ESTILO KEYAUTH (LOGIN E ATIVAÇÃO) */
     .keyauth-box {
