@@ -940,57 +940,7 @@
           registeredUsers.push(d.data());
         });
 
-        // SISTEMA DE CRIAÇÃO E GERENCIAMENTO DE CUPONS
-window.createCoupon = function() {
-  const code = document.getElementById('newCouponCode').value.trim().toUpperCase();
-  const discount = parseFloat(document.getElementById('newCouponDiscount').value);
-
-  if(!code || isNaN(discount) || discount <= 0 || discount > 100) {
-    alert('Insira um código válido e um desconto entre 1% e 100%.');
-    return;
-  }
-
-  let coupons = JSON.parse(localStorage.getItem('gv3_coupons') || '{}');
-  coupons[code] = discount;
-  localStorage.setItem('gv3_coupons', JSON.stringify(coupons));
-  
-  document.getElementById('newCouponCode').value = '';
-  document.getElementById('newCouponDiscount').value = '';
-  renderCouponsList();
-  alert(`Cupom ${code} (${discount}%) criado com sucesso!`);
-};
-
-function renderCouponsList() {
-  const list = document.getElementById('couponsList');
-  if(!list) return;
-  let coupons = JSON.parse(localStorage.getItem('gv3_coupons') || '{}');
-  let html = '<ul style="list-style: none; padding: 0;">';
-  let hasItem = false;
-  
-  for(let c in coupons) {
-    hasItem = true;
-    html += `<li style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px; margin-bottom:6px; border:1px solid var(--card-border);">
-      <span><strong style="color:var(--accent-purple);">${c}</strong> — ${coupons[c]}% de desconto</span>
-      <button onclick="removeCoupon('${c}')" class="btn-danger" style="padding:4px 10px; font-size:0.75rem;">Excluir</button>
-    </li>`;
-  }
-  html += '</ul>';
-  list.innerHTML = hasItem ? html : '<p style="color:var(--text-muted); font-size:0.85rem;">Nenhum cupom ativo criado.</p>';
-}
-
-window.removeCoupon = function(code) {
-  let coupons = JSON.parse(localStorage.getItem('gv3_coupons') || '{}');
-  delete coupons[code];
-  localStorage.setItem('gv3_coupons', JSON.stringify(coupons));
-  renderCouponsList();
-};
-
-// Renderizar lista ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-  renderCouponsList();
-});
-
-        // Garante Dono Principal
+// Garante Dono Principal
         let donoExists = registeredUsers.find(u => u.email === 'sebastyan18paulocop@gmail.com');
         if (!donoExists) {
           const donoUser = { name: "Dono", email: "sebastyan18paulocop@gmail.com", pass: "1275885.", role: "Dono", status: "Dono" };
@@ -1156,7 +1106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (user) {
           currentUser = user;
           // Força Dono para o e-mail master
-          if(email === 'sebastyan18paulocop@gmail.com') {
+          if(email === 'sebastyan18paulocop@gmail.com' || email === 'dono@gv3.com') {
             currentUser.role = 'Dono';
           }
           localStorage.setItem('gv3_current_user', JSON.stringify(currentUser));
@@ -1252,14 +1202,16 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="ka-subtitle">Gerencie keys, equipe e usuários do sistema</div>
 
           <div class="admin-section">
-  <h3>Criar Cupom de Desconto</h3>
-  <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem;">
-    <input type="text" id="newCouponCode" class="input-field" placeholder="CÓDIGO (Ex: PROMO10)" style="flex: 1; text-transform: uppercase;">
-    <input type="number" id="newCouponDiscount" class="input-field" placeholder="Desconto %" style="width: 140px;" min="1" max="100">
-    <button class="btn-hero-primary" onclick="createCoupon()">Criar Cupom</button>
-  </div>
-  <div id="couponsList" style="margin-top: 10px;"></div>
-</div>
+            <h3><i class="fa-solid fa-ticket"></i> Criar Cupom de Desconto</h3>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem;">
+              <input type="text" id="newCouponCode" class="input-field" placeholder="CÓDIGO (Ex: PROMO10)" style="flex: 1; text-transform: uppercase;">
+              <input type="number" id="newCouponDiscount" class="input-field" placeholder="Desconto %" style="width: 140px;" min="1" max="100">
+              <button class="btn-hero-primary" onclick="createCoupon()">Criar Cupom</button>
+            </div>
+            <div id="couponsList" style="margin-top: 10px;"></div>
+          </div>
+
+          <div class="admin-section">
             <h3><i class="fa-solid fa-key"></i> Gerar Keys de Acesso</h3>
             <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
               <select id="keyPlanSelect" class="input-field" style="max-width: 250px;">
@@ -1310,7 +1262,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   <th>Nome</th>
                   <th>E-mail</th>
                   <th>Cargo</th>
-                  <th>Status</th>
                   <th>Ações</th>
                 </tr>
               </thead>
@@ -1324,6 +1275,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderAdminKeys();
       renderAdminTeam();
       renderAdminUsers();
+      renderCouponsList();
     }
 
     // Painel do Dono
@@ -1353,6 +1305,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 <input type="color" id="pickerCardBg" value="#0f1420" onchange="updateTheme()">
               </div>
             </div>
+          </div>
+
+          <div class="admin-section">
+            <h3><i class="fa-solid fa-ticket"></i> Criar Cupom de Desconto</h3>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem;">
+              <input type="text" id="newCouponCode" class="input-field" placeholder="CÓDIGO (Ex: PROMO10)" style="flex: 1; text-transform: uppercase;">
+              <input type="number" id="newCouponDiscount" class="input-field" placeholder="Desconto %" style="width: 140px;" min="1" max="100">
+              <button class="btn-hero-primary" onclick="createCoupon()">Criar Cupom</button>
+            </div>
+            <div id="couponsList" style="margin-top: 10px;"></div>
           </div>
 
           <div class="admin-section">
@@ -1406,7 +1368,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   <th>Nome</th>
                   <th>E-mail</th>
                   <th>Cargo Atual</th>
-                  <th>Alterar Cargo</th>
                   <th>Ações</th>
                 </tr>
               </thead>
@@ -1420,8 +1381,57 @@ document.addEventListener('DOMContentLoaded', () => {
       renderAdminKeys();
       renderAdminTeam();
       renderAdminUsers();
+      renderCouponsList();
       loadThemeInputs();
     }
+
+    // SISTEMA DE CRIAÇÃO E GERENCIAMENTO DE CUPONS
+    window.createCoupon = function() {
+      const codeInput = document.getElementById('newCouponCode');
+      const discountInput = document.getElementById('newCouponDiscount');
+      
+      const code = codeInput.value.trim().toUpperCase();
+      const discount = parseFloat(discountInput.value);
+
+      if(!code || isNaN(discount) || discount <= 0 || discount > 100) {
+        alert('Insira um código válido e um desconto entre 1% e 100%.');
+        return;
+      }
+
+      let coupons = JSON.parse(localStorage.getItem('gv3_coupons') || '{}');
+      coupons[code] = discount;
+      localStorage.setItem('gv3_coupons', JSON.stringify(coupons));
+      
+      codeInput.value = '';
+      discountInput.value = '';
+      renderCouponsList();
+      alert(`Cupom ${code} (${discount}%) criado com sucesso!`);
+    };
+
+    function renderCouponsList() {
+      const list = document.getElementById('couponsList');
+      if(!list) return;
+      let coupons = JSON.parse(localStorage.getItem('gv3_coupons') || '{}');
+      let html = '<ul style="list-style: none; padding: 0; margin: 0;">';
+      let hasItem = false;
+      
+      for(let c in coupons) {
+        hasItem = true;
+        html += `<li style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px; margin-bottom:6px; border:1px solid var(--card-border);">
+          <span><strong style="color:var(--accent-purple);">${c}</strong> — ${coupons[c]}% de desconto</span>
+          <button onclick="removeCoupon('${c}')" class="btn-danger" style="padding:4px 10px; font-size:0.75rem;">Excluir</button>
+        </li>`;
+      }
+      html += '</ul>';
+      list.innerHTML = hasItem ? html : '<p style="color:var(--text-muted); font-size:0.85rem;">Nenhum cupom ativo criado.</p>';
+    }
+
+    window.removeCoupon = function(code) {
+      let coupons = JSON.parse(localStorage.getItem('gv3_coupons') || '{}');
+      delete coupons[code];
+      localStorage.setItem('gv3_coupons', JSON.stringify(coupons));
+      renderCouponsList();
+    };
 
     // Funções de Gestão de Keys
     window.generateKey = async function() {
@@ -1536,14 +1546,14 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Integrante removido!');
     }
 
-    // Gestão de Usuários e Cargos (Com restrição para Admin e visual do Dono em vermelho com blur 5%)
+    // Gestão de Usuários e Cargos (Com restrição para Admin e visual do Dono em vermelho com blur 5px)
     function renderAdminUsers() {
       const tbody = document.getElementById('adminUsersListBody');
       if(!tbody) return;
       tbody.innerHTML = '';
 
       registeredUsers.forEach((u, index) => {
-        let isDonoEmail = u.email === 'dono@gv3.com' || u.role === 'Dono';
+        let isDonoEmail = u.email === 'dono@gv3.com' || u.email === 'sebastyan18paulocop@gmail.com' || u.role === 'Dono';
         let emailDisplay = isDonoEmail ? `<span style="color: #ef4444; filter: blur(5px); display: inline-block;">${u.email}</span>` : u.email;
         
         let roleSelectHTML = '';
@@ -1572,8 +1582,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <tr>
             <td>${u.name}</td>
             <td>${emailDisplay}</td>
-            <td>${currentUser.role === 'Admin' ? `<span class="badge-user badge-${(u.role || 'membro').toLowerCase()}">${u.role || 'Membro'}</span>` : roleSelectHTML}</td>
-            ${currentUser.role === 'Dono' ? `<td>${roleSelectHTML}</td>` : ''}
+            <td>${roleSelectHTML}</td>
             <td>${actionHTML}</td>
           </tr>
         `;
@@ -1591,7 +1600,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.deleteUser = async function(email) {
-      if(email === 'dono@gv3.com') return alert('Você não pode remover o Dono!');
+      if(email === 'dono@gv3.com' || email === 'sebastyan18paulocop@gmail.com') return alert('Você não pode remover o Dono!');
       await deleteDoc(doc(db, 'users', email));
       registeredUsers = registeredUsers.filter(u => u.email !== email);
       renderAdminUsers();
